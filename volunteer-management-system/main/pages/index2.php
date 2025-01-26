@@ -135,13 +135,13 @@
             before:absolute
             before:inset-0
             before:block
-            before:bg-gradient-to-r
-            before:from-black
-            before:to-green-900
-            before:opacity-15
-            before:z-1"></div>
+            before:bg-gradient-to-t
+            before:from-red-900
+            before:to-blue-400
+            before:opacity-5
+            before:z-1" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
 
-                <div class="container mx-auto px-4 py-24 md:py-32 relative z-10">
+                <div class=" container mx-auto px-4 py-24 md:py-32 relative z-10">
                     <div class="flex flex-col md:flex-row items-center justify-between">
                         <!-- Left Side: Company Info -->
                         <div class="w-full md:w-1/2 mb-12 md:mb-0">

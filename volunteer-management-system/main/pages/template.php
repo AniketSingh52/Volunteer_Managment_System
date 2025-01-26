@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V. G. VAZE</title>
     <?php include('../../library/library.php'); ?>
-    <?php include('../../config/connect.php'); ?>
-    <link rel="stylesheet" href="../../css/common/header.css" />
+    <?php //include('../../config/connect.php'); ?>
+    <link rel="stylesheet" href="" />
 </head>
 
 <body class="bg-white dark:bg-black">
@@ -16,8 +16,8 @@
     NAVBAR 
     ****************/
     -->
-    <?php include('../Layouts/header.php'); ?>
-
+    <?php // include('../Layouts/header.php'); ?>
+<input type="text" >
     <!--
     /***************
     MAIN CONTENTS 
@@ -28,8 +28,8 @@
     FOOTER
     ****************/
     -->
-    <?php include('../layouts/footer.php'); ?>
-    <script src="../../js/common/header.js"></script>
+    <?php //include('../layouts/footer.php'); ?>
+    
 </body>
 <?php include('../../library/AOS.php'); ?>
 

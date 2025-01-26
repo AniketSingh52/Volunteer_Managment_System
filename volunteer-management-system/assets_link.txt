@@ -1,0 +1,25 @@
+//1
+https://preline.co/docs/toggle-password.html
+
+
+//2
+https://tailgrids.com/components/footers
+
+
+//3
+https://tailwindflex.com/@freja-jensen/working-reading-progress-bar
+
+//4
+https://daily.dev/blog/10-free-tailwind-css-ui-kits-and-component-libraries-2024
+
+//5
+https://daisyui.com/components/
+
+//read more
+https://tailwindflex.com/@prajwal/read-more-show-more-button-with-hide-button
+
+//sticky full screen page using tailwind
+https://tailwindflex.com/@laurits/sticky-fullpage-pages-slides
+
+//for adding a background to a div with dark gradient
+style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
