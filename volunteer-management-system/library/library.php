@@ -52,3 +52,6 @@ Javascript
 
 <!--Tailwind CSS and JS-->
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Preline tailwind Component Library-->
+<script src="https://cdn.jsdelivr.net/npm/preline@2.7.0/dist/preline.min.js"></script>
