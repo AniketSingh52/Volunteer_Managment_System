@@ -55,3 +55,6 @@ Javascript
 
 <!-- Preline tailwind Component Library-->
 <script src="https://cdn.jsdelivr.net/npm/preline@2.7.0/dist/preline.min.js"></script>
+
+<!-- Bootstrap Link -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
