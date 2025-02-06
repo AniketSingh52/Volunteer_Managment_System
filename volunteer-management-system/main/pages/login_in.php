@@ -1,3 +1,61 @@
+<?php
+session_start();
+include("../../config/connect.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = trim($_POST['password']);
+
+
+    // Validate input
+    if (empty($email) || empty($password)) {
+        $error = "Email and Password are required.";
+        echo "
+        <script>
+        alert('invalid input');
+        </script>";
+    } else {
+        // Check if user exists in the database
+        $query = "SELECT * FROM user WHERE email = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $user = $result->fetch_assoc();
+
+            // Verify password
+            if ($password === $user['password']) {
+                // Set session variables
+                $_SESSION['user_id'] = $user['user_id'];
+                $a = $user['user_id'];;
+
+                echo "
+                <script>
+                alert('success login');
+                </script>";
+
+
+                // Redirect to dashboard or home page
+                //header("Location: dashboard.php");
+                //  exit();
+            } else {
+                echo "
+                <script>
+                alert('Invalid Password');
+                </script>";
+            }
+        } else {
+            echo "
+                <script>
+                alert('Invalid Email');
+                </script>";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,21 +63,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Management - Login</title>
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script> -->
-    <?php include("../../library/library.php");?>
+    <?php include("../../library/library.php"); ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-purple-200 to-blue-200 py-12 px-4">
+<body class="min-h-screen bg-gradient-to-br from-purple-200 to-blue-200 py-6 px-4">
+    <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-bounce duration-150">
+        <div class="p-2 rounded-l-lg border-l-4  border-green-500 bg-gray-100 -6 rounded-r-xl backdrop-blur-lg">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <div class=" text-lg text-green-600">
+                        <p>Login Successful.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-pulse duration-150">
+        <div class="p-2 rounded-l-lg border-l-4 border-red-500 bg-gray-100 rounded-r-xl backdrop-blur-lg">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fa-solid fa-circle-exclamation text-lg text-red-400"></i>
+                </div>
+                <div class="ml-3">
+                    <div class="text-lg text-red-600">
+                        <p>Login Failed !! Please try again.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-md mx-auto">
         <!-- Header -->
         <div class="text-center mb-8">
             <div class="inline-block p-2 rounded-full bg-purple-100 mb-4">
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                </svg> -->
                 <div class="h-20 w-20 rounded-full shadow-md flex items-center justify-center overflow-hidden">
-                    <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 w-full h-full object-cover"  alt="Profile Image">
+                    <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 w-full h-full object-cover" alt="Profile Image">
                 </div>
             </div>
             <h1 class="text-3xl font-bold text-gray-900">Welcome Back</h1>
@@ -27,7 +112,11 @@
         </div>
 
         <!-- Form -->
-        <form id="loginForm" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+        <form id="loginForm" class="bg-white rounded-xl shadow-lg p-8 space-y-6" method="POST" action="login_in.php">
+            <?php if (isset($error)): ?>
+                <div class="text-red-500 text-sm"><?php echo $error; ?></div>
+            <?php endif; ?>
+
             <!-- Email -->
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -59,7 +148,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <input type="checkbox" id="remember" name="remember"
-                        class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                        class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded transition-all">
                     <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
                 </div>
                 <a href="#" class="text-sm text-purple-600 hover:text-purple-500">Forgot password?</a>
@@ -77,6 +166,8 @@
                 <a href="signup.php" class="text-purple-600 hover:text-purple-500 font-medium ml-1">Sign up</a>
             </div>
         </form>
+
+
     </div>
 
     <script>
@@ -98,53 +189,7 @@
                 }
             });
 
-            $('#loginForm').on('submit', function(e) {
-                e.preventDefault();
 
-                // Reset error messages
-                $('.error-message').addClass('hidden').text('');
-
-                // Get form values
-                const email = $('#email').val().trim();
-                const password = $('#password').val();
-
-                // Validation
-                let isValid = true;
-
-                if (!email) {
-                    showError($('#email'), 'Email is required');
-                    isValid = false;
-                } else if (!isValidEmail(email)) {
-                    showError($('#email'), 'Please enter a valid email address');
-                    isValid = false;
-                }
-
-                if (!password) {
-                    showError($('#password'), 'Password is required');
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    // Here you would typically make an API call to your backend
-                    console.log('Form submitted:', {
-                        email,
-                        password,
-                        remember: $('#remember').is(':checked')
-                    });
-
-                    // For demo purposes, show success message
-                    alert('Login successful!');
-                }
-            });
-
-            function showError($input, message) {
-                $input.next('.error-message').removeClass('hidden').text(message);
-                $input.addClass('border-red-500');
-            }
-
-            function isValidEmail(email) {
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            }
 
             // Clear error styling on input
             $('input').on('input', function() {
