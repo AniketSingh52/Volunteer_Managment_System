@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Search Bar and Filter Button -->
+        <div class="flex justify-center mb-8">
+            <div class="relative w-full max-w-xl flex items-center">
+                <input type="text" id="searchInput" placeholder="Search events..." class=" transition-all w-full px-4 py-2 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="cancelSearch" class="absolute right-40 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+                <button id="searchBtn" class="px-4 py-2 h-full bg-blue-500 text-white rounded-r-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="filterBtn" class="ml-2 px-4 py-2 flex bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    <i class="fas fa-filter mr-2 m-1"></i>Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Menu (Hidden by default) -->
+        <!-- <div id="filterMenu" class="hidden bg-white p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto relative"> -->
+            <div id="filterMenu" class="bg-white top-24 right-10 md:right-1/4 absolute p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto hidden">
+            <button id="closeFilter" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-lg font-semibold mb-4">Filter Options</h3>
+            <div class="space-y-4">
+                <div>
+                    <label for="dateFrom" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" id="dateFrom" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md focus:ring-blue-600">
+                </div>
+                
+                <div>
+                    <label for="timeFrom" class=" top- block text-sm font-medium text-gray-700">Time</label>
+                    <input type="time" id="timeFrom" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md focus:ring-blue-600">
+                </div>
+                
+                <div>
+                    <label for="organizer" class="block text-sm font-medium text-gray-700">Organizer</label>
+                    <select id="organizer" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+                        <option value="">Select Organizer</option>
+                        <option value="org1">Organizer 1</option>
+                        <option value="org2">Organizer 2</option>
+                        <option value="org3">Organizer 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="applyFilters" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Event Listing -->
+      
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#filterBtn").click(function() {
+                $("#filterMenu").toggleClass("hidden");
+            });
+
+            $("#closeFilter, #applyFilters").click(function() {
+                $("#filterMenu").addClass("hidden");
+            });
+
+            $("#applyFilters").click(function() {
+                // Here you would typically send the filter data to your backend
+                // and update the event listing based on the response
+                console.log("Filters applied");
+            });
+
+            $("#searchInput").on("input", function() {
+                if ($(this).val().length > 0) {
+                    $("#cancelSearch").show();
+                } else {
+                    $("#cancelSearch").hide();
+                }
+            });
+
+            $("#cancelSearch").click(function() {
+                $("#searchInput").val('');
+                $(this).hide();
+            });
+
+            $("#searchBtn").click(function() {
+                // Here you would typically send the search query to your backend
+                // and update the event listing based on the response
+                console.log("Search performed");
+            });
+        });
+    </script>
+</body>
+</html>

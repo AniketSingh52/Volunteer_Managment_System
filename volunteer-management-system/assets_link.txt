@@ -23,3 +23,6 @@ https://tailwindflex.com/@laurits/sticky-fullpage-pages-slides
 
 //for adding a background to a div with dark gradient
 style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+
+//Icon
+https://boxicons.com/?query=sen
