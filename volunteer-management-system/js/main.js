@@ -68,7 +68,10 @@ $(document).ready(function () {
   });
 
   // Auto-advance carousel
-  
+  setInterval(function () {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+  }, 5000);
 
   // Initialize events list
   function renderEvents() {
