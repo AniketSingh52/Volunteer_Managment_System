@@ -29,12 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($password === $user['password']) {
                 // Set session variables
                 $_SESSION['user_id'] = $user['user_id'];
-                $a = $user['user_id'];;
-
+                
                 echo "
                 <script>
                 alert('success login');
                 </script>";
+
+                //header("refresh:0.5; url=../pages/changepass.php");
+                echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin.php">';
 
 
                 // Redirect to dashboard or home page
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-purple-200 to-blue-200 py-6 px-4">
-    <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-bounce duration-150">
+    <!-- <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-bounce duration-150">
         <div class="p-2 rounded-l-lg border-l-4  border-green-500 bg-gray-100 -6 rounded-r-xl backdrop-blur-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -83,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-    </div>
-    <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-pulse duration-150">
+    </div> -->
+    <!-- <div class="items-center w-full px-5 mt-0 mb-6 justify-items-center animate-pulse duration-150">
         <div class="p-2 rounded-l-lg border-l-4 border-red-500 bg-gray-100 rounded-r-xl backdrop-blur-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -97,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="max-w-md mx-auto">
         <!-- Header -->

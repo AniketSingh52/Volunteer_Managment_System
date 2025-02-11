@@ -1,111 +1,338 @@
+ 
+ 
+ <div
+     class="py-2 px-6 bg-[#f8f4f3] flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
+     <button
+         type="button"
+         class="text-lg text-gray-900 font-semibold sidebar-toggle">
+         <i class="ri-menu-line"></i>
+     </button>
 
+     <ul class="ml-auto flex items-center">
+         <li class="mr-1 dropdown">
+             <button
+                 type="button"
+                 class="dropdown-toggle text-gray-400 mr-4 w-8 h-8 rounded flex items-center justify-center hover:text-gray-600">
+                 <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     class="hover:bg-gray-100 rounded-full"
+                     viewBox="0 0 24 24">
+                     <path
+                         d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path>
+                 </svg>
+             </button>
+             <div
+                 class="dropdown-menu shadow-md shadow-black/5 z-30 hidden max-w-xs w-full bg-white rounded-md border border-gray-100">
+                 <form action="" class="p-4 border-b border-b-gray-100">
+                     <div class="relative w-full">
+                         <input
+                             type="text"
+                             class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500"
+                             placeholder="Search..." />
+                         <i
+                             class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-900"></i>
+                     </div>
+                 </form>
+             </div>
+         </li>
+         <li class="dropdown">
+             <button
+                 type="button"
+                 class="dropdown-toggle text-gray-400 mr-4 w-8 h-8 rounded flex items-center justify-center hover:text-gray-600">
+                 <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     class="hover:bg-gray-100 rounded-full"
+                     viewBox="0 0 24 24">
+                     <path
+                         d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707A.996.996 0 0 0 3 16v2a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2a.996.996 0 0 0-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707A.996.996 0 0 0 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zm-7 5a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22z"></path>
+                 </svg>
+             </button>
+             <div
+                 class="dropdown-menu shadow-md shadow-black/5 z-30 hidden max-w-xs w-full bg-white rounded-md border border-gray-100">
+                 <div
+                     class="flex items-center px-4 pt-4 border-b border-b-gray-100 notification-tab">
+                     <button
+                         type="button"
+                         data-tab="notification"
+                         data-tab-page="notifications"
+                         class="text-gray-400 font-medium text-[13px] hover:text-gray-600 border-b-2 border-b-transparent mr-4 pb-1 active">
+                         Notifications
+                     </button>
+                     <button
+                         type="button"
+                         data-tab="notification"
+                         data-tab-page="messages"
+                         class="text-gray-400 font-medium text-[13px] hover:text-gray-600 border-b-2 border-b-transparent mr-4 pb-1">
+                         Messages
+                     </button>
+                 </div>
+                 <div class="my-2">
+                     <ul
+                         class="max-h-64 overflow-y-auto"
+                         data-tab-for="notification"
+                         data-page="notifications">
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         New order
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">from a user</div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         New order
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">from a user</div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         New order
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">from a user</div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         New order
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">from a user</div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         New order
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">from a user</div>
+                                 </div>
+                             </a>
+                         </li>
+                     </ul>
+                     <ul
+                         class="max-h-64 overflow-y-auto hidden"
+                         data-tab-for="notification"
+                         data-page="messages">
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         John Doe
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">
+                                         Hello there!
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         John Doe
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">
+                                         Hello there!
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         John Doe
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">
+                                         Hello there!
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         John Doe
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">
+                                         Hello there!
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+                         <li>
+                             <a
+                                 href="#"
+                                 class="py-2 px-4 flex items-center hover:bg-gray-50 group">
+                                 <img
+                                     src="https://placehold.co/32x32"
+                                     alt=""
+                                     class="w-8 h-8 rounded block object-cover align-middle" />
+                                 <div class="ml-2">
+                                     <div
+                                         class="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                                         John Doe
+                                     </div>
+                                     <div class="text-[11px] text-gray-400">
+                                         Hello there!
+                                     </div>
+                                 </div>
+                             </a>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+         </li>
+         <button id="fullscreen-button">
+             <svg
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 class="hover:bg-gray-100 rounded-full"
+                 viewBox="0 0 24 24">
+                 <path
+                     d="M5 5h5V3H3v7h2zm5 14H5v-5H3v7h7zm11-5h-2v5h-5v2h7zm-2-4h2V3h-7v2h5z"></path>
+             </svg>
+         </button>
+         <script>
+             const fullscreenButton =
+                 document.getElementById("fullscreen-button");
 
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
+             fullscreenButton.addEventListener("click", toggleFullscreen);
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp-like Chat</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-<body class="flex h-screen bg-gray-100">
-    <div class="flex w-full">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-base-200 border-r border-gray-300">
-            <!-- Header -->
-            <div class="p-4 bg-base-300 flex justify-between items-center">
-                <img src="https://api.dicebear.com/6.x/initials/svg?seed=JD" alt="Profile" class="w-10 h-10 rounded-full">
-                <div class="flex space-x-4">
-                    <i class="fas fa-circle-notch text-gray-600"></i>
-                    <i class="fas fa-comment-alt text-gray-600"></i>
-                    <i class="fas fa-ellipsis-v text-gray-600"></i>
-                </div>
-            </div>
-            <!-- Search -->
-            <div class="p-4">
-                <div class="relative">
-                    <input type="text" placeholder="Search or start new chat" class="input input-bordered w-full pr-10">
-                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
-                </div>
-            </div>
-            <!-- Chats -->
-            <div class="overflow-y-auto h-[calc(100vh-132px)]">
-                <div class="chat-item p-4 hover:bg-base-300 cursor-pointer">
-                    <div class="flex items-center">
-                        <img src="https://api.dicebear.com/6.x/initials/svg?seed=AS" alt="Alice Smith" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h3 class="font-semibold">Alice Smith</h3>
-                            <p class="text-sm text-gray-600">Hey, how are you?</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- More chat items... -->
-            </div>
-        </div>
-
-        <!-- Main Chat Area -->
-        <div class="w-3/4 flex flex-col">
-            <!-- Chat Header -->
-            <div class="bg-base-300 p-4 flex justify-between items-center">
-                <div class="flex items-center">
-                    <img src="https://api.dicebear.com/6.x/initials/svg?seed=AS" alt="Alice Smith" class="w-10 h-10 rounded-full mr-4">
-                    <h2 class="font-semibold">Alice Smith</h2>
-                </div>
-                <div class="flex space-x-4">
-                    <i class="fas fa-search text-gray-600"></i>
-                    <i class="fas fa-paperclip text-gray-600"></i>
-                    <i class="fas fa-ellipsis-v text-gray-600"></i>
-                </div>
-            </div>
-
-            <!-- Messages -->
-            <div class="flex-1 overflow-y-auto p-4 bg-base-200" id="chat-messages">
-                <div class="chat chat-start">
-                    <div class="chat-bubble">Hey, how are you?</div>
-                </div>
-                <div class="chat chat-end">
-                    <div class="chat-bubble">I'm good, thanks! How about you?</div>
-                </div>
-                <!-- More messages... -->
-            </div>
-
-            <!-- Input Area -->
-            <div class="bg-base-300 p-4 flex items-center">
-                <i class="fas fa-smile text-gray-600 mr-4"></i>
-                <input type="text" placeholder="Type a message" class="input input-bordered flex-1 mr-4" id="message-input">
-                <button class="btn btn-circle btn-primary" id="send-button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('send-button').addEventListener('click', sendMessage);
-        document.getElementById('message-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const input = document.getElementById('message-input');
-            const message = input.value.trim();
-            if (message) {
-                const chatMessages = document.getElementById('chat-messages');
-                const newMessage = document.createElement('div');
-                newMessage.className = 'chat chat-end';
-                newMessage.innerHTML = `<div class="chat-bubble">${message}</div>`;
-                chatMessages.appendChild(newMessage);
-                input.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-    </script>
-</body>
-
-</html>
+             function toggleFullscreen() {
+                 if (document.fullscreenElement) {
+                     // If already in fullscreen, exit fullscreen
+                     document.exitFullscreen();
+                 } else {
+                     // If not in fullscreen, request fullscreen
+                     document.documentElement.requestFullscreen();
+                 }
+             }
+         </script>
+         <!--   src="https://laravelui.spruko.com/tailwind/ynex/build/assets/images/faces/9.jpg" -->
+         <li class="dropdown ml-3">
+             <button type="button" class="dropdown-toggle flex items-center">
+                 <div class="flex-shrink-0 w-10 h-10 relative">
+                     <div
+                         class="p-1 bg-white rounded-full focus:outline-none focus:ring">
+                         <img
+                             class="w-8 h-8 rounded-full"
+                             src="<?php echo $profile ?>"
+                             alt="" />
+                         <div
+                             class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping"></div>
+                         <div
+                             class="top-0 left-7 absolute w-3 h-3 bg-lime-500 border-2 border-white rounded-full"></div>
+                     </div>
+                 </div>
+                 <div class="p-2 md:block text-left">
+                     <h2 class="text-sm font-semibold text-gray-800">
+                         <?php echo $name ?>
+                     </h2>
+                     <p class="text-xs text-gray-500"><?php echo $type ?></p>
+                 </div>
+             </button>
+             <ul
+                 class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[240px]">
+                 <li>
+                     <a
+                         href="#"
+                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-user pr-2"></i> Profile</a>
+                 </li>
+                 <li>
+                     <a
+                         href="#"
+                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-cog pr-2"></i>Settings</a>
+                 </li>
+                 <li>
+                     <a
+                         href="#"
+                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-log-out pr-2"></i>Logout
+                     </a>
+                 </li>
+             </ul>
+         </li>
+     </ul>
+ </div>

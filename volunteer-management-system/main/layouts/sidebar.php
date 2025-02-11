@@ -1,190 +1,246 @@
-  <?php
-    error_reporting(0);
+  <!--sidenav -->
+  <div
+      class="fixed left-0 top-0 w-72 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+      <!-- <a href="#" class="flex items-center justify-items-center text-center pb-4 border-b border-b-gray-800 bg-black">
+             <div class="inline-block p-2 rounded-full mb-4 bg-red-600">
+                <div class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 object-cover" alt="Profile Image">
+                </div>
+            </div>
+             <div class="font-bold text-2xl">Volunteer<span class="bg-[#42eda3] text-white px-2 ml-1 rounded-md">HUB</span></div>
+           
+        </a> -->
+      <!-- Volunteer Logo -->
+      <div
 
-    $Staff_id = $_SESSION['Staff_id'];
-
-    if (!$Staff_id) {
-        echo "<script>alert('User not logged in.'); window.location.href='login.php';</script>";
-        exit;
-    }
-
-
-    // Check if the first file exists
-    if (file_exists('../../config/connect.php')) {
-        include('../../config/connect.php');
-    } else {
-        // If the first file doesn't exist, include the fallback file
-        include('../../../config/connect.php');
-    }
-
-    // Include your DB connection file
-
-    // Fetch the existing password for the staff
-    $sql = "SELECT * FROM staff WHERE Staff_id = '$Staff_id'";
-    $result = $conn->query($sql);
-    if ($result && $row = $result->fetch_assoc()) {
-        $jobRole = $row['Job_role'];
-        $designation = $row['Designation'];
-    }
-    ?>
-
-  <!-- Sidebar -->
-  <aside class="fixed flex flex-col w-1/5 bg-white border-r h-full px-4 py-6 overflow-y-auto">
-      <ul class="space-y-2">
-          <li>
-              <details class="group">
-                  <summary class="flex items-center justify-between px-4 py-2 text-gray-700 cursor-pointer font-medium">
-                      Apply Leave
-                      <span class="transition duration-300 transform group-open:-rotate-180">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                          </svg>
-                      </span>
-                  </summary>
-                  <ul class="mt-2 pl-4 space-y-1">
-                      <!-- Leave options based on job role -->
-                      <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('dl')">Duty Leave</a></li>
-                      <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('cl')">Casual Leave</a></li>
-                      <!-- Conditional rendering for MHM, EHM, OFF pay, etc. -->
-                      <?php if ($jobRole == 'TD'): ?>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('medical')">MHM</a></li>
-                      <?php elseif ($jobRole == 'TJ'): ?>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('medical')">EHM</a></li>
-                      <?php elseif ($jobRole == 'NL'): ?>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('mediacl')">MHM</a></li>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('APPLY_OFF_PAY')">OFF Pay</a></li>
-                      <?php elseif ($jobRole == 'NO'): ?>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('APPLY_OFF_PAY')">OFF Pay</a></li>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('medical')">MHME</a></li>
-                      <?php elseif ($jobRole == 'OO'): ?>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('APPLY_OFF_PAY')">OFF Pay</a></li>
-                          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('medical')">MHME</a></li>
-                      <?php endif; ?>
-                  </ul>
-              </details>
-          </li>
-          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('status')">Check Status</a></li>
-          <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('summary')">Summary</a></li>
-          <?php if (strcasecmp(trim($designation), 'Registrar') === 0): ?>
-              <li><a href="user_status_logs.php" class="block px-4 py-2 text-gray-700">User Status Log</a></li>
-          <?php endif; ?>
-
-
-          <!-- Additional options only for designation Principal , Vice Principal and HOD -->
-
-          <?php if ($designation == 'Principal'): ?>
-
-              <li><a href="Report.php" class="block px-4 py-2 text-gray-700">Report</a></li>
-
-          <?php endif; ?>
-
-
-          <?php if ($designation == 'HOD'): ?>
-              <li><a href="HOD.php" class="block px-4 py-2 text-gray-700">HOD Leave Request</a></li>
-              <li><a href="HOD_Report.php" class="block px-4 py-2 text-gray-700">Generate Report</a></li>
-          <?php endif; ?>
-          <?php if (strcasecmp(trim($designation), 'Vice Principal') === 0): ?>
-              <li><a href="vicePrincipal.php" class="block px-4 py-2 text-gray-700" onclick="loadContent('VicePrincipalLeaveRequest')">Vice Principal Leave Request</a></li>
-
-          <?php endif; ?>
-      </ul>
-      <!-- Additional options only for job role OO -->
-      <?php if ($jobRole == 'OO' or $designation == 'Principal'): ?>
-          <div class="mt-6">
-              <h3 class="font-medium text-gray-800">Admin Options </h3>
-              <ul class="mt-2 space-y-2">
-                  <?php if ($jobRole == 'OO'): ?>
-                      <li><a href="officeRemark.php" class="block px-4 py-2 text-gray-700">Leave Request</a></li>
-                  <?php endif ?>
-
-                  <?php if ($designation == 'Principal'): ?>
-                      <li><a href="principalRequest.php" class="block px-4 py-2 text-gray-700">Principal Leave Request</a></li>
-                  <?php endif ?>
-
-                  <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('registration')">New Registration</a></li>
-                  <li><a href="assign_leave.php" class="block px-4 py-2 text-gray-700">Assign Leave</a></li>
-                  <li><a href="#" class="block px-4 py-2 text-gray-700" onclick="loadContent('update')">Update Details</a></li>
-                  <li><a href="#" class="block px-4 py-2 text-gray-700 mb-5" onclick="loadContent('active/deactive')">Deactivate Users</a></li>
-              </ul>
+          class="flex items-center justify-items-center text-center border-b border-b-gray-800 w-full p-2">
+          <div class="inline-block p-1 rounded-full bg-red-400">
+              <div
+                  class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
+                  <img
+                      src="../assets/Screenshot 2025-02-05 215045.svg"
+                      class="profile-image2 object-cover"
+                      alt="Profile Image" />
+              </div>
           </div>
-      <?php endif; ?>
-  </aside>
+          <div class="font-bold text-2xl w-full">
+              Volunteer<span class="bg-[#1dab6d] text-white px-2 ml-1 rounded-md">HUB</span>
+          </div>
+      </div>
+      <ul class="mt-4">
+          <!-- <span class="text-gray-400 font-bold">Home</span> -->
+          <li class="mb-1 group">
+              <a 
+                  href="admin.php"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="ri-home-2-line mr-3 text-lg"></i>
+                  <span class="text-sm">Home</span>
+              </a>
+          </li>
+
+          <!--Drop Doen list Template  -->
+          <!-- <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+                    <i class='bx bx-user mr-3 text-lg'></i>                
+                    <span class="text-sm">Users</span>
+                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+                </a>
+                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li> 
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+                    </li> 
+                </ul>
+            </li> -->
+
+          <li class="mb-1 group">
+              <a onclick="loadContent('post')"
+                  href="#"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bx-list-ul mr-3 text-lg"></i>
+                  <span class="text-sm">Explore Post</span>
+              </a>
+          </li>
+
+          <!-- Events Section Sidebar -->
+          <span class="text-gray-400 font-bold">Events</span>
+          <!-- For Dropdown in sidebar -->
+          <!-- <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+                    <i class='bx bxl-blogger mr-3 text-lg' ></i>                 
+                    <span class="text-sm">Post</span>
+                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+                </a>
+                <ul class=" max-h-20 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li> 
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
+                    </li> 
+                </ul>
+            </li> -->
+          <li class="mb-1 group">
+              <a 
+                  href="../pages/search_event.php"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bx-search mr-3 text-lg"></i>
+                  <span class="text-sm">Search</span>
+              </a>
+          </li>
+          <li class="mb-1 group">
+              <a 
+                  href="../pages/add_event.php"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bxs-plus-circle mr-3 text-lg"></i>
+                  <span class="text-sm">Add Event</span>
+              </a>
+          </li>
+          <li class="mb-1 group">
+              <a onclick="loadContent('my_applications')"
+                  href=""
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+                  <span class="text-sm">My Applications</span>
+              </a>
+          </li>
+
+          <!-- PERSONAL SECTION SIDEBAR -->
+          <span class="text-gray-400 font-bold">PERSONAL</span>
+          <li class="mb-1 mt-2 group">
+              <a
+                  href=""
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+                  <i class="bx bx-chat mr-3 text-lg"></i>
+                  <span class="text-sm">Chats</span>
+                  <i
+                      class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+              </a>
+              <ul
+                  class="max-h-30 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
+                  <li class="mb-4">
+                      <a
+                          href=""
+                          class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Abhishek</a>
+                  </li>
+                  <li class="mb-4">
+                      <a
+                          href=""
+                          class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Nitin</a>
+                  </li>
+                  <li class="mb-4">
+                      <a
+                          href=""
+                          class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Aryan</a>
+                  </li>
+                  <li class="mb-4">
+                      <a
+                          href=""
+                          class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Omkar</a>
+                  </li>
+                  <li class="mb-4">
+                      <a
+                          href=""
+                          class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Vipul</a>
+                  </li>
+              </ul>
+          </li>
+          <!--             
+            <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class='bx bx-chat mr-3 text-lg' ></i>                
+                    <span class="text-sm">Chats</span>
+                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
+                </a>
+            </li> -->
+          <li class="mb-1 group">
+              <a
+                  href=""
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bxs-plus-circle mr-3 text-lg"></i>
+                  <span class="text-sm">Add Post</span>
+                  <span
+                      class="md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
+              </a>
+          </li>
+      </ul>
+  </div>
+  <div
+      class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
+  <!-- end sidenav -->
+
   <script>
-      //   function loadContent(page) {
-      //       // Get the base URL up to the directory containing index.php
-      //       const baseUrl = `${window.location.origin}/vaze-leave-management/main/pages/`;
-
-      //       // Check if the current page is 'index.php'
-      //       const isMainPage = window.location.pathname.includes("index.php");
-
-      //       if (!isMainPage) {
-      //           // Redirect to index.php with the 'page' parameter, using the base URL
-      //           window.location.href = `${baseUrl}index.php?page=${page}`;
-      //       } else {
-      //           // If already on index.php, load the content dynamically
-      //           fetch(`../components/${page}.php`)
-      //               .then(response => response.text())
-      //               .then(data => {
-      //                   document.getElementById('dynamicContent').innerHTML = data;
-      //               })
-      //               .catch(error => console.error('Error loading content:', error));
-      //       }
-      //   }
-
-      //to load the page if dynamicContentContainer div is not availabe. go to index.php then fetch content from components
       function loadContent(page) {
+          alert(page);
+         // document.getElementById('dynamiccontents').innerHTML = "data";
           // Get the base URL up to the directory containing index.php
-          const baseUrl = `${window.location.origin}/vaze-leave-management/main/pages/`;
+          const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
 
-          // Check if the dynamic content container exists
-          const dynamicContentContainer = document.getElementById('dynamicContent');
+          // Check if the current page is 'index.php'
+          const isMainPage = window.location.pathname.includes("index.php");
 
-          if (dynamicContentContainer) {
-              // If the dynamic content container exists, load the content dynamically
-              fetch(`../components/${page}.php`)
-                  .then(response => {
-                      if (!response.ok) {
-                          throw new Error(`HTTP error! Status: ${response.status}`);
-                      }
-                      return response.text();
-                  })
-                  .then(data => {
-                      dynamicContentContainer.innerHTML = data;
-                      // Optionally update the browser history
-                      window.history.pushState({
-                          page: page
-                      }, '', `index.php?page=${page}`);
-                  })
-                  .catch(error => console.error('Error loading content:', error));
-          } else {
+          if (!isMainPage) {
+              alert('inside if');
+              //   // Redirect to index.php with the 'page' parameter, using the base URL
+              //   window.location.href = `${baseUrl}index.php?page=${page}`;
+
               // If the dynamic content container doesn't exist, redirect to index.php
               const url = new URL(`${baseUrl}index.php`);
               url.searchParams.set('page', page); // Add the 'page' parameter to the URL
               window.location.href = url;
+          } else {
+              alert('inside else');
+              // If already on index.php, load the content dynamically
+              fetch(`../components/${page}.php`)
+                  .then(response => response.text())
+                  .then(data => {
+                    document.getElementsByClassName('dynamiccontents')[0].innerHTML = data;
+                    //document.getElementById('dynamiccontents').innerHTML = data;
+                  })
+                  .catch(error => console.error('Error loading content:', error));
           }
       }
 
-      // Check for `page` parameter in the URL and load the corresponding content
-      window.addEventListener('DOMContentLoaded', () => {
-          const params = new URLSearchParams(window.location.search);
-          const page = params.get('page');
+      //   function loadContent(page) {
+      //       // Get the base URL up to the directory containing index.php
+      //       const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
 
-          if (page) {
-              const dynamicContentContainer = document.getElementById('dynamicContent');
-              if (dynamicContentContainer) {
-                  // Dynamically load the page if the container exists
-                  fetch(`../components/${page}.php`)
-                      .then(response => {
-                          if (!response.ok) {
-                              throw new Error(`HTTP error! Status: ${response.status}`);
-                          }
-                          return response.text();
-                      })
-                      .then(data => {
-                          dynamicContentContainer.innerHTML = data;
-                      })
-                      .catch(error => console.error('Error loading content:', error));
-              }
-          }
-      });
+      //       // Check if the dynamic content container exists
+      //       const dynamicContentContainer = document.getElementById('dynamicContent');
+
+      //       if (dynamicContentContainer) {
+      //           // If the dynamic content container exists, load the content dynamically
+      //           fetch(`../components/${page}.php`)
+      //               .then(response => {
+      //                   if (!response.ok) {
+      //                       throw new Error(`HTTP error! Status: ${response.status}`);
+      //                   }
+      //                   return response.text();
+      //               })
+      //               .then(data => {
+      //                   dynamicContentContainer.innerHTML = data;
+      //                   // Optionally update the browser history
+      //                   window.history.pushState({
+      //                       page: page
+      //                   }, '', `index.php?page=${page}`);
+      //               })
+      //               .catch(error => console.error('Error loading content:', error));
+      //       } else {
+      //           // If the dynamic content container doesn't exist, redirect to index.php
+      //           const url = new URL(`${baseUrl}index.php`);
+      //           url.searchParams.set('page', page); // Add the 'page' parameter to the URL
+      //           window.location.href = url;
+      //       }
+      //   }
   </script>

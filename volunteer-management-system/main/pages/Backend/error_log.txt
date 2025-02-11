@@ -1,0 +1,5 @@
+[11-Feb-2025 18:53:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '0' for key 'PRIMARY' in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\add_event.php:137
+Stack trace:
+#0 C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\add_event.php(137): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\add_event.php on line 137
