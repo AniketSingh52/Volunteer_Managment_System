@@ -56,8 +56,8 @@
             </li> -->
 
           <li class="mb-1 group">
-              <a onclick="loadContent('post')"
-                  href="#"
+              <a 
+                  href="../pages/gallery.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-list-ul mr-3 text-lg"></i>
                   <span class="text-sm">Explore Post</span>
@@ -108,8 +108,8 @@
               </a>
           </li>
           <li class="mb-1 group">
-              <a onclick="loadContent('my_applications')"
-                  href=""
+              <a href="../pages/Event_Applications.php"
+                  
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-book-bookmark mr-3 text-lg"></i>
                   <span class="text-sm">My Applications</span>
@@ -181,36 +181,36 @@
   <!-- end sidenav -->
 
   <script>
-      function loadContent(page) {
-          alert(page);
-         // document.getElementById('dynamiccontents').innerHTML = "data";
-          // Get the base URL up to the directory containing index.php
-          const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
+    //   function loadContent(page) {
+    //       alert(page);
+    //      // document.getElementById('dynamiccontents').innerHTML = "data";
+    //       // Get the base URL up to the directory containing index.php
+    //       const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
 
-          // Check if the current page is 'index.php'
-          const isMainPage = window.location.pathname.includes("index.php");
+    //       // Check if the current page is 'index.php'
+    //       const isMainPage = window.location.pathname.includes("index.php");
 
-          if (!isMainPage) {
-              alert('inside if');
-              //   // Redirect to index.php with the 'page' parameter, using the base URL
-              //   window.location.href = `${baseUrl}index.php?page=${page}`;
+    //       if (!isMainPage) {
+    //           alert('inside if');
+    //           //   // Redirect to index.php with the 'page' parameter, using the base URL
+    //           //   window.location.href = `${baseUrl}index.php?page=${page}`;
 
-              // If the dynamic content container doesn't exist, redirect to index.php
-              const url = new URL(`${baseUrl}index.php`);
-              url.searchParams.set('page', page); // Add the 'page' parameter to the URL
-              window.location.href = url;
-          } else {
-              alert('inside else');
-              // If already on index.php, load the content dynamically
-              fetch(`../components/${page}.php`)
-                  .then(response => response.text())
-                  .then(data => {
-                    document.getElementsByClassName('dynamiccontents')[0].innerHTML = data;
-                    //document.getElementById('dynamiccontents').innerHTML = data;
-                  })
-                  .catch(error => console.error('Error loading content:', error));
-          }
-      }
+    //           // If the dynamic content container doesn't exist, redirect to index.php
+    //           const url = new URL(`${baseUrl}index.php`);
+    //           url.searchParams.set('page', page); // Add the 'page' parameter to the URL
+    //           window.location.href = url;
+    //       } else {
+    //           alert('inside else');
+    //           // If already on index.php, load the content dynamically
+    //           fetch(`../components/${page}.php`)
+    //               .then(response => response.text())
+    //               .then(data => {
+    //                 document.getElementsByClassName('dynamiccontents')[0].innerHTML = data;
+    //                 //document.getElementById('dynamiccontents').innerHTML = data;
+    //               })
+    //               .catch(error => console.error('Error loading content:', error));
+    //       }
+    //   }
 
       //   function loadContent(page) {
       //       // Get the base URL up to the directory containing index.php

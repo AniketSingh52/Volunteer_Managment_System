@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <?php include("../../library/library.php"); ?>
     <style>
+       
+
+
+
+
         /* Hide the spinner in input type="number" */
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
@@ -538,7 +543,7 @@
                                         echo '<option value="' . $row['cause_id'] . '">' . $row['name'] . '</option>';
                                     }
                                 } else {
-                                    echo '<option value="">No Skill Availabe</option>';
+                                    echo '<option value="">No Cause Availabe</option>';
                                 }
                                 ?>
                             </select>

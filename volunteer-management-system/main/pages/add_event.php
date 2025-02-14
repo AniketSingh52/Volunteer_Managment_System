@@ -68,6 +68,20 @@ if ($result && $row = $result->fetch_assoc()) {
             transition-duration: 150ms;
         }
 
+        .multiselect-dropdown {
+            height: 60px;
+        }
+
+        .placeholder {
+            margin-left: 10px;
+            text-align: center;
+            justify-content: center;
+            margin-top: 12px;
+            color: #afafaf !important;
+            font-weight: 600;
+
+        }
+
         @media (min-width: 768px) {
             .main.active {
                 margin-left: 0px;
@@ -130,240 +144,330 @@ if ($result && $row = $result->fetch_assoc()) {
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
 
-            <div class="max-w-7xl mx-auto px-4 py-3">
-
-                <div class="relative isolate flex flex-col overflow-hidden py-2 h-48 mx-auto w-full items-center justify-center">
-                    <!-- Background Image -->
-                    <img src="https://d1dbgh6ga9ets8.cloudfront.net/wp-content/uploads/2024/05/papercut-volunteers-group-raising-hand-up-with-love-heart-vector_1017-48257.jpg"
-                        alt="Background Image"
-                        class="absolute inset-0 h-full w-full object-cover brightness-75 -z-10" />
-
-                    <!-- Gradient Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-800/60 via-gray-900/20 -z-10"></div>
-
-                    <!-- White Ring Effect -->
-                    <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 -z-10"></div>
-
-                    <!-- Text Container (Ensure it's above everything) -->
-                    <div class="relative text-center z-20">
-                        <h1 class="md:text-7xl text-5xl font-bold tracking-tight text-white sm:text-6xl text-center px-[20px] drop-shadow-lg">
-                            Event Creation
+            <!-- Hero Section -->
+            <div class="relative isolate overflow-hidden bg-gradient-to-b from-indigo-100/20">
+                <div class="mx-auto max-w-7xl px-6 pt-2 pb-6 sm:pb-10 lg:flex lg:px-8 ">
+                    <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
+                        <h1 class="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                            Create a New Event
                         </h1>
+                        <p class="mt-6 text-lg leading-8 text-gray-600">
+                            Share your initiative with the community and find passionate volunteers to make a difference together.
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                <!--Casual Leave Form-->
+            <!-- Form Section -->
+            <div class="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
+                <form id="yourFormID" method="POST" enctype="multipart/form-data" action="add_event.php" class="space-y-12">
+                    <!-- Event Poster Section -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-6">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Event Poster</h2>
+                            <p class="mt-1 text-sm text-gray-500">This will be the main image displayed for your event.</p>
+                        </div>
 
-                <div class="mx-auto w-full px-12 py-6 rounded-lg bg-white">
-                    <!-- <div class=" text-center align-middle text-2xl font-semibold m-5 dark:text-black text-black">Event Creation</div> -->
-
-                    <form id="yourFormID" method="POST" enctype="multipart/form-data" action="add_event.php">
-
-                        <div class="-mx-3 grid md:grid-cols-2">
-
-                            <!--Event Photo-->
-                            <div class="row-span-3 ">
-                                <label for="volunteer-profile-photo" class="mb-3 block text-base font-medium text-[#07074D]">
-                                    Event Poster <span class=" font-semibold text-red-600 text-2xl">*</span>
+                        <div class="flex justify-center">
+                            <div class="relative group">
+                                <label for="volunteer-profile-photo" class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer">
+                                    <i class="fas fa-camera text-white"></i>
                                 </label>
-
-                                <div class="flex mt-2 mb-2 justify-center w-full px-3 ">
-                                    <div class="relative">
-                                        <div class=" h-64 w-72  bg-gray-200 border-gray-500  border-2  shadow-md flex items-center justify-center overflow-hidden">
-                                            <i class="fas fa-user text-4xl text-gray-400 profile-icon"></i>
-                                            <img class="profile-image w-full h-full object-cover" style="display: none;" alt="Profile Image">
+                                <div class="h-[400px] w-[600px] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl overflow-hidden group-hover:border-indigo-500 transition-colors duration-300">
+                                    <img id="preview-image" class="profile-image w-full h-full object-cover hidden">
+                                    <div class="flex flex-col items-center justify-center h-full" id="upload-prompt">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4-4m4-12h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class="flex text-sm text-gray-600 mt-4">
+                                            <label for="volunteer-profile-photo" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                                                <span>Upload a file</span>
+                                                <input name="poster" required type="file" id="volunteer-profile-photo" class="sr-only profile-input" accept="image/*">
+                                            </label>
+                                            <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <label for="volunteer-profile-photo" class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer">
-                                            <i class="fas fa-camera text-white"></i>
-                                            <input name="poster" required type="file" id="volunteer-profile-photo" class="hidden profile-input" accept="image/*">
-                                        </label>
+                                        <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF up to 10MB</p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!--Organizer-->
-                            <div class="w-full px-3 ">
-                                <div class="mb-5">
-                                    <label for="organizer" class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Organizer
-                                    </label>
-                                    <input name="organizer" type="text" id="date_of_letter" readonly placeholder="Organizer" value="<?php echo $name; ?>"
-                                        class=" disabled:opacity-40 disabled:border-gray-400 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-
-
-                                </div>
-                            </div>
-                            <!--DATE of Creation-->
-                            <div class="w-full px-3 ">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Date Of Creation
-                                    </label>
-                                    <input
-
-                                        name="date_of_creation"
-                                        type="date"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        value="<?php echo date('Y-m-d'); ?>"
-                                        readonly />
-                                </div>
-
-                            </div>
-
-                            <!--Title Of THe Event-->
-                            <div class="w-full px-3 ">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Title Of The Event<span class=" font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input
-                                        required
-                                        name="title"
-                                        type="text"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        placeholder="Title Of The Event" />
-                                </div>
-
-                            </div>
+                    <!-- Basic Information -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-8">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Basic Information</h2>
+                            <p class="mt-1 text-sm text-gray-500">Provide the essential details about your event.</p>
                         </div>
 
-
-                        <div class="-mx-3 flex flex-wrap">
-
-                            <!-- From DATE -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        From-Date <span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input name="from_date" id="from_date" required type="date"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        min="<?php echo date('Y-m-d'); ?>" />
-                                </div>
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+                            <!-- Organizer -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Organizer</label>
+                                <input
+                                    name="organizer"
+                                    type="text"
+                                    readonly
+                                    value="<?php echo $name; ?>"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
 
-                            <!-- To DATE -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        To-Date <span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input disabled name="to_date" id="to_date" required type="date"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
+                            <!-- Creation Date -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Date of Creation</label>
+                                <input
+                                    name="date_of_creation"
+                                    type="date"
+                                    value="<?php echo date('Y-m-d'); ?>"
+                                    readonly
+                                    class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                            </div>
+
+                            <!-- Event Title -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Event Title <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="title"
+                                    type="text"
+                                    required
+                                    placeholder="Enter a descriptive title for your event"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
                         </div>
+                    </div>
 
+                    <!-- Date and Time -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-8">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Date and Time</h2>
+                            <p class="mt-1 text-sm text-gray-500">Set when your event will take place.</p>
+                        </div>
 
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+                            <!-- From Date -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    From Date <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="from_date"
+                                    id="from_date"
+                                    type="date"
+                                    required
+                                    min="<?php echo date('Y-m-d'); ?>"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                            </div>
 
-                        <div class="-mx-3 flex flex-wrap">
+                            <!-- To Date -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    To Date <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="to_date"
+                                    id="to_date"
+                                    type="date"
+                                    required
+                                    disabled
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                            </div>
+
                             <!-- From Time -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        From-Time <span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input name="from_time" id="from_time" required type="time"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    From Time <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="from_time"
+                                    id="from_time"
+                                    type="time"
+                                    required
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
 
                             <!-- To Time -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        To-time <span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input name="to_time" id="to_time" required type="time"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    To Time <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="to_time"
+                                    id="to_time"
+                                    type="time"
+                                    required
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
                         </div>
 
-
-                        <!-- Total Days, Total Time , max Applications -->
-                        <div class="-mx-3 flex flex-wrap">
-                            <!-- Total No Of Days -->
-                            <div class="w-full px-3 md:w-1/3">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        No. Of Volunteer Days
-                                    </label>
-                                    <input placeholder="Total Days" type="text" id="no_of_days" disabled
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
-
+                        <!-- Calculated Fields -->
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 pt-6 border-t border-gray-200">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Number of Days</label>
+                                <input
+                                    id="no_of_days"
+                                    type="text"
+                                    readonly
+                                    placeholder="Calculated automatically"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 sm:text-sm">
                             </div>
 
-                            <!-- Total Time -->
-                            <div class="w-full px-3 md:w-1/3">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Total Volunteering Time
-                                    </label>
-                                    <input placeholder="Total Time " name="total_time" id="total_time" type="text" disabled
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
-                            </div>
-                            <!-- Maximum Applicants -->
-                            <div class="w-full px-3 md:w-1/3">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Maxiumum Applicantion<span class="font-semibold text-gray-600 text-sm ml-1">(Optional)</span>
-                                    </label>
-                                    <input name="max_application" id="max_application" required type="number" value="50"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="-mx-3 flex flex-wrap">
-                            <!-- Location -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Location <span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input name="location" id="location" required type="text" placeholder="Kelkar clg, Mulund"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Total Time</label>
+                                <input
+                                    name="total_time"
+                                    id="total_time"
+                                    type="text"
+                                    readonly
+                                    placeholder="Calculated automatically"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 sm:text-sm">
                             </div>
 
-                            <!-- Volunteer Needed -->
-                            <div class="w-full px-3 md:w-1/2">
-                                <div class="mb-5">
-                                    <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                        Volunteer Needed<span class="font-semibold text-red-600 text-2xl">*</span>
-                                    </label>
-                                    <input placeholder="No. Of Volunteer Needed" name="volunteer_need" id="volunteer_need" required type="number"
-                                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Maximum Applications
+                                    <span class="text-sm font-normal text-gray-500">(Optional)</span>
+                                </label>
+                                <input
+                                    name="max_application"
+                                    type="number"
+                                    value="50"
+                                    min="1"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
                         </div>
+                    </div>
 
-
-                        <!--Description-->
-                        <div class="mb-5">
-                            <label class="mb-3 block text-base font-medium text-[#07074D]">
-                                Description <span class=" font-semibold text-red-600 text-2xl">*</span>
-                            </label>
-                            <textarea required name="Description" required placeholder="About The Event" id="Description"
-                                class="w-full  rounded-md border border-[#e0e0e0] bg-white py-6 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"></textarea>
+                    <!-- Location and Volunteers -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-8">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Location and Participation</h2>
+                            <p class="mt-1 text-sm text-gray-500">Specify where the event will take place and how many volunteers you need.</p>
                         </div>
 
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Location <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="location"
+                                    type="text"
+                                    required
+                                    placeholder="Enter the event location"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                            </div>
 
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Volunteers Needed <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    name="volunteer_need"
+                                    type="number"
+                                    required
+                                    min="1"
+                                    placeholder="Number of volunteers needed"
+                                    class="mt-2 block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                            </div>
+                        </div>
+                    </div>
 
-
-                        <div class=" text-center rounded-lg">
-                            <input type="submit" value="Create" name="submit"
-                                class="hover:shadow-form w-1/3 rounded-md bg-[#1f7d37] py-3 px-8 text-center text-base font-semibold tracking-widest text-white outline-none hover:bg-teal-800" />
+                    <!-- Causes and Skills -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-8">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Causes and Skills</h2>
+                            <p class="mt-1 text-sm text-gray-500">Select relevant causes and required skills for your event.</p>
                         </div>
 
-                    </form>
-                </div>
+                        <div class="space-y-8">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-4">
+                                    Causes <span class="text-sm font-normal text-gray-500">(Tags)</span>
+                                </label>
+                                <select
+                                    name="cause[]"
+                                    multiple
+                                    required
+                                    multiselect-search="true"
+                                    multiselect-select-all="true"
+                                    multiselect-max-items="5"
+                                    multiselect-hide-x="false"
+                                    class="block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600">
+                                    <?php
+                                    $query = "SELECT * FROM causes";
+                                    $result = $conn->query($query);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row['cause_id'] . '">' . $row['name'] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No Cause Available</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
 
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-4">
+                                    Required Skills <span class="text-sm font-normal text-gray-500">(At least one)</span>
+                                </label>
+                                <select
+                                    name="skill[]"
+                                    multiple
+                                    required
+                                    multiselect-search="true"
+                                    multiselect-select-all="true"
+                                    multiselect-max-items="5"
+                                    multiselect-hide-x="false"
+                                    class="block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600">
+                                    <?php
+                                    $query = "SELECT * FROM skill";
+                                    $result = $conn->query($query);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row['skill_id'] . '">' . $row['skill_name'] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No Skill Available</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Description -->
+                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-8">
+                        <div class="border-b border-gray-200 pb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Event Description</h2>
+                            <p class="mt-1 text-sm text-gray-500">Provide detailed information about your event.</p>
+                        </div>
+
+                        <div>
+                            <label class="sr-only">Description</label>
+                            <textarea
+                                name="Description"
+                                required
+                                rows="6"
+                                placeholder="Describe your event in detail..."
+                                class="block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-center">
+                        <button
+                            type="submit"
+                            name="submit"
+                            class="inline-flex justify-center rounded-lg bg-indigo-600 px-12 py-4 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 transform hover:-translate-y-0.5">
+                            Create Event
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
 
         </div>
         <!-- End Content -->
@@ -412,7 +516,7 @@ if ($result && $row = $result->fetch_assoc()) {
                         if (response.status === 'success') {
                             alert(response.message); // Show success message
                             //form.submit();
-                            form.reset();// Reset the form
+                            form.reset(); // Reset the form
                             //loadContent('dl');
                         } else {
                             alert(response.message); // Show error message if any
@@ -428,7 +532,8 @@ if ($result && $row = $result->fetch_assoc()) {
         });
     </script>
 
-
+    <script src="../../js/multiselect-dropdown.js">
+    </script>
 
 
 
@@ -512,6 +617,32 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
         $(document).ready(function() {
+            // Image preview
+            $('#volunteer-profile-photo').change(function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#preview-image').attr('src', e.target.result).removeClass('hidden');
+                        $('#upload-prompt').addClass('hidden');
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // Enable to_date when from_date is selected
+            $('#from_date').change(function() {
+                $('#to_date').prop('disabled', false).attr('min', $(this).val());
+            });
+
+            // Calculate number of days and total time
+            function calculateDays() {
+                const fromDate = $('#from_date').val();
+                const toDate = $('#to_date').val();
+                if (fromDate && toDate) {
+                    const diff = Math.floor((new Date(toDate) - new Date(fromDate)) / (1000 * 60 * 60 * 24)) + 1;
+                    $('#no_of_days').val(diff + ' day' + (diff > 1 ? 's' : ''));
+                }
+            }
 
             $(".profile-input").change(function(e) {
                 var file = e.target.files[0];

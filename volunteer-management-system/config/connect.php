@@ -28,4 +28,17 @@ if (mysqli_connect_errno()) {
     // echo("Successfull !!");
 }
 */
+
+// define("DB_HOST", "sql310.infinityfree.com");
+// define("DB_PASSWORD", "cohVD5H9Vmer3");
+// define("DB_USERNAME", "if0_38188555");
+// define("DB_NAME", "if0_38188555_volunteer");
+
+// $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+// if (mysqli_connect_errno()) {
+//     //echo("not connected");
+// } else {
+//     // echo("Successfull !!");
+// }
+
 ?>

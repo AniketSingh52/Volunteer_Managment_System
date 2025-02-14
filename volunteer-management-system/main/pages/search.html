@@ -1,105 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Search</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Events - Volunteer Management System</title>
+    <link href="/src/index.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Search Bar and Filter Button -->
-        <div class="flex justify-center mb-8">
-            <div class="relative w-full max-w-xl flex items-center">
-                <input type="text" id="searchInput" placeholder="Search events..." class=" transition-all w-full px-4 py-2 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button id="cancelSearch" class="absolute right-40 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
-                    <i class="fas fa-times"></i>
+
+<body class="bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Search Section -->
+        <div class="mb-8">
+            <div class="flex gap-4 mb-6">
+                <div class="flex-1">
+                    <input type="text" id="searchInput" placeholder="Search for volunteer opportunities..."
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <button id="filterToggle"
+                    class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                    Filters
                 </button>
-                <button id="searchBtn" class="px-4 py-2 h-full bg-blue-500 text-white rounded-r-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button id="filterBtn" class="ml-2 px-4 py-2 flex bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                    <i class="fas fa-filter mr-2 m-1"></i>Filter
-                </button>
+            </div>
+
+            <!-- Filters Panel -->
+            <div id="filtersPanel" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Date Range -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                        <input type="date" id="fromDate"
+                            class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                        <input type="date" id="toDate"
+                            class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Time Range -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">From Time</label>
+                        <input type="time" id="fromTime"
+                            class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">To Time</label>
+                        <input type="time" id="toTime"
+                            class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Organizer -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Organizer</label>
+                        <select id="organizer"
+                            class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All Organizers</option>
+                            <option value="Green Earth Initiative">Green Earth Initiative</option>
+                            <option value="Youth Forward">Youth Forward</option>
+                            <option value="Food for All">Food for All</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-4">
+                    <button id="clearFilters"
+                        class="px-6 py-2 text-gray-700 hover:text-gray-900 transition-colors">
+                        Clear Filters
+                    </button>
+                    <button id="applyFilters"
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                        Apply Filters
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Filter Menu (Hidden by default) -->
-        <!-- <div id="filterMenu" class="hidden bg-white p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto relative"> -->
-            <div id="filterMenu" class="bg-white top-24 right-10 md:right-1/4 absolute p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto hidden">
-            <button id="closeFilter" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
-            </button>
-            <h3 class="text-lg font-semibold mb-4">Filter Options</h3>
-            <div class="space-y-4">
-                <div>
-                    <label for="dateFrom" class="block text-sm font-medium text-gray-700">Date</label>
-                    <input type="date" id="dateFrom" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md focus:ring-blue-600">
-                </div>
-                
-                <div>
-                    <label for="timeFrom" class=" top- block text-sm font-medium text-gray-700">Time</label>
-                    <input type="time" id="timeFrom" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md focus:ring-blue-600">
-                </div>
-                
-                <div>
-                    <label for="organizer" class="block text-sm font-medium text-gray-700">Organizer</label>
-                    <select id="organizer" class=" mt-1 w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        <option value="">Select Organizer</option>
-                        <option value="org1">Organizer 1</option>
-                        <option value="org2">Organizer 2</option>
-                        <option value="org3">Organizer 3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mt-4 flex justify-end">
-                <button id="applyFilters" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                    Apply Filters
-                </button>
-            </div>
+        <!-- Results Section -->
+        <div id="searchResults" class="space-y-6">
+            <!-- Results will be populated by JavaScript -->
         </div>
-
-        <!-- Event Listing -->
-      
     </div>
 
     <script>
+        // Sample events data
+        const events = [{
+                id: 1,
+                title: "Community Garden Clean-up",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
+                description: "Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds.",
+                fromDate: "2024-03-20",
+                toDate: "2024-03-20",
+                fromTime: "09:00",
+                toTime: "14:00",
+                location: "Central Community Garden",
+                organizer: "Green Earth Initiative"
+            },
+            {
+                id: 2,
+                title: "Youth Mentorship Program",
+                image: "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&q=80&w=800",
+                description: "Make a difference in a young person's life through our mentorship program.",
+                fromDate: "2024-03-25",
+                toDate: "2024-06-25",
+                fromTime: "16:00",
+                toTime: "18:00",
+                location: "City Youth Center",
+                organizer: "Youth Forward"
+            },
+            {
+                id: 3,
+                title: "Food Bank Distribution",
+                image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=800",
+                description: "Help sort and distribute food to families in need at our local food bank.",
+                fromDate: "2024-03-22",
+                toDate: "2024-03-22",
+                fromTime: "08:00",
+                toTime: "12:00",
+                location: "Community Food Bank",
+                organizer: "Food for All"
+            }
+        ];
+
         $(document).ready(function() {
-            $("#filterBtn").click(function() {
-                $("#filterMenu").toggleClass("hidden");
+            // Toggle filters panel
+            $('#filterToggle').click(function() {
+                $('#filtersPanel').toggleClass('hidden');
             });
 
-            $("#closeFilter, #applyFilters").click(function() {
-                $("#filterMenu").addClass("hidden");
+            // Clear filters
+            $('#clearFilters').click(function() {
+                $('#fromDate, #toDate, #fromTime, #toTime').val('');
+                $('#organizer').val('');
+                filterEvents();
             });
 
-            $("#applyFilters").click(function() {
-                // Here you would typically send the filter data to your backend
-                // and update the event listing based on the response
-                console.log("Filters applied");
+            // Apply filters
+            $('#applyFilters').click(function() {
+                filterEvents();
             });
 
-            $("#searchInput").on("input", function() {
-                if ($(this).val().length > 0) {
-                    $("#cancelSearch").show();
-                } else {
-                    $("#cancelSearch").hide();
-                }
+            // Search input
+            $('#searchInput').on('input', function() {
+                filterEvents();
             });
 
-            $("#cancelSearch").click(function() {
-                $("#searchInput").val('');
-                $(this).hide();
-            });
+            function filterEvents() {
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                const fromDate = $('#fromDate').val();
+                const toDate = $('#toDate').val();
+                const fromTime = $('#fromTime').val();
+                const toTime = $('#toTime').val();
+                const organizer = $('#organizer').val();
 
-            $("#searchBtn").click(function() {
-                // Here you would typically send the search query to your backend
-                // and update the event listing based on the response
-                console.log("Search performed");
-            });
+                const filteredEvents = events.filter(event => {
+                    // Search term filter
+                    const matchesSearch = !searchTerm ||
+                        event.title.toLowerCase().includes(searchTerm) ||
+                        event.description.toLowerCase().includes(searchTerm) ||
+                        event.organizer.toLowerCase().includes(searchTerm);
+
+                    // Date range filter
+                    const matchesDateRange = (!fromDate || event.fromDate >= fromDate) &&
+                        (!toDate || event.toDate <= toDate);
+
+                    // Time range filter
+                    const matchesTimeRange = (!fromTime || event.fromTime >= fromTime) &&
+                        (!toTime || event.toTime <= toTime);
+
+                    // Organizer filter
+                    const matchesOrganizer = !organizer || event.organizer === organizer;
+
+                    return matchesSearch && matchesDateRange && matchesTimeRange && matchesOrganizer;
+                });
+
+                renderResults(filteredEvents);
+            }
+
+            function renderResults(events) {
+                const resultsHtml = events.map(event => `
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="md:flex">
+                <div class="md:w-1/3">
+                  <img class="h-48 w-full object-cover md:h-full" src="${event.image}" alt="${event.title}">
+                </div>
+                <div class="p-8 md:w-2/3">
+                  <div class="uppercase tracking-wide text-sm text-blue-600 font-semibold">${event.organizer}</div>
+                  <h3 class="mt-1 text-2xl font-semibold text-gray-900">${event.title}</h3>
+                  
+                  <div class="mt-4 flex items-center text-gray-600">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    ${event.fromDate} - ${event.toDate}
+                  </div>
+                  
+                  <div class="mt-2 flex items-center text-gray-600">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${event.fromTime} - ${event.toTime}
+                  </div>
+                  
+                  <div class="mt-2 flex items-center text-gray-600">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    ${event.location}
+                  </div>
+                  
+                  <p class="mt-4 text-gray-600">${event.description}</p>
+                  
+                  <div class="mt-6 flex space-x-4">
+                    <button onclick="window.location.href='/events/${event.id}'" 
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 
+                                   transition-colors duration-200">
+                      View More
+                    </button>
+                    <button onclick="window.location.href='/events/${event.id}/apply'" 
+                            class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 
+                                   transition-colors duration-200">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `).join('');
+
+                $('#searchResults').html(resultsHtml || '<p class="text-center text-gray-500">No events found matching your criteria.</p>');
+            }
+
+            // Initial render
+            filterEvents();
         });
     </script>
 </body>
+
 </html>

@@ -18,11 +18,6 @@ if (!$user_id) {
     exit;
 }
 
-// $sql = "SELECT * FROM staff WHERE Staff_id = '$Staff_id'";
-// $result = $conn->query($sql);
-// if ($result && $row = $result->fetch_assoc()) {
-//     $jobRole = $row['Job_role'];
-// }
 
 //error_reporting(0); isset($_FILES['poster'])
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      && !empty($_POST['to_date']) && !empty($_POST['from_time'])
      && !empty($_POST['to_time']) && !empty($_POST['max_application'])
      && !empty($_POST['location']) && !empty($_POST['volunteer_need'])
+     && !empty($_POST['cause']) && !empty($_POST['skill'])
      && !empty($_POST['Description'])) {
 
         $message="";
@@ -79,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
 
-
+        $skill = $_POST['skill'];
+        $causes = $_POST['cause'];
         $date_of_creation = $_POST['date_of_creation'];
         $title = $_POST['title'];
         $from_date = $_POST['from_date'];
@@ -101,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      
 
             // Check for duplicate entry
-            $checkSql = "SELECT * FROM `events` WHERE organization_id  = '$user_id' AND event_name = '$title' AND from_date = '$from_date' AND to_date = '$to_date' AND location = '$location'";
+            $checkSql = "SELECT * FROM `events` WHERE organization_id  = '$user_id' AND event_name = '$title' AND `date_of_creation`='$date_of_creation' AND from_date = '$from_date' AND to_date = '$to_date' AND location = '$location'";
             $checkResult = $conn->query($checkSql);
 
             if ($checkResult->num_rows > 0) {
@@ -132,9 +129,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $file_destination
             );
 
-
-            //Registration
+            //Insert the event
             if ($stmt->execute()) {
+
+                // Using Organizer_id and Date_of_creation and Title To insert event skill and causes
+                $checkSql = "SELECT * FROM `events` WHERE organization_id  = '$user_id' AND event_name = '$title' AND `date_of_creation`='$date_of_creation' AND from_date = '$from_date' AND to_date = '$to_date' AND location = '$location'";
+                $checkResult = $conn->query($checkSql);
+                if ($checkResult->num_rows > 0) {
+                    $row = $checkResult->fetch_assoc();
+                    $event_id = $row['event_id'];
+                    // echo $user_id;
+
+                    //Skill Insertion as per the user_id
+                    foreach ($skill as $s) {
+
+                        $stmt = $conn->prepare("INSERT INTO `event_req_skill` (`event_id`,`skill_id`) 
+                                         VALUES (?,?)");
+                        $stmt->bind_param(
+                            "ii",
+                            $event_id,
+                            $s
+                        );
+
+                        if ($stmt->execute()) {
+                            $message = $message . "Skill Inserested!\n";
+                            //echo "Skill Inserested! \n";
+
+                        } else {
+                            //echo "Error: " . $stmt->error;
+                            $message = $message . "skill Failed \n";
+                            break;
+                        }
+                    }
+                    //Causes Insertion as per the user_id
+                    foreach ($causes as $c) {
+
+                        $stmt = $conn->prepare("INSERT INTO `event_has_causes` (`event_id`,`cause_id`) 
+                                         VALUES (?,?)");
+                        $stmt->bind_param(
+                            "ii",
+                            $event_id,
+                            $c
+                        );
+
+                        if ($stmt->execute()) {
+                            $message = $message . "cause Inserested! \n";
+                            //echo "cause Inserested! \n";
+
+
+                        } else {
+                            $message = $message . "cause Failed! \n";
+                            //echo "Error: " . $stmt->error;
+                            break;
+                        }
+                    }
+                }
+
                 //echo "<script>alert('Duty Leave Applied Successfully!');</script>";
                 //echo '<META HTTP-EQUIV="Refresh" Content="0.5;URL=APPLY_DL.php">';
                 echo json_encode(['status' => 'success', 'message' => trim($message . ' Event Created Successfully!')]);
@@ -144,6 +194,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo json_encode(['status' => 'error', 'message' => trim($message . ' Failed To Create The Event!!!')]);
             }
 
+
+           
 
               
             }

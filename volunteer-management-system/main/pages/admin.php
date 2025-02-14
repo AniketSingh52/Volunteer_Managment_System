@@ -171,7 +171,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
       <li class="mb-1 group">
         <a
-          href=""
+          href="gallery.php"
           class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
           <i class="bx bx-list-ul mr-3 text-lg"></i>
           <span class="text-sm">Explore Post</span>
@@ -616,7 +616,7 @@ if ($result && $row = $result->fetch_assoc()) {
             class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[240px]">
             <li>
               <a
-                href="#"
+                href="profile2.php"
                 class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-user pr-2"></i> Profile</a>
             </li>
             <li>
@@ -690,13 +690,17 @@ if ($result && $row = $result->fetch_assoc()) {
 
                       <button
                         onclick="window.location.href='/events/1'"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 font-semibold py-2 rounded-lg transition-colors duration-200">
+                        class="inline-flex justify-center rounded-lg bg-indigo-600 px-6 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 transform hover:-translate-y-0.5">
                         View Details
                       </button>
                     </div>
                   </div>
 
                   <div class="carousel-item relative h-full hidden">
+                    <div
+                      class="absolute top-0 -right-10 bg-red-600 px-6 py-3 text-white mt-3 mr-5 font-semibold rotate-45 tracking-widest text-base hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out rounded-sm shadow-lg">
+                      Latest
+                    </div>
                     <img
                       src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&q=80&w=800"
                       alt="Youth Mentorship Program"
@@ -707,14 +711,18 @@ if ($result && $row = $result->fetch_assoc()) {
                         Youth Mentorship Program
                       </h2>
                       <button
-                        onclick="window.location.href='/events/2'"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 font-semibold">
+                        onclick="window.location.href='/events/1'"
+                        class="inline-flex justify-center rounded-lg bg-indigo-600 px-6 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 transform hover:-translate-y-0.5">
                         View Details
                       </button>
                     </div>
                   </div>
 
                   <div class="carousel-item relative h-full hidden">
+                      <div
+                      class="absolute top-0 -right-10 bg-red-600 px-6 py-3 text-white mt-3 mr-5 font-semibold rotate-45 tracking-widest text-base hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out rounded-sm shadow-lg">
+                      Latest
+                    </div>
                     <img
                       src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=800"
                       alt="Food Bank Distribution"
@@ -725,8 +733,8 @@ if ($result && $row = $result->fetch_assoc()) {
                         Food Bank Distribution
                       </h2>
                       <button
-                        onclick="window.location.href='/events/3'"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 font-semibold">
+                        onclick="window.location.href='/events/1'"
+                        class="inline-flex justify-center rounded-lg bg-indigo-600 px-6 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 transform hover:-translate-y-0.5">
                         View Details
                       </button>
                     </div>
@@ -790,7 +798,7 @@ if ($result && $row = $result->fetch_assoc()) {
                       <div
                         class="uppercase  tracking-wide text-sm text-blue-600 font-semibold">
                         Green Earth Initiative
-                        <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
+                        <span class=" ml-3 bg-gray-100 rounded-xl px-2 py-1 text-gray-700">10 days</span>
                       </div>
 
                       <h3 class="mt-1 text-2xl font-semibold text-gray-900">
@@ -885,7 +893,7 @@ if ($result && $row = $result->fetch_assoc()) {
                       <div
                         class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
                         Youth Forward
-                        <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
+                        <span class=" ml-3 bg-gray-100 rounded-xl px-2 py-1 text-gray-700">10 days</span>
                       </div>
                       <h3 class="mt-1 text-2xl font-semibold text-gray-900">
                         Youth Mentorship Program
@@ -979,7 +987,7 @@ if ($result && $row = $result->fetch_assoc()) {
                       <div
                         class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
                         Food for All
-                        <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
+                        <span class=" ml-3 bg-gray-100 rounded-xl px-2 py-1 text-gray-700">10 days</span>
                       </div>
                       <h3 class="mt-1 text-2xl font-semibold text-gray-900">
                         Food Bank Distribution
@@ -1165,7 +1173,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
       <!-- Comments and post Start -->
-      <div class="max-w-7xl mx-auto px-4 mt-6">
+      <div class="max-w-7xl mx-auto px-4 mt-6 mb-10">
         <!-- Heading -->
         <div
           class="mb-1 mx-auto space-y-2 text-center bg-white rounded-md p-6 shadow-md shadow-black/5 max-w-7xl">
@@ -1176,7 +1184,7 @@ if ($result && $row = $result->fetch_assoc()) {
         </div>
 
         <!-- Comments and post -->
-        <div id="post_comments" class="space-y-6">
+        <div id="post_comments" class="space-y-3">
 
           <!-- 1st Post Background Pulse animation -->
           <div
@@ -1217,15 +1225,15 @@ if ($result && $row = $result->fetch_assoc()) {
               <div class="py-2 px-2">
                 <div class="flex justify-between items-center py-2">
                   <div class="relative mt-1 flex">
-                    <div class="mr-2">
+                    <div class="mr-2 p-1">
                       <img
                         src="https://avatars.githubusercontent.com/u/68494287?v=4"
                         alt="saman sayyar"
                         class="w-10 h-10 rounded-full object-cover" />
                     </div>
                     <div class="ml-3 flex justify-start flex-col items-start">
-                      <p class="text-gray-900 text-sm">samansayyar</p>
-                      <p class="text-gray-600 text-xs">samansayyar</p>
+                      <p class="text-lg font-bold ">samansayyar</p>
+                      <p class="text-gray-600 text-sm ">samansayyar</p>
                     </div>
                     <!-- <span class="text-xs mx-2">•</span>
                        <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
@@ -1471,22 +1479,22 @@ if ($result && $row = $result->fetch_assoc()) {
                 <!-- Post Details -->
                 <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
                   <div class="w-full">
-                    <p class="font-bold text-sm text-gray-700">234 likes</p>
+                    <p class="font-bold text-lg text-gray-700">234 likes</p>
                   </div>
-                  <div class="text-sm">
-                    <span class="font-semibold">gnfi</span> Lorem ipsum dolor
+                  <div class="text-base">
+                    <span class="text-gray-600 leading-relaxed text-base">gnfi</span> Lorem ipsum dolor
                     sit amet consectetur adipisicing elit. Porro impedit
                     nesciunt nihil architecto, omnis voluptatem quos
                     repellendus, quis ab id esse vero cum magnam itaque quod,
                     similique tempora recusandae ea..
                   </div>
 
-                  <div class="text-gray-500 text-sm">
+                  <div class="text-gray-500 leading-loose text-base font-semibold">
                     View all 877 comments
                   </div>
 
                   <div class="w-full">
-                    <p class="text-xs text-gray-400">10 hours ago</p>
+                    <p class="text-sm font-normal text-gray-400">10 hours ago</p>
                   </div>
                 </div>
 
@@ -1521,6 +1529,689 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
 
+
+          <!-- 1st Post Background Pulse animation -->
+          <div
+            class="mx-auto flex justify-center items-center filter blur-2xl animate-pulse duration-500 transition w-full">
+            <div class="mt-2 mr-10 flex relative">
+              <div
+                class="p-44 rounded-full bg-gradient-to-r to-indigo-700 from-pink-900 absolute top-20 right-0"></div>
+              <div
+                class="p-44 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute md:flex hidden"></div>
+            </div>
+            <!-- Right Side -->
+            <div class="flex flex-col absolute top-8 right-10 space-y-4">
+              <div
+                class="p-5 rounded-full bg-gradient-to-r to-pink-700 via-red-500 from-indigo-900 absolute right-16 top-10"></div>
+            </div>
+            <div class="flex flex-col absolute bottom-8 right-10 space-y-4">
+              <div
+                class="p-10 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute right-16 bottom-10"></div>
+            </div>
+            <!--  Left side -->
+            <div
+              class="flex flex-col space-y-4 filter animate-pulse duration-500">
+              <div
+                class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute top-20 left-20"></div>
+              <div
+                class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute bottom-20 right-20"></div>
+            </div>
+          </div>
+
+
+          <!-- 1st Post  -->
+          <div
+            class="mx-auto flex justify-center max-w-4xl md:mb-8 mt-9 bg-white rounded-lg items-center relative md:p-0 p-8"
+            x-data="{
+        comment : false,
+    }">
+            <div class="h-full relative">
+              <div class="py-2 px-2">
+                <div class="flex justify-between items-center py-2">
+                  <div class="relative mt-1 flex">
+                    <div class="mr-2 p-1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                        alt="saman sayyar"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                    <div class="ml-3 flex justify-start flex-col items-start">
+                      <p class="text-lg font-bold ">samansayyar</p>
+                      <p class="text-gray-600 text-sm ">samansayyar</p>
+                    </div>
+                    <!-- <span class="text-xs mx-2">•</span>
+                       <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
+                  </div>
+                  <button
+                    type="button"
+                    class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+                    <svg
+                      class="w-5 h-5 text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="relative w-full h-full">
+                <img
+                  src="https://wallpaperaccess.com/full/345330.jpg"
+                  alt="saman"
+                  class="rounded-lg w-full h-full object-cover" />
+              </div>
+              <div class="">
+                <!-- Comment -->
+                <div
+                  class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
+                  x-show="comment"
+                  x-transition:enter="transition ease-out duration-200"
+                  x-transition:enter-start="opacity-0 transform scale-90"
+                  x-transition:enter-end="opacity-100 transform scale-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100 transform scale-100"
+                  x-transition:leave-end="opacity-0 transform scale-90">
+                  <div
+                    class="flex justify-start items-center py-2 px-4 border-b"
+                    @click="comment = !comment">
+                    <svg
+                      class="w-8 h-8 text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+                    </svg>
+                    <div
+                      class="text-xl w-full text-center p-4 font-semibold justify-between">
+                      Comments
+                    </div>
+                  </div>
+                  <div class="p-2 mb-10">
+                    <!-- System Comment -->
+                    <div
+                      class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
+
+                      <!-- 1st Comment -->
+                      <div class="relative mt-1 mb-3 pt-2 flex w-full">
+                        <div class="mr-2">
+                          <img
+                            src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                            alt="saman sayyar"
+                            class="w-12 h-12 rounded-full object-cover" />
+                        </div>
+                        <div class="ml-2 w-full" x-data="{ replies : false }">
+                          <p class="text-gray-600 md:text-lg text-xs w-full">
+                            <!-- Username User -->
+                            <span class="font-normal text-gray-900">samansayyar</span>
+                            <!-- Username User -->
+                            You Can see?
+                          </p>
+                          <div class="flex space-x-4 w-full">
+                            <div class="time mt-1 text-gray-400 text-xs">
+                              <p>2d</p>
+                            </div>
+                            <button
+                              type="button"
+                              class="focus:outline-none time mt-1 text-gray-400 text-sm">
+                              <p>replay</p>
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            @click="replies = !replies"
+                            class="focus:outline-none mt-3 flex justify-center items-center">
+                            <p
+                              class="text-sm text-center text-indigo-500 flex space-x-2">
+                              <span>____ View replies (1)</span>
+                              <svg
+                                class="w-3 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                              </svg>
+                            </p>
+                          </button>
+                          <div
+                            x-show="replies"
+                            x-transition=""
+                            class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100"
+                            style="display: none">
+                            <div class="relative mt-1 mb-3 pt-2 flex w-full">
+                              <div class="mr-2">
+                                <img
+                                  src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                                  alt="saman sayyar"
+                                  class="w-8 h-8 rounded-full object-cover" />
+                              </div>
+                              <div
+                                class="ml-2 w-full"
+                                x-data="{ replies : true }">
+                                <p
+                                  class="text-gray-600 md:text-sm text-xs w-full">
+                                  <!-- Username User -->
+                                  <span class="font-normal text-gray-900">samansayyar</span>
+                                  <!-- Username User -->
+                                  You Can see?
+                                </p>
+                                <div class="flex space-x-4">
+                                  <div
+                                    class="time mt-1 text-gray-400 text-xs">
+                                    <p>2d</p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    class="focus:outline-none time mt-1 text-gray-400 text-xs">
+                                    <p>replay</p>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 2nd Comment -->
+                    <div
+                      class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm">
+                      <div class="relative w-full mt-1 mb-3 pt-2 flex">
+                        <div class="mr-2">
+                          <img
+                            src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                            alt="saman sayyar"
+                            class="w-12 h-12 rounded-full object-cover" />
+                        </div>
+                        <div class="ml-2 w-full">
+                          <p class="text-gray-600 md:text-lg text-xs w-full">
+                            <!-- Username User -->
+                            <span class="font-normal text-gray-900">samansayyar</span>
+                            <!-- Username User -->
+                            You Can see?
+                          </p>
+                          <div class="time mt-1 text-gray-400 text-xs">
+                            <p>2d</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- System Like and tools Feed -->
+                <div class="flex justify-between items-start p-2 py-">
+                  <div class="flex space-x-2 items-center">
+                    <button type="button" class="focus:outline-none Like">
+                      <svg
+                        class="w-8 h-8 hover:fill-red-500 hover:text-red-500 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="focus:outline-none Comment"
+                      @click="comment = !comment">
+                      <svg
+                        class="w-8 h-8 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                      </svg>
+                    </button>
+                    <button type="button" class="focus:outline-none save">
+                      <svg
+                        class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex space-x-2 items-center">
+                    <button type="button" class="focus:outline-none Like">
+                      <svg
+                        class="w-8 h-8 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Post Details -->
+                <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
+                  <div class="w-full">
+                    <p class="font-bold text-lg text-gray-700">234 likes</p>
+                  </div>
+                  <div class="text-base">
+                    <span class="text-gray-600 leading-relaxed text-base">gnfi</span> Lorem ipsum dolor
+                    sit amet consectetur adipisicing elit. Porro impedit
+                    nesciunt nihil architecto, omnis voluptatem quos
+                    repellendus, quis ab id esse vero cum magnam itaque quod,
+                    similique tempora recusandae ea..
+                  </div>
+
+                  <div class="text-gray-500 leading-loose text-base font-semibold">
+                    View all 877 comments
+                  </div>
+
+                  <div class="w-full">
+                    <p class="text-sm font-normal text-gray-400">10 hours ago</p>
+                  </div>
+                </div>
+
+                <!-- Comment Input Field ans send button -->
+                <!-- End System Like and tools Feed  -->
+                <div class="z-50">
+                  <form>
+                    <div
+                      class="flex justify-between border-t items-center w-full"
+                      :class="comment ? 'absolute bottom-0' : '' ">
+                      <div class="w-full">
+                        <input
+                          type="text"
+                          name="comment"
+                          id="comment"
+                          placeholder="Add A Comment..."
+                          class="w-full text-sm py-4 px-3 rounded-none focus:outline-none" />
+                      </div>
+                      <div class="w-20">
+                        <button
+                          class="border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
+                          <i class="bx bx-send text-3xl"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End 1st Post -->
+
+          <!-- 1st Post Background Pulse animation -->
+          <div
+            class="mx-auto flex justify-center items-center filter blur-2xl animate-pulse duration-500 transition w-full">
+            <div class="mt-2 mr-10 flex relative">
+              <div
+                class="p-44 rounded-full bg-gradient-to-r to-indigo-700 from-pink-900 absolute top-20 right-0"></div>
+              <div
+                class="p-44 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute md:flex hidden"></div>
+            </div>
+            <!-- Right Side -->
+            <div class="flex flex-col absolute top-8 right-10 space-y-4">
+              <div
+                class="p-5 rounded-full bg-gradient-to-r to-pink-700 via-red-500 from-indigo-900 absolute right-16 top-10"></div>
+            </div>
+            <div class="flex flex-col absolute bottom-8 right-10 space-y-4">
+              <div
+                class="p-10 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute right-16 bottom-10"></div>
+            </div>
+            <!--  Left side -->
+            <div
+              class="flex flex-col space-y-4 filter animate-pulse duration-500">
+              <div
+                class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute top-20 left-20"></div>
+              <div
+                class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute bottom-20 right-20"></div>
+            </div>
+          </div>
+
+
+          <!-- 1st Post  -->
+          <div
+            class="mx-auto flex justify-center max-w-4xl md:mb-8 mt-9 bg-white rounded-lg items-center relative md:p-0 p-8"
+            x-data="{
+        comment : false,
+    }">
+            <div class="h-full relative">
+              <div class="py-2 px-2">
+                <div class="flex justify-between items-center py-2">
+                  <div class="relative mt-1 flex">
+                    <div class="mr-2 p-1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                        alt="saman sayyar"
+                        class="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                    <div class="ml-3 flex justify-start flex-col items-start">
+                      <p class="text-lg font-bold ">samansayyar</p>
+                      <p class="text-gray-600 text-sm ">samansayyar</p>
+                    </div>
+                    <!-- <span class="text-xs mx-2">•</span>
+                       <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
+                  </div>
+                  <button
+                    type="button"
+                    class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
+                    <svg
+                      class="w-5 h-5 text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="relative w-full h-full">
+                <img
+                  src="https://wallpaperaccess.com/full/345330.jpg"
+                  alt="saman"
+                  class="rounded-lg w-full h-full object-cover" />
+              </div>
+              <div class="">
+                <!-- Comment -->
+                <div
+                  class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
+                  x-show="comment"
+                  x-transition:enter="transition ease-out duration-200"
+                  x-transition:enter-start="opacity-0 transform scale-90"
+                  x-transition:enter-end="opacity-100 transform scale-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100 transform scale-100"
+                  x-transition:leave-end="opacity-0 transform scale-90">
+                  <div
+                    class="flex justify-start items-center py-2 px-4 border-b"
+                    @click="comment = !comment">
+                    <svg
+                      class="w-8 h-8 text-gray-700"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+                    </svg>
+                    <div
+                      class="text-xl w-full text-center p-4 font-semibold justify-between">
+                      Comments
+                    </div>
+                  </div>
+                  <div class="p-2 mb-10">
+                    <!-- System Comment -->
+                    <div
+                      class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
+
+                      <!-- 1st Comment -->
+                      <div class="relative mt-1 mb-3 pt-2 flex w-full">
+                        <div class="mr-2">
+                          <img
+                            src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                            alt="saman sayyar"
+                            class="w-12 h-12 rounded-full object-cover" />
+                        </div>
+                        <div class="ml-2 w-full" x-data="{ replies : false }">
+                          <p class="text-gray-600 md:text-lg text-xs w-full">
+                            <!-- Username User -->
+                            <span class="font-normal text-gray-900">samansayyar</span>
+                            <!-- Username User -->
+                            You Can see?
+                          </p>
+                          <div class="flex space-x-4 w-full">
+                            <div class="time mt-1 text-gray-400 text-xs">
+                              <p>2d</p>
+                            </div>
+                            <button
+                              type="button"
+                              class="focus:outline-none time mt-1 text-gray-400 text-sm">
+                              <p>replay</p>
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            @click="replies = !replies"
+                            class="focus:outline-none mt-3 flex justify-center items-center">
+                            <p
+                              class="text-sm text-center text-indigo-500 flex space-x-2">
+                              <span>____ View replies (1)</span>
+                              <svg
+                                class="w-3 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                              </svg>
+                            </p>
+                          </button>
+                          <div
+                            x-show="replies"
+                            x-transition=""
+                            class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100"
+                            style="display: none">
+                            <div class="relative mt-1 mb-3 pt-2 flex w-full">
+                              <div class="mr-2">
+                                <img
+                                  src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                                  alt="saman sayyar"
+                                  class="w-8 h-8 rounded-full object-cover" />
+                              </div>
+                              <div
+                                class="ml-2 w-full"
+                                x-data="{ replies : true }">
+                                <p
+                                  class="text-gray-600 md:text-sm text-xs w-full">
+                                  <!-- Username User -->
+                                  <span class="font-normal text-gray-900">samansayyar</span>
+                                  <!-- Username User -->
+                                  You Can see?
+                                </p>
+                                <div class="flex space-x-4">
+                                  <div
+                                    class="time mt-1 text-gray-400 text-xs">
+                                    <p>2d</p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    class="focus:outline-none time mt-1 text-gray-400 text-xs">
+                                    <p>replay</p>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- 2nd Comment -->
+                    <div
+                      class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm">
+                      <div class="relative w-full mt-1 mb-3 pt-2 flex">
+                        <div class="mr-2">
+                          <img
+                            src="https://avatars.githubusercontent.com/u/68494287?v=4"
+                            alt="saman sayyar"
+                            class="w-12 h-12 rounded-full object-cover" />
+                        </div>
+                        <div class="ml-2 w-full">
+                          <p class="text-gray-600 md:text-lg text-xs w-full">
+                            <!-- Username User -->
+                            <span class="font-normal text-gray-900">samansayyar</span>
+                            <!-- Username User -->
+                            You Can see?
+                          </p>
+                          <div class="time mt-1 text-gray-400 text-xs">
+                            <p>2d</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- System Like and tools Feed -->
+                <div class="flex justify-between items-start p-2 py-">
+                  <div class="flex space-x-2 items-center">
+                    <button type="button" class="focus:outline-none Like">
+                      <svg
+                        class="w-8 h-8 hover:fill-red-500 hover:text-red-500 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="focus:outline-none Comment"
+                      @click="comment = !comment">
+                      <svg
+                        class="w-8 h-8 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                      </svg>
+                    </button>
+                    <button type="button" class="focus:outline-none save">
+                      <svg
+                        class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex space-x-2 items-center">
+                    <button type="button" class="focus:outline-none Like">
+                      <svg
+                        class="w-8 h-8 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.6"
+                          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Post Details -->
+                <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
+                  <div class="w-full">
+                    <p class="font-bold text-lg text-gray-700">234 likes</p>
+                  </div>
+                  <div class="text-base">
+                    <span class="text-gray-600 leading-relaxed text-base">gnfi</span> Lorem ipsum dolor
+                    sit amet consectetur adipisicing elit. Porro impedit
+                    nesciunt nihil architecto, omnis voluptatem quos
+                    repellendus, quis ab id esse vero cum magnam itaque quod,
+                    similique tempora recusandae ea..
+                  </div>
+
+                  <div class="text-gray-500 leading-loose text-base font-semibold">
+                    View all 877 comments
+                  </div>
+
+                  <div class="w-full">
+                    <p class="text-sm font-normal text-gray-400">10 hours ago</p>
+                  </div>
+                </div>
+
+                <!-- Comment Input Field ans send button -->
+                <!-- End System Like and tools Feed  -->
+                <div class="z-50">
+                  <form>
+                    <div
+                      class="flex justify-between border-t items-center w-full"
+                      :class="comment ? 'absolute bottom-0' : '' ">
+                      <div class="w-full">
+                        <input
+                          type="text"
+                          name="comment"
+                          id="comment"
+                          placeholder="Add A Comment..."
+                          class="w-full text-sm py-4 px-3 rounded-none focus:outline-none" />
+                      </div>
+                      <div class="w-20">
+                        <button
+                          class="border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
+                          <i class="bx bx-send text-3xl"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End 1st Post -->
+
         </div>
 
 
@@ -1528,318 +2219,6 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
 
-        <div
-          class="mx-auto flex justify-center items-center filter blur-2xl animate-pulse duration-500 transition w-full">
-          <div class="mt-20 mr-10 flex relative">
-            <div
-              class="p-44 rounded-full bg-gradient-to-r to-indigo-700 from-pink-900 absolute top-20 right-0"></div>
-            <div
-              class="p-44 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute md:flex hidden"></div>
-          </div>
-          <!-- Right Side -->
-          <div class="flex flex-col absolute top-8 right-10 space-y-4">
-            <div
-              class="p-5 rounded-full bg-gradient-to-r to-pink-700 via-red-500 from-indigo-900 absolute right-16 top-10"></div>
-          </div>
-          <div class="flex flex-col absolute bottom-8 right-10 space-y-4">
-            <div
-              class="p-10 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute right-16 bottom-10"></div>
-          </div>
-          <!--  Left side -->
-          <div
-            class="flex flex-col space-y-4 filter animate-pulse duration-500">
-            <div
-              class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute top-20 left-20"></div>
-            <div
-              class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute bottom-20 right-20"></div>
-          </div>
-        </div>
-
-        <div
-          class="mx-auto flex justify-center max-w-3xl md:mb-8 mt-4 bg-white rounded-lg items-center relative md:p-0 p-8"
-          x-data="{
-        comment : false,
-    }">
-          <div class="h-full relative">
-            <div class="py-2 px-2">
-              <div class="flex justify-between items-center py-2">
-                <div class="relative mt-1 flex">
-                  <div class="mr-2">
-                    <img
-                      src="https://avatars.githubusercontent.com/u/68494287?v=4"
-                      alt="saman sayyar"
-                      class="w-10 h-10 rounded-full object-cover" />
-                  </div>
-                  <div class="ml-3 flex justify-start flex-col items-start">
-                    <p class="text-gray-900 text-sm">samansayyar</p>
-                    <p class="text-gray-600 text-xs">samansayyar</p>
-                  </div>
-                  <!-- <span class="text-xs mx-2">•</span>
-                       <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
-                </div>
-                <button
-                  type="button"
-                  class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
-                  <svg
-                    class="w-5 h-5 text-gray-700"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="relative w-full h-full">
-              <img
-                src="https://wallpaperaccess.com/full/345330.jpg"
-                alt="saman"
-                class="rounded-lg w-full h-full object-cover" />
-            </div>
-            <div class="">
-              <!-- Comment -->
-              <div
-                class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
-                x-show="comment"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                x-transition:leave="transition ease-in duration-100"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-90">
-                <div
-                  class="flex justify-start items-center py-2 px-4 border-b"
-                  @click="comment = !comment">
-                  <svg
-                    class="w-8 h-8 text-gray-700"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="1.5"
-                      d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
-                  </svg>
-                </div>
-                <div class="p-2 mb-10">
-                  <!-- System Comment -->
-                  <div
-                    class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
-                    <div class="relative mt-1 mb-3 pt-2 flex">
-                      <div class="mr-2">
-                        <img
-                          src="https://avatars.githubusercontent.com/u/68494287?v=4"
-                          alt="saman sayyar"
-                          class="w-8 h-8 rounded-full object-cover" />
-                      </div>
-                      <div class="ml-2 w-full" x-data="{ replies : false }">
-                        <p class="text-gray-600 md:text-sm text-xs w-full">
-                          <!-- Username User -->
-                          <span class="font-normal text-gray-900">samansayyar</span>
-                          <!-- Username User -->
-                          You Can see?
-                        </p>
-                        <div class="flex space-x-4">
-                          <div class="time mt-1 text-gray-400 text-xs">
-                            <p>2d</p>
-                          </div>
-                          <button
-                            type="button"
-                            class="focus:outline-none time mt-1 text-gray-400 text-xs">
-                            <p>replay</p>
-                          </button>
-                        </div>
-                        <button
-                          type="button"
-                          @click="replies = !replies"
-                          class="focus:outline-none mt-3 flex justify-center items-center">
-                          <p
-                            class="text-xs text-center text-indigo-500 flex space-x-2">
-                            <span>____ View replies (1)</span>
-                            <svg
-                              class="w-3 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                          </p>
-                        </button>
-                        <div
-                          x-show="replies"
-                          x-transition
-                          class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
-                          <div class="relative mt-1 mb-3 pt-2 flex">
-                            <div class="mr-2">
-                              <img
-                                src="https://avatars.githubusercontent.com/u/68494287?v=4"
-                                alt="saman sayyar"
-                                class="w-8 h-8 rounded-full object-cover" />
-                            </div>
-                            <div
-                              class="ml-2 w-full"
-                              x-data="{ replies : true }">
-                              <p
-                                class="text-gray-600 md:text-sm text-xs w-full">
-                                <!-- Username User -->
-                                <span class="font-normal text-gray-900">samansayyar</span>
-                                <!-- Username User -->
-                                You Can see?
-                              </p>
-                              <div class="flex space-x-4">
-                                <div class="time mt-1 text-gray-400 text-xs">
-                                  <p>2d</p>
-                                </div>
-                                <button
-                                  type="button"
-                                  class="focus:outline-none time mt-1 text-gray-400 text-xs">
-                                  <p>replay</p>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
-                    <div class="relative mt-1 mb-3 pt-2 flex">
-                      <div class="mr-2">
-                        <img
-                          src="https://avatars.githubusercontent.com/u/68494287?v=4"
-                          alt="saman sayyar"
-                          class="w-8 h-8 rounded-full object-cover" />
-                      </div>
-                      <div class="ml-2 w-full">
-                        <p class="text-gray-600 md:text-sm text-xs w-full">
-                          <!-- Username User -->
-                          <span class="font-normal text-gray-900">samansayyar</span>
-                          <!-- Username User -->
-                          You Can see?
-                        </p>
-                        <div class="time mt-1 text-gray-400 text-xs">
-                          <p>2d</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- System Like and tools Feed -->
-              <div class="flex justify-between items-start p-2 py-">
-                <div class="flex space-x-2 items-center">
-                  <button type="button" class="focus:outline-none Like">
-                    <svg
-                      class="w-8 h-8 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    class="focus:outline-none Comment"
-                    @click="comment = !comment">
-                    <svg
-                      class="w-8 h-8 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                    </svg>
-                  </button>
-                  <button type="button" class="focus:outline-none save">
-                    <svg
-                      class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="flex space-x-2 items-center">
-                  <button type="button" class="focus:outline-none Like">
-                    <svg
-                      class="w-8 h-8 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="p-2 flex flex-col space-y-3">
-                <div class="w-full">
-                  <p class="font-bold text-sm text-gray-700">234 likes</p>
-                </div>
-                <div class="w-full">
-                  <p class="font-normal text-xs text-gray-500">10 hours ago</p>
-                </div>
-              </div>
-              <!-- End System Like and tools Feed -->
-              <div class="z-50">
-                <form>
-                  <div
-                    class="flex justify-between border-t items-center w-full"
-                    :class="comment ? 'absolute bottom-0' : '' ">
-                    <div class="w-full">
-                      <input
-                        type="text"
-                        name="comment"
-                        id="comment"
-                        placeholder="Add A Comment..."
-                        class="w-full text-sm py-4 px-3 rounded-none focus:outline-none" />
-                    </div>
-                    <div class="w-20">
-                      <button
-                        class="border-none text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
-                        Post
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- End Content -->
