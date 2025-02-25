@@ -82,6 +82,37 @@ if (isset($_POST['search'])) {
                     $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" :date('jS M y', strtotime($date_of_creation));
                 }
 
+                $query = "SELECT 
+    event_id, 
+    COUNT(*) AS total_applications, 
+    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+FROM events_application
+WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+GROUP BY event_id;
+";
+
+                // Prepare and execute the statement
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("i", $event_id); // "i" for integer
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                // Initialize variables
+                $pending_count = 0;
+                $rejected_count = 0;
+                $accepted_count = 0;
+                $total_applications = 0;
+
+
+                // Fetch the results and store in variables
+                if ($row = $result->fetch_assoc()) {
+                    $pending_count = $row['pending_count'];
+                    $rejected_count = $row['rejected_count'];
+                    $accepted_count = $row['accepted_count'];
+                    $total_applications = $row['total_applications'];
+                }
 
 
                 $sql = "SELECT * FROM `user` WHERE user_id=?";
@@ -185,7 +216,7 @@ if (isset($_POST['search'])) {
                         stroke-linejoin="round"
                         d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                 </svg>
-                Volunteer Needed: 0/
+                Volunteer Needed: '. htmlspecialchars($accepted_count).'/
                  ' . htmlspecialchars($volunteer_needed) . '
             </div>
             <div class=" flex">
@@ -287,12 +318,44 @@ if (isset($_POST['search'])) {
                         View More
                     </button>
                 </a>
-                <a href="event_detail.php">
+
+                ';
+                if ($user_id == $organization_id) {
+                    echo '
+                    <a href="Event_Applications.php?id=' . base64_encode($event_id) . '">
                     <button
-                        class="bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
-                        Apply
+                        class="bg-green-600  text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                        View Applicants
                     </button>
                 </a>
+                    ';
+                } else {
+
+
+                    $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
+                    $checkResult2 = $conn->query($sql2);
+                    if ($checkResult2->num_rows > 0) {
+                        echo '
+               
+                    <button
+                        class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
+                        <i class="bx bxs-bookmark-minus mr-4"></i>Applied
+                    </button>
+                
+                ';
+                    } else {
+
+                        echo '
+               
+                    <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
+                        class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                        Apply
+                    </button>
+                
+                ';
+                    }
+                }
+                echo'
             </div>
         </div>
     </div>
@@ -376,7 +439,37 @@ elseif(isset($_POST['all'])){
                 $row = $result->fetch_assoc();
                 $organization_name = $row['name'];
 
+                $query = "SELECT 
+    event_id, 
+    COUNT(*) AS total_applications, 
+    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+FROM events_application
+WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+GROUP BY event_id;
+";
 
+                // Prepare and execute the statement
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("i", $event_id); // "i" for integer
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                // Initialize variables
+                $pending_count = 0;
+                $rejected_count = 0;
+                $accepted_count = 0;
+                $total_applications = 0;
+
+
+                // Fetch the results and store in variables
+                if ($row = $result->fetch_assoc()) {
+                    $pending_count = $row['pending_count'];
+                    $rejected_count = $row['rejected_count'];
+                    $accepted_count = $row['accepted_count'];
+                    $total_applications = $row['total_applications'];
+                }
 
 
 
@@ -469,7 +562,7 @@ elseif(isset($_POST['all'])){
                         stroke-linejoin="round"
                         d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                 </svg>
-                Volunteer Needed: 0/
+                Volunteer Needed: '. htmlspecialchars($accepted_count).'/
                  ' . htmlspecialchars($volunteer_needed) . '
             </div>
             <div class=" flex">
@@ -557,22 +650,56 @@ elseif(isset($_POST['all'])){
             </div>
 
             <p class="mt-4 text-gray-600 example leading-relaxed text-base">
-                ' . $description . '
+                ' . $description .
+                '
             </p>
 
-            <div class="mt-6 flex space-x-4">
+          <div class="mt-6 flex space-x-4">
                 <a href="event_detail.php?id=' . base64_encode($event_id) . '">
                     <button
-                        class="bg-blue-600 w-[9rem] hover:scale-105 duration-300 transition-all text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 ">
+                        class="bg-blue-600 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 hover:scale-105 duration-300 transition-all">
                         View More
                     </button>
                 </a>
-                <a href="event_detail.php">
+
+                ';
+                if ($user_id == $organization_id) {
+                    echo '
+                    <a href="Event_Applications.php?id=' . base64_encode($event_id) . '">
                     <button
-                        class="bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
-                        Apply
+                        class="bg-green-600  text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                        View Applicants
                     </button>
                 </a>
+                    ';
+                } else {
+                
+
+                    $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
+                    $checkResult2 = $conn->query($sql2);
+                    if($checkResult2->num_rows > 0){
+                        echo '
+               
+                    <button
+                        class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
+                        <i class="bx bxs-bookmark-minus mr-4"></i>Applied
+                    </button>
+                
+                ';
+                        
+                    }else{
+
+                    echo '
+               
+                    <button data-event="'.$event_id.'" data-volunteer_needed="'.$volunteer_needed-$accepted_count.'"
+                        class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                        Apply
+                    </button>
+                
+                ';
+                }
+            }
+                echo '
             </div>
         </div>
     </div>

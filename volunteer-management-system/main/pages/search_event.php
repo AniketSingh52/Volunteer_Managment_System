@@ -682,7 +682,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 });
 
             }
-            
+
             $("#filterBtn").click(function() {
                 $("#filterMenu").toggleClass("hidden");
             });
@@ -722,6 +722,53 @@ if ($result && $row = $result->fetch_assoc()) {
                 const form = document.getElementById("form1");
                 e.preventDefault(); // Prevent default form submission
 
+
+            });
+            $(document).on('click', '.apply_button', function(e) {
+                let eventID = $(this).data("event");
+                let userId = <?= $user_id; ?>;
+                let volunteer_need = $(this).data("volunteer_needed");
+                let button = $(this);
+                e.preventDefault();
+
+                // alert(userId);
+                // alert(eventID);
+                // alert(volunteer_need);
+
+                if (volunteer_need > 0) {
+
+                    $.ajax({
+                        url: "Backend/Event_apply.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            user_id: userId,
+                            event_id: eventID
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // Show success message
+                                //location.reload();
+                                // Modify button appearance and disable it
+                                button.attr('disabled', true);
+                                button.html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+                                button.addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
+                                alert(response.message);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
+                        }
+                    });
+
+                } else {
+                    alert("Required Volunteer Count Reached!!");
+                }
+                // $(this).attr('disabled', true)
+                // $(this).html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+                // $(this).addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
 
             });
 

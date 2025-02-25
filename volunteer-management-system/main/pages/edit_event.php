@@ -23,6 +23,12 @@ if ($result && $row = $result->fetch_assoc()) {
 }
 
 
+if ($type == "Volunteer") {
+    echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
+    exit;
+}
+
+
 //GET THE EVENT ID FOR DETAILS FETCHING
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {

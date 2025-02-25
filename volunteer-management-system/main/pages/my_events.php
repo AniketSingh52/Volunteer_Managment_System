@@ -22,9 +22,48 @@ if ($result && $row = $result->fetch_assoc()) {
 
 }
 
+if($type== "Volunteer"){
+    echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
+    exit;
+
+}
+
+
+$query = "SELECT status, COUNT(*) AS event_count FROM events WHERE organization_id = ? GROUP BY status";
+
+// Prepare and execute the statement
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id); // "i" for integer
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Initialize variables
+$ongoing = 0;
+$scheduled = 0;
+$completed = 0;
+$cancelled = 0;
+
+// Fetch the results and store in variables
+while ($row = $result->fetch_assoc()) {
+    switch ($row['status']) {
+        case 'Ongoing':
+            $ongoing = $row['event_count'];
+            break;
+        case 'Scheduled':
+            $scheduled = $row['event_count'];
+            break;
+        case 'Completed':
+            $completed = $row['event_count'];
+            break;
+        case 'Cancelled':
+            $cancelled = $row['event_count'];
+            break;
+    }
+}
+
 
 $sql = "SELECT * FROM `events`
-            WHERE organization_id = ?  
+            WHERE organization_id = ? AND status='Ongoing'  
             ORDER BY `date_of_creation` DESC";
 
 $stmt = $conn->prepare($sql);
@@ -160,31 +199,36 @@ $result = $stmt->get_result();
                 <div class="bg-white rounded-xl shadow-sm mb-8">
                     <div class="border-b border-gray-200">
                         <nav class="flex -mb-px">
-                            <button class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-blue-500 text-blue-600 flex items-center justify-center space-x-2">
+                            <button data-status="Ongoing" class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-blue-500 text-blue-600 flex items-center justify-center space-x-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
                                 <span>Ongoing Events</span>
-                                <span class="ml-2 bg-blue-100 text-blue-600 py-0.5 px-2.5 rounded-full text-xs font-medium">5</span>
+                                <span class="ml-2 bg-blue-100 text-blue-600 py-0.5 px-2.5 rounded-full text-xs font-medium"><?= $ongoing ?></span>
                             </button>
-                            <button class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center justify-center space-x-2">
+                            <button data-status="Scheduled" class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center justify-center space-x-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 <span>Scheduled Events</span>
-                                <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2.5 rounded-full text-xs font-medium">3</span>
+                                <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2.5 rounded-full text-xs font-medium"><?= $scheduled ?></span>
                             </button>
-                            <button class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center justify-center space-x-2">
+                            <button data-status="Completed" class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center justify-center space-x-2">
                                 <i class='bx bx-check-shield text-xl'></i>
                                 <span>Completed Events</span>
-                                <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2.5 rounded-full text-xs font-medium">2</span>
+                                <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2.5 rounded-full text-xs font-medium"><?= $completed ?></span>
+                            </button>
+                            <button data-status="Cancelled" class="w-1/3 py-4 px-6 text-center border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 flex items-center justify-center space-x-2">
+                                <i class='bx bx-calendar-x text-xl'></i>
+                                <span>Cancelled Events</span>
+                                <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2.5 rounded-full text-xs font-medium"><?= $cancelled ?></span>
                             </button>
                         </nav>
                     </div>
                 </div>
 
                 <!-- Event List -->
-                <div class="space-y-6">
+                <div class="space-y-6 event_list">
                     <!-- Event Card 1 -->
                     <?php
                     if ($result->num_rows > 0) {
@@ -201,6 +245,7 @@ $result = $stmt->get_result();
                             $from_time = date("h:i A", strtotime($from_time));
                             $to_time = date("h:i A", strtotime($to_time));
                             $volunteer_needed = $row['volunteers_needed'];
+                            $max_application = $row['maximum_application'];
 
                             $event_image = $row['poster'];
                             $event_image = preg_replace('/^\.\.\//', '', $event_image);
@@ -229,6 +274,39 @@ $result = $stmt->get_result();
                             } else {
                                 $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($date_of_creation));
                             }
+
+
+                        $query = "SELECT 
+    event_id, 
+    COUNT(*) AS total_applications, 
+    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+FROM events_application
+WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+GROUP BY event_id;
+";
+
+                        // Prepare and execute the statement
+                        $stmt = $conn->prepare($query);
+                        $stmt->bind_param("i", $event_id); // "i" for integer
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        // Initialize variables
+                        $pending_count = 0;
+                        $rejected_count = 0;
+                        $accepted_count = 0;
+                        $total_applications = 0;
+
+
+                        // Fetch the results and store in variables
+                        if ($row = $result->fetch_assoc()) {
+                            $pending_count = $row['pending_count'];
+                            $rejected_count = $row['rejected_count'];
+                            $accepted_count = $row['accepted_count'];
+                            $total_applications = $row['total_applications'];
+                        }
 
 
 
@@ -281,7 +359,22 @@ $result = $stmt->get_result();
                                                                 stroke-linejoin="round"
                                                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                                                         </svg>
-                                                        Volunteer Needed: 0/<?= $volunteer_needed ?>
+                                                        Volunteer Needed: <?= $accepted_count?>/<?= $volunteer_needed ?>
+                                                    </div>
+                                                    <div class="mt-2 flex items-center font-bold text-base text-gray-600">
+                                                        <svg
+                                                            class="h-5 w-5 mr-2 bg-green-100 rounded-lg text-fuchsia-600"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor">
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
+                                                        </svg>
+                                                        Max Application: <?= $total_applications?>/<?= $max_application ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -305,25 +398,25 @@ $result = $stmt->get_result();
                                             <div class="grid grid-cols-3 gap-4">
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center ">
                                                     <p class="text-sm font-medium text-gray-500">Total Applications</p>
-                                                    <p class="mt-2 text-xl font-bold text-gray-900">24</p>
+                                                    <p class="mt-2 text-xl font-bold text-gray-900"><?= $total_applications?></p>
                                                 </div>
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center">
                                                     <p class="text-sm font-medium text-gray-500">Approved</p>
-                                                    <p class="mt-2 text-xl font-bold text-green-600">15</p>
+                                                    <p class="mt-2 text-xl font-bold text-green-600"><?= $accepted_count?></p>
                                                 </div>
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center">
                                                     <p class="text-sm font-medium text-gray-500">Pending</p>
-                                                    <p class="mt-2 text-xl font-bold text-amber-500">9</p>
+                                                    <p class="mt-2 text-xl font-bold text-amber-500"><?= $pending_count?></p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="mt-6 flex justify-end space-x-4">
-                                            <button onclick="window.location.href='/events/1'"
+                                            <button onclick="window.location.href='event_detail.php?id=<?= base64_encode($event_id) ?>'"
                                                 class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 View Details
                                             </button>
-                                            <button onclick="window.location.href='/events/1/applications'"
+                                            <button onclick="window.location.href='Event_Applications.php?id=<?= base64_encode($event_id) ?>'"
                                                 class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 View Applications
                                             </button>
@@ -504,15 +597,36 @@ $result = $stmt->get_result();
 
                         // Add active classes to clicked tab
                         $(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
+                        let Type = $(this).data("status");
+                       // alert(Type);
+                        var organizer_id = <?= $user_id ?>
+
+
+                        $.ajax({
+                            url: "Backend/my_events.php", // Backend PHP script
+                            method: "POST",
+                            data: {
+                                type: Type,
+                                org_id: organizer_id
+                            },
+                            success: function(response) {
+                                $(".event_list").html(response); // Show results
+                                //  $("#events-list").html(""); // Clear results if input is empty
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("AJAX Error: " + status + " " + error);
+                                alert("AJAX Error: " + status + " " + error);
+                            }
+                        });
                     });
 
-                    $('nav button').click(function() {
-                        // Remove active classes from all tabs
-                        $('nav button').removeClass('border-blue-500 text-blue-600').addClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
+                    // $('nav button').click(function() {
+                    //     // Remove active classes from all tabs
+                    //     $('nav button').removeClass('border-blue-500 text-blue-600').addClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
 
-                        // Add active classes to clicked tab
-                        $(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
-                    });
+                    //     // Add active classes to clicked tab
+                    //     $(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
+                    // });
 
                     $(".delete-event").click(function(e) {
                         e.preventDefault();
@@ -545,40 +659,7 @@ $result = $stmt->get_result();
 
 
 
-                    function confirmDelete(eventId) {
-                        if (confirm("Are you sure you want to delete this event?")) {
-                            alert('HELLO');
-                            //window.location.href = 'delete_event.php?id=' + eventId;
 
-                            // $.ajax({
-                            //     url: "Backend/edit_event.php", // Update with your correct path to dl.php
-                            //     type: "POST",
-                            //     data: {
-                            //         search: query
-                            //     },
-                            //     cache: false,
-                            //     processData: false, // Prevent jQuery from processing data
-                            //     contentType: false, // Let browser set the correct content type
-                            //     dataType: 'json', // Expect a JSON response
-                            //     success: function(response) {
-                            //         if (response.status === 'success') {
-                            //             alert(response.message); // Show success message
-                            //             //form.submit();
-                            //             form.reset(); // Reset the form
-                            //             //loadContent('dl');
-                            //         } else {
-                            //             alert(response.message); // Show error message if any
-                            //             // loadContent('dl');
-                            //         }
-                            //     },
-                            //     error: function(xhr, status, error) {
-                            //         console.log("AJAX Error: " + status + " " + error);
-                            //         console.log("Server Response: " + xhr.responseText); // Logs the actual server response
-                            //     }
-                            // });
-
-                        }
-                    }
                 });
             </script>
         </div>

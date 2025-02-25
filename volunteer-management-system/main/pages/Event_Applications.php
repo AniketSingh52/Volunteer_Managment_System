@@ -22,6 +22,142 @@ if ($result && $row = $result->fetch_assoc()) {
 
 }
 
+//GET THE EVENT ID FOR DETAILS FETCHING
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $event_id = base64_decode($_GET['id']);
+
+    // echo "
+    // <script>
+    // alert('$event_id');
+    // </script>
+    // ";
+
+    // SQL query to GET EVENT DETAILS
+    $sql = "SELECT * FROM `events`
+            WHERE event_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $event_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+        if ($row = $result->fetch_assoc()) {
+
+            $event_name = $row['event_name'];
+
+            //Convert Date to Human Readable Format
+            $from_date = date('jS M y', strtotime($row['from_date']));
+            $to_date = date('jS M y', strtotime($row['to_date']));
+
+            $from_time = $row['from_time'];
+            $to_time = $row['to_time'];
+
+
+            //Convert 24 Hour format to 12 Hour format
+            $from_time = date("h:i A", strtotime($from_time));
+            $to_time = date("h:i A", strtotime($to_time));
+
+
+            $volunteer_needed = $row['volunteers_needed'];
+            $event_image = $row['poster'];
+            $event_image = preg_replace('/^\.\.\//', '', $event_image);
+
+            // $date_of_creation = $row['date_of_creation'];
+            $status = $row['status'];
+
+            //'Ongoing','Scheduled','Completed','Cancelled'
+            if ($status == "Ongoing") {
+                $status_style = " bg-green-500/90 hover:bg-green-800/90  duration-300 transition-all ";
+            } elseif ($status == "Scheduled") {
+                $status_style = " bg-sky-500/90 hover:bg-sky-800/90  duration-300 transition-all ";
+            } elseif ($status == "Completed") {
+                $status_style = " bg-indigo-500/90 hover:bg-indigo-800/90  duration-300 transition-all ";
+            } else {
+                $status_style = " bg-red-500 hover:bg-red-800/90  duration-300 transition-all ";
+            }
+
+
+            // Fetch application data from the database based on event_id
+            $sql = "SELECT u.*, ea.status as applicunt_status, ea.date as date_of_application
+                    FROM user u
+                    JOIN events_application ea ON u.user_id = ea.volunteer_id
+                    WHERE ea.event_id = ? ORDER BY ea.date ASC
+                    ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $event_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $availabe = 1;
+            } else {
+                $availabe = 0;
+            }
+            $applications = $result->fetch_all(MYSQLI_ASSOC);
+
+
+            $query = "SELECT 
+    event_id, 
+    COUNT(*) AS total_applications, 
+    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+FROM events_application
+WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+GROUP BY event_id;
+";
+
+            // Prepare and execute the statement
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $event_id); // "i" for integer
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Initialize variables
+            $pending_count = 0;
+            $rejected_count = 0;
+            $accepted_count = 0;
+            $total_applications = 0;
+
+
+            // Fetch the results and store in variables
+            if ($row = $result->fetch_assoc()) {
+                $pending_count = $row['pending_count'];
+                $rejected_count = $row['rejected_count'];
+                $accepted_count = $row['accepted_count'];
+                $total_applications = $row['total_applications'];
+            }
+
+
+            // //Fetch Organizator Details using Organization ID
+            // $sql = "SELECT * FROM `user` WHERE user_id=?";
+            // $stmt = $conn->prepare($sql);
+            // $stmt->bind_param("i", $organization_id);
+            // $stmt->execute();
+            // $result = $stmt->get_result();
+            // $row = $result->fetch_assoc();
+            // $organization_name = $row['name'];
+            // $profile = $row['profile_picture'];
+            // $user_address = $row['address'];
+            // $user_email = $row['email'];
+            // $user_doe = date('jS M Y', strtotime($row['DOB/DOE']));
+            // $profile = preg_replace('/^\.\.\//', '', $profile);
+
+            // //Fetch Organization Type
+            // $sql = "SELECT type_name FROM `organization_type` WHERE type_id in (SELECT type_id FROM `organization_belongs_type` WHERE user_id=?)";
+            // $stmt = $conn->prepare($sql);
+            // $stmt->bind_param("i", $organization_id);
+            // $stmt->execute();
+            // $result = $stmt->get_result();
+            // $row = $result->fetch_assoc();
+            // $organization_type = $row['type_name'];
+        }
+    }
+} else {
+    echo "<script>alert('Select an Event.'); window.location.href='search_event.php';</script>";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +190,9 @@ if ($result && $row = $result->fetch_assoc()) {
         defer
         src="https://unpkg.com/alpinejs@3.1.1/dist/cdn.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lucide-icons@0.294.0/dist/umd/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 
     <title>Volunteer Management</title>
 
@@ -131,17 +270,18 @@ if ($result && $row = $result->fetch_assoc()) {
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-12">
                     <div class="relative h-[500px]">
                         <img
-                            src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000"
-                            alt="Community Garden Clean-up"
+                            src="<?= $event_image ?>"
+                            alt="<?= $event_name ?>"
                             class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-8 text-white">
                             <div class="flex items-center space-x-4 mb-4">
-                                <span class="bg-green-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold">Active</span>
-                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm">10 spots remaining</span>
+                                <span class="<?= $status_style ?> backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold"><?= $status ?></span>
+                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm"><?= $volunteer_needed- $accepted_count ?> spots remaining</span>
                             </div>
-                            <h1 class="text-4xl font-bold mb-2">Community Garden Clean-up</h1>
-                            <p class="text-lg opacity-90">March 20, 2024 • 09:00 AM - 02:00 PM</p>
+                            <h1 class="text-4xl font-bold mb-2"><?= $event_name ?></h1>
+                            <p class="text-lg opacity-90"><?= $from_date ?> • <?= $to_date ?>, <?= $from_time ?> - <?= $to_time ?></p>
+
                         </div>
                     </div>
 
@@ -149,19 +289,19 @@ if ($result && $row = $result->fetch_assoc()) {
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 p-8 bg-white">
                         <div class="text-center">
                             <p class="text-sm font-medium text-gray-500">Total Applications</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">24</p>
+                            <p class="mt-2 text-3xl font-bold text-gray-900"><?= $total_applications ?></p>
                         </div>
                         <div class="text-center">
                             <p class="text-sm font-medium text-gray-500">Accepted</p>
-                            <p class="mt-2 text-3xl font-bold text-green-600">15</p>
+                            <p class="mt-2 text-3xl font-bold text-green-600"><?= $accepted_count ?></p>
                         </div>
                         <div class="text-center">
                             <p class="text-sm font-medium text-gray-500">Pending</p>
-                            <p class="mt-2 text-3xl font-bold text-amber-500">6</p>
+                            <p class="mt-2 text-3xl font-bold text-amber-500"><?= $pending_count ?></p>
                         </div>
                         <div class="text-center">
                             <p class="text-sm font-medium text-gray-500">Rejected</p>
-                            <p class="mt-2 text-3xl font-bold text-red-600">3</p>
+                            <p class="mt-2 text-3xl font-bold text-red-600"><?= $rejected_count ?></p>
                         </div>
                     </div>
                 </div>
@@ -171,24 +311,24 @@ if ($result && $row = $result->fetch_assoc()) {
                     <div class="flex justify-between items-center">
                         <h2 class="text-2xl font-bold text-gray-900">Volunteer Applications</h2>
                         <div class="flex space-x-4">
-                            <select class="rounded-lg px-4 py-2 border-gray-300 text-gray-700 text-sm focus:ring-blue-500 focus:border-blue-500">
+                            <select class="filter rounded-lg px-4 py-2 border-gray-300 text-gray-700 text-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option value="all">All Applications</option>
                                 <option value="pending">Pending</option>
                                 <option value="accepted">Accepted</option>
                                 <option value="rejected">Rejected</option>
                             </select>
-                            <select class="rounded-lg  px-4 py-2 border-gray-300 text-gray-700 text-sm focus:ring-blue-500 focus:border-blue-500">
+                            <!-- <select class="rounded-lg  px-4 py-2 border-gray-300 text-gray-700 text-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option value="newest">Newest First</option>
                                 <option value="oldest">Oldest First</option>
                                 <option value="score">Highest Score</option>
-                            </select>
+                            </select> -->
                         </div>
                     </div>
 
                     <!-- Application Cards -->
-                    <div class="space-y-6">
-                        <!-- Application 1 -->
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- <div class="space-y-6"> -->
+                    <!-- Application 1 -->
+                    <!-- <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                             <div class="p-6">
                                 <div class="flex items-start justify-between">
                                     <div class="flex space-x-4">
@@ -241,10 +381,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <!-- Application 2 -->
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Application 2 -->
+                    <!-- <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                             <div class="p-6">
                                 <div class="flex items-start justify-between">
                                     <div class="flex space-x-4">
@@ -297,10 +437,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <!-- Application 3 -->
-                        <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Application 3 -->
+                    <!-- <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                             <div class="p-6">
                                 <div class="flex items-start justify-between">
                                     <div class="flex space-x-4">
@@ -350,11 +490,272 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> -->
+                    <!-- </div> -->
 
+
+                    <!-- Applications List -->
+                    <div class="space-y-6 application_list">
+                        <!-- Application 1 -->
+
+                        <?php foreach ($applications as $applicunt):
+                            $applicunt_status = "";
+                            $applicunt_status_style = "";
+                            $applicunt_id = $applicunt['user_id'];
+                            $profile = $applicunt['profile_picture']; //Original String
+                            $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
+                            $date_of_joining = date('jS M y', strtotime($applicunt['registration_date']));
+                            $date_of_application = date('jS M y', strtotime($applicunt['date_of_application']));
+                            switch ($applicunt['applicunt_status']) {
+                                case 'pending':
+                                    $applicunt_status = 'Pending';
+                                    $applicunt_status_style = "bg-amber-100 text-amber-800";
+                                    break;
+                                case 'rejected':
+                                    $applicunt_status = 'Rejected';
+                                    $applicunt_status_style = "bg-red-100 text-red-800";
+                                    break;
+                                case 'accepted':
+                                    $applicunt_status = 'Accepted';
+                                    $applicunt_status_style = "bg-green-100 text-green-800";
+                                    break;
+                            }
+
+                            $gender = $applicunt['gender'];
+                            switch ($gender) {
+                                case 'M':
+                                    $gender = 'Male';
+
+                                    break;
+                                case 'F':
+                                    $gender = 'Female';
+
+                                    break;
+                                case 'O':
+                                    $gender = 'Others';
+
+                                    break;
+                                default:
+                                    $gender = 'Not Specified';
+                                    break;
+                            }
+
+
+                            $query = "SELECT status,COUNT(*) AS total from events_application where volunteer_id=? group by status";
+
+                            // Prepare and execute the statement
+                            $stmt = $conn->prepare($query);
+                            $stmt->bind_param("i", $applicunt_id); // "i" for integer
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            // Initialize variables
+                            $accepted = 0;
+                            $rejected = 0;
+                            $pending = 0;
+
+
+                            // Fetch the results and store in variables
+                            while ($row = $result->fetch_assoc()) {
+                                switch ($row['status']) {
+                                    case 'accepted':
+                                        $accepted = $row['total'];
+                                        break;
+                                    case 'pending':
+                                        $pending = $row['total'];
+                                        break;
+                                    case 'rejected':
+                                        $rejected = $row['total'];
+                                        break;
+                                }
+                            }
+
+                        ?>
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="p-6">
+                                    <!-- Header Section -->
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex flex-grow space-x-6">
+                                            <img
+                                                src="<?= $profile ?>"
+                                                alt="<?= $applicunt['name'] ?>"
+                                                class="h-24 w-24 rounded-xl object-cover border-2 border-gray-200">
+                                            <div class="flex-1">
+                                                <div class="flex justify-between items-start">
+                                                    <div>
+                                                        <h3 class="text-2xl font-bold text-gray-900"><?= $applicunt['name'] ?> <span class=" ml-3 text-sm text-gray-700 border-2 border-gray-200 shadow-sm rounded-xl px-2 py-1 bg-gray-200"><?= $date_of_application ?></span></h3>
+                                                        <p class="text-base text-gray-500">User ID: @<?= $applicunt['user_name'] ?></p>
+                                                    </div>
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?= $applicunt_status_style ?>">
+                                                        <?= $applicunt_status ?>
+                                                    </span>
+                                                </div>
+                                                <div class="mt-4 flex items-center space-x-4">
+                                                    <div class="flex items-center">
+                                                        <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                        </svg>
+                                                        <p class="ml-1.5 text-base font-medium text-gray-600">Volunteer Score: 4900</p>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i data-lucide="clock" class="h-5 w-5 text-blue-500"></i>
+                                                        <p class="ml-1.5 text-base font-medium text-gray-600">Joined: <?= $date_of_joining ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Details Grid -->
+                                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="space-y-4">
+                                            <div>
+                                                <h4 class="text-lg font-medium text-gray-500 mb-1">Personal Information</h4>
+                                                <div class="space-y-2">
+                                                    <div class="flex items-center">
+                                                        <i data-lucide="calendar" class="h-4 w-4 text-blue-600 mr-2"></i>
+                                                        <span class="text-base text-gray-600">DOB: <?= $applicunt['DOB/DOE'] ?></span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i data-lucide="user" class="h-4 w-4 text-green-600 mr-2"></i>
+                                                        <span class="text-base text-gray-600">Gender: <?= $gender ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="text-lg font-medium text-gray-500 mb-1">Contact Information</h4>
+                                                <div class="space-y-2">
+                                                    <div class="flex items-center">
+                                                        <i data-lucide="mail" class="h-4 w-4 text-purple-700 mr-2"></i>
+                                                        <span class="text-base text-gray-600"><?= $applicunt['email'] ?></span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i data-lucide="phone" class="h-4 w-4 text-indigo-800 mr-2"></i>
+                                                        <span class="text-base text-gray-600">+91 <?= $applicunt['contact'] ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-4">
+                                            <div>
+                                                <h4 class="text-lg font-medium text-gray-500 mb-1">Location</h4>
+                                                <div class="space-y-2">
+                                                    <div class="flex items-start">
+                                                        <i data-lucide="map-pin" class="h-4 w-4 text-violet-700 mr-2 mt-0.5"></i>
+                                                        <span class="text-base text-gray-600"> <?= $applicunt['address'] ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h4 class="text-lg font-medium text-gray-500 mb-1">Skills</h4>
+                                                <div class="mt-2 flex flex-wrap gap-2">
+
+                                                    <?php
+                                                    $sql = "SELECT skill_name FROM `skill` WHERE skill_id in (SELECT skill_id FROM `volunteer_skill` WHERE user_id=?)";
+                                                    $stmt = $conn->prepare($sql);
+                                                    $stmt->bind_param("i", $applicunt_id);
+                                                    $stmt->execute();
+                                                    $result = $stmt->get_result();
+                                                    $index = 0;
+                                                    $styles = [
+                                                        "bg-amber-100 text-amber-800 hover:bg-amber-200",
+                                                        "bg-violet-100 text-violet-800 hover:bg-violet-200",
+                                                        "bg-rose-100 text-rose-800 hover:bg-rose-200",
+                                                        "bg-fuchsia-100 text-fuchsia-800 hover:bg-fuchsia-200 ",
+                                                        "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 "
+                                                    ];
+
+                                                    if ($result->num_rows > 0) {
+
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            $skill_name = $row['skill_name'];
+                                                            $style = $styles[$index % 2];
+                                                            $index++;
+                                                            echo '
+                                                         <span class=" ' . $style . '   inline-flex items-center px-3 py-1 rounded-full text-base font-medium  cursor-pointer">' . $skill_name . '</span>
+                                                            ';
+                                                        }
+                                                    } else {
+                                                        echo '
+                                                            <span class=" bg-orange-100 text-orange-800 hover:bg-orange-200  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 cursor-pointer"> No Skill</span>
+                                                                                    ';
+                                                    }
+
+
+                                                    ?>
+                                                    <!-- <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                                    Communication
+                                                </span>
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                                                    Leadership
+                                                </span>
+                                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                    Gardening
+                                                </span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Statistics -->
+                                    <div class="mt-6 grid grid-cols-2 gap-4">
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-base font-semibold text-gray-500">Events Attended</div>
+                                            <div class="text-lg font-semibold text-gray-900"><?= $accepted ?></div>
+                                        </div>
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-base font-semibold text-gray-500">Events to Attend</div>
+                                            <div class="text-lg font-semibold text-gray-900"><?= $pending ?></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="mt-6 flex justify-end space-x-4">
+                                        <button onclick="window.location.href='profile.php?<? base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            View Full Profile
+                                        </button>
+                                        <div class="applicunt_action">
+
+                                            <?php if ($applicunt_status == 'Accepted') {
+                                                echo '
+                                             <button data-action="rejected" data-userid="' . $applicunt_id . '" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                Reject
+                                            </button>
+                                            ';
+                                            } elseif ($applicunt_status == 'Rejected') {
+                                                echo '
+                                                 <button data-action="accepted" data-userid="' . $applicunt_id . '" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                Accept
+                                               </button>
+                                                ';
+                                            } else { ?>
+                                                <button data-action="rejected" data-userid="<?= $applicunt_id ?>" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                    Reject
+                                                </button>
+                                                <button data-action="accepted" data-userid="<?= $applicunt_id ?>" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                    Accept
+                                                </button>
+                                            <?php
+                                            } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php
+                        if ($availabe == 0) {
+                            echo "<h1 class=' text-2xl h-72 text-center mb-40'>No Applications Yet</h1> ";
+                        }
+
+                        ?>
+
+
+                    </div>
                     <!-- Pagination -->
-                    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-lg mt-6">
+                    <!-- <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-lg mt-6">
                         <div class="flex flex-1 justify-between sm:hidden">
                             <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
                             <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
@@ -386,7 +787,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                 </nav>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -409,6 +810,173 @@ if ($result && $row = $result->fetch_assoc()) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../js/main.js"></script>
 
+    <!-- <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        $(document).ready(function() {
+            // Tab switching functionality
+            $('.applicunt_action button').click(function() {
+                // Remove active classes from all tabs
+                //$('nav button').removeClass('border-blue-500 text-blue-600').addClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
+
+                // Add active classes to clicked tab
+                //$(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
+                let action = $(this).data("action");
+                let user = $(this).data("userid");
+                var eventID = <?= $event_id ?>;
+                // location.reload();
+                // $(this).attr('disabled', true);
+                alert(action);
+                alert(user);
+
+
+                $.ajax({
+                    url: "Backend/Application_status.php", // Backend PHP script
+                    method: "POST",
+                    data: {
+                        action: action,
+                        user_id: user,
+                        event_id: eventID
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            alert(response.message); // Show success message
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error: " + status + " " + error);
+                        alert("AJAX Error: " + status + " " + error);
+                    }
+                });
+            });
+            $('.filter').change(function() {
+                let filter = $(this).val();
+                var eventID = <?= $event_id ?>;
+                alert(filter)
+                $.ajax({
+                    url: "Backend/Application_filter.php", // Backend PHP script
+                    method: "POST",
+                    data: {
+                        filter: filter,
+                        event_id: eventID
+                    },
+                    success: function(response) {
+                        // alert("Review submitted successfully!");
+                        //location.reload();
+                        $(".application_list").html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error: " + status + " " + error);
+                        alert("AJAX Error: " + status + " " + error);
+                    }
+                });
+            });
+
+        });
+    </script> -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        $(document).ready(function() {
+
+            // Tab switching functionality using event delegation
+            $(document).on('click', '.applicunt_action button', function() {
+                let action = $(this).data("action");
+                let user = $(this).data("userid");
+                var eventID = <?= $event_id ?>;
+                var volunteer_count = <?= $volunteer_needed ?>;
+                var accepted_count = <?= $accepted_count ?>;
+                if (action == "accepted") {
+                    if (volunteer_count > accepted_count) {
+                        //alert(action);
+                        //alert(user);
+
+                        $.ajax({
+                            url: "Backend/Application_status.php", // Backend PHP script
+                            method: "POST",
+                            data: {
+                                action: action,
+                                user_id: user,
+                                event_id: eventID
+                            },
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    alert(response.message); // Show success message
+                                    location.reload();
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("AJAX Error: " + status + " " + error);
+                                alert("AJAX Error: " + status + " " + error);
+                            }
+                        });
+
+                    } else {
+                        alert("Can't Accep the application, Maximum Volunteer Limit Reached !!! ");
+                    }
+
+                } else {
+
+                    $.ajax({
+                        url: "Backend/Application_status.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            action: action,
+                            user_id: user,
+                            event_id: eventID
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(response.message); // Show success message
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
+                        }
+                    });
+
+                }
+
+
+            });
+
+            // Filter functionality using event delegation
+            $(document).on('change', '.filter', function() {
+                let filter = $(this).val();
+                var eventID = <?= $event_id ?>;
+                //alert(filter);
+
+                $.ajax({
+                    url: "Backend/Application_filter.php", // Backend PHP script
+                    method: "POST",
+                    data: {
+                        filter: filter,
+                        event_id: eventID
+                    },
+                    success: function(response) {
+                        $(".application_list").html(response);
+                        // Re-initialize Lucide icons after content update
+                        lucide.createIcons();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error: " + status + " " + error);
+                        alert("AJAX Error: " + status + " " + error);
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script>
         // start: Sidebar

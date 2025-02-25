@@ -227,11 +227,11 @@ if ($result && $row = $result->fetch_assoc()) {
         </a>
       </li>
       <li class="mb-1 group">
-        <a
-          href=""
+        <a href="my_events.php"
+
           class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
           <i class="bx bx-book-bookmark mr-3 text-lg"></i>
-          <span class="text-sm">My Applications</span>
+          <span class="text-sm">Manage Events</span>
         </a>
       </li>
 
@@ -723,7 +723,7 @@ if ($result && $row = $result->fetch_assoc()) {
                   </div>
 
                   <div class="carousel-item relative h-full hidden">
-                      <div
+                    <div
                       class="absolute top-0 -right-10 bg-red-600 px-6 py-3 text-white mt-3 mr-5 font-semibold rotate-45 tracking-widest text-base hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out rounded-sm shadow-lg">
                       Latest
                     </div>

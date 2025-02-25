@@ -104,6 +104,38 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 $days_ago = "Started";
             }
 
+            $query = "SELECT 
+    event_id, 
+    COUNT(*) AS total_applications, 
+    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+FROM events_application
+WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+GROUP BY event_id;
+";
+
+            // Prepare and execute the statement
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $event_id); // "i" for integer
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Initialize variables
+            $pending_count = 0;
+            $rejected_count = 0;
+            $accepted_count = 0;
+            $total_applications = 0;
+
+
+            // Fetch the results and store in variables
+            if ($row = $result->fetch_assoc()) {
+                $pending_count = $row['pending_count'];
+                $rejected_count = $row['rejected_count'];
+                $accepted_count = $row['accepted_count'];
+                $total_applications = $row['total_applications'];
+            }
+
             //Fetch Organizator Details using Organization ID
             $sql = "SELECT * FROM `user` WHERE user_id=?";
             $stmt = $conn->prepare($sql);
@@ -324,7 +356,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Volunteers</p>
-                                        <p class="text-green-500 font-semibold">0/<?php echo htmlspecialchars($volunteer_needed) ?> Spots</p>
+                                        <p class="text-green-500 font-semibold"><?= $accepted_count?>/<?php echo htmlspecialchars($volunteer_needed) ?> Spots</p>
                                     </div>
                                 </div>
                             </div>
@@ -633,13 +665,17 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                 ';
                                 } else {
 
-                                    echo '
-                                <button onclick="window.location.href=\'apply_event.php?id=' . base64_encode($event_id) . '\'" 
-                                class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                                Apply Now
+                                    $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
+                                    $checkResult2 = $conn->query($sql2);
+                                    if ($checkResult2->num_rows > 0) {
+
+                                        echo '
+                                <button disabled 
+                                class="w-full  bg-emerald-500 text-white px-8 py-4 rounded-xl font-bold text-lg ">
+                                <i class="bx bxs-bookmark-minus mr-4"></i>Applied
                                 </button>';
 
-                                    echo '
+                                        echo '
                                  <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
                                     class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
                                     transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
@@ -647,6 +683,24 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                 </button>
                                 
                                 ';
+                                    } else{
+                                        echo '
+                                <button onclick="window.location.href=\'apply_event.php?id=' . base64_encode($event_id) . '\'" 
+                                class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                Apply Now
+                                </button>';
+
+                                        echo '
+                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
+                                    class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
+                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                   Contact Organizer
+                                </button>
+                                
+                                ';
+
+                                    }
+
                                 }
 
                                 ?>
