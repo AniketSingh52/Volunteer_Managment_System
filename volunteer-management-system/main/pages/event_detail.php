@@ -2,6 +2,7 @@
 
 <?php
 session_start();
+error_reporting(0);
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
@@ -10,6 +11,7 @@ if (!$user_id) {
 } else {
     //echo "<script>alert('$user_id');</script>";
 }
+
 
 $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
 $result = $conn->query($sql);
@@ -20,6 +22,114 @@ if ($result && $row = $result->fetch_assoc()) {
     $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
     //echo "<script>alert('$profile');</script>";  
 
+
+}
+
+
+
+//GET THE EVENT ID FOR DETAILS FETCHING
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $event_id = base64_decode($_GET['id']);
+
+    // echo "
+    // <script>
+    // alert('$event_id');
+    // </script>
+    // ";
+
+    // SQL query to GET EVENT DETAILS
+    $sql = "SELECT * FROM `events`
+            WHERE event_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $event_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+
+        if ($row = $result->fetch_assoc()) {
+
+            $event_name = $row['event_name'];
+
+            //Convert Date to Human Readable Format
+            $from_date = date('jS M y', strtotime($row['from_date']));
+            $to_date = date('jS M y', strtotime($row['to_date']));
+
+            $from_time = $row['from_time'];
+            $to_time = $row['to_time'];
+
+
+            //Convert 24 Hour format to 12 Hour format
+            $from_time = date("h:i A", strtotime($from_time));
+            $to_time = date("h:i A", strtotime($to_time));
+
+            $description = $row['description'];
+            $location = $row['location'];
+            $volunteer_needed = $row['volunteers_needed'];
+
+            $organization_id = $row['organization_id'];
+            $event_image = $row['poster'];
+            $event_image = preg_replace('/^\.\.\//', '', $event_image);
+
+            $date_of_creation = $row['date_of_creation'];
+            $status = $row['status'];
+
+            //'Ongoing','Scheduled','Completed','Cancelled'
+            if ($status == "Ongoing") {
+                $status_style = " bg-green-500/90 hover:bg-green-800/90  duration-300 transition-all ";
+            } elseif ($status == "Scheduled") {
+                $status_style = " bg-sky-500/90 hover:bg-sky-800/90  duration-300 transition-all ";
+            } elseif ($status == "Completed") {
+                $status_style = " bg-indigo-500/90 hover:bg-indigo-800/90  duration-300 transition-all ";
+            } else {
+                $status_style = " bg-red-500 hover:bg-red-800/90  duration-300 transition-all ";
+            }
+
+            //Calculate Days Ago
+            $creation_date = new DateTime($from_date);
+            $end_date=new DateTime($to_date);
+            $today = new DateTime();
+            $diff = $creation_date->diff($today);
+
+            if ($creation_date > $today) {
+                $days_ago = "{$diff->days} days remaining";
+            } elseif ($creation_date < $today) {
+                if($today<$end_date){
+                    $days_ago = "Ongoing";
+                }else{
+                $days_ago = "Completed";
+                }
+            } else {
+                $days_ago = "Started";
+            }
+
+            //Fetch Organizator Details using Organization ID
+            $sql = "SELECT * FROM `user` WHERE user_id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $organization_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $organization_name = $row['name'];
+            $profile = $row['profile_picture'];
+            $user_address = $row['address'];
+            $user_email = $row['email'];
+            $user_doe = date('jS M Y', strtotime($row['DOB/DOE']));
+            $profile = preg_replace('/^\.\.\//', '', $profile);
+
+            //Fetch Organization Type
+            $sql = "SELECT type_name FROM `organization_type` WHERE type_id in (SELECT type_id FROM `organization_belongs_type` WHERE user_id=?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $organization_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $organization_type = $row['type_name'];
+        }
+    }
+} else {
+    echo "<script>alert('Select an Event.'); window.location.href='search_event.php';</script>";
 }
 
 ?>
@@ -29,7 +139,7 @@ if ($result && $row = $result->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Volunteer Management</title>
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <?php include('../../library/library.php'); ?>
     <!-- For Latest Event Images can be deleted coursel-->
@@ -125,31 +235,33 @@ if ($result && $row = $result->fetch_assoc()) {
 
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
-
+            <button onclick="history.back()" class="flex items-center gap-1  text-gray-700 font-semibold rounded-lg hover:text-blue-400 transition-all duration-200 px-2 text-xl hover:scale-105">
+                <i class=" bx bx-arrow-back text-2xl"></i>Back
+            </button>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <!-- Event Header -->
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-12">
                     <div class="relative h-[500px]">
                         <img
-                            src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2000"
-                            alt="Community Garden Clean-up"
+                            src="<?php echo htmlspecialchars($event_image) ?>"
+                            alt="<?php echo htmlspecialchars($event_name) ?>"
                             class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-12 text-white max-w-3xl">
                             <div class="flex items-center space-x-6 mb-6">
                                 <img
-                                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150"
+                                    src="<?php echo htmlspecialchars($profile) ?>"
                                     alt="Organizer"
                                     class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-xl">
                                 <div>
-                                    <h3 class="text-xl font-semibold mb-1">Green Earth Initiative</h3>
-                                    <p class="text-base opacity-90">Environmental Organization</p>
+                                    <h3 class="text-xl font-semibold mb-1"><?php echo htmlspecialchars($organization_name) ?></h3>
+                                    <p class="text-base opacity-90"><?php echo htmlspecialchars($organization_type) ?></p>
                                 </div>
                             </div>
-                            <h1 class="text-5xl font-bold mb-4 leading-tight">Community Garden Clean-up</h1>
+                            <h1 class="text-5xl font-bold mb-4 leading-tight"><?php echo htmlspecialchars($event_name) ?></h1>
                             <div class="flex items-center space-x-4">
-                                <span class="bg-green-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg">Ongoing</span>
-                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium">10 days remaining</span>
+                                <span class=" <?php echo htmlspecialchars($status_style) ?>  px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg"><?php echo htmlspecialchars($status) ?></span>
+                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium"><?php echo htmlspecialchars($days_ago) ?></span>
                             </div>
                         </div>
                     </div>
@@ -172,7 +284,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Date</p>
-                                        <p class="text-gray-700 font-semibold">March 20, 2024 </p>
+                                        <p class="text-gray-700 font-semibold"><?php echo htmlspecialchars($from_date) ?> • <?php echo htmlspecialchars($to_date) ?></p>
                                     </div>
                                 </div>
 
@@ -185,7 +297,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Time</p>
-                                        <p class="text-gray-700 font-semibold">09:00 AM - 02:00 PM</p>
+                                        <p class="text-gray-700 font-semibold"><?php echo htmlspecialchars($from_time) ?> - <?php echo htmlspecialchars($to_time) ?></p>
                                     </div>
                                 </div>
 
@@ -200,7 +312,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Location</p>
-                                        <p class="text-gray-700 font-semibold">Central Community Garden</p>
+                                        <p class="text-gray-700 font-semibold"><?php echo htmlspecialchars($location) ?></p>
                                     </div>
                                 </div>
 
@@ -212,7 +324,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Volunteers</p>
-                                        <p class="text-green-500 font-semibold">0/10 Spots</p>
+                                        <p class="text-green-500 font-semibold">0/<?php echo htmlspecialchars($volunteer_needed) ?> Spots</p>
                                     </div>
                                 </div>
                             </div>
@@ -221,35 +333,97 @@ if ($result && $row = $result->fetch_assoc()) {
                                 <div>
                                     <h3 class="text-xl font-bold mb-4 text-gray-900">About This Event</h3>
                                     <p class="text-gray-600 leading-relaxed text-lg">
-                                        Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds.
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet
-                                        sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?
+                                        <?php echo htmlspecialchars($description) ?>
                                     </p>
                                 </div>
 
                                 <div>
                                     <h3 class="text-xl font-bold mb-4 text-gray-900">Tags</h3>
                                     <div class="flex flex-wrap gap-3">
-                                        <span class="bg-amber-100 text-amber-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-amber-200 cursor-pointer">Animal Rescue</span>
+
+                                        <!-- Populating the Tag based on event_id -->
+                                        <?php
+                                        $sql = "SELECT name FROM `causes` WHERE cause_id in (SELECT cause_id FROM `event_has_causes` WHERE event_id=?)";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->bind_param("i", $event_id);
+                                        $stmt->execute();
+                                        $result = $stmt->get_result();
+                                        $index = 0;
+                                        $styles = [
+                                            "bg-amber-100 text-amber-800 hover:bg-amber-200",
+                                            "bg-violet-100 text-violet-800 hover:bg-violet-200",
+                                            "bg-rose-100 text-rose-800 hover:bg-rose-200",
+                                            "bg-fuchsia-100 text-fuchsia-800 hover:bg-fuchsia-200 ",
+                                            "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 "
+                                        ];
+
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $cause_name = $row['name'];
+                                                $style = $styles[$index % 5];
+                                                $index++;
+                                                echo '
+                                                <span class="' . $style . '  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 cursor-pointer">' . $cause_name . '</span>
+                                                ';
+                                            }
+                                        } else {
+                                            echo '
+                                                <span class="rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 cursor-pointer"> No Tags</span>
+                                                ';
+                                        }
+                                        ?>
+
+                                        <!-- <span class="bg-amber-100 text-amber-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-amber-200 cursor-pointer">Animal Rescue</span>
                                         <span class="bg-violet-100 text-violet-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-violet-200 cursor-pointer">Social Awareness</span>
                                         <span class="bg-rose-100 text-rose-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-rose-200 cursor-pointer">Clean-Up Drives</span>
                                         <span class="bg-emerald-100 text-emerald-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-emerald-200 cursor-pointer">Education Tour</span>
-                                        <span class="bg-fuchsia-100 text-fuchsia-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-fuchsia-200 cursor-pointer">Donation Collection</span>
+                                        <span class="bg-fuchsia-100 text-fuchsia-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-fuchsia-200 cursor-pointer">Donation Collection</span> -->
                                     </div>
                                 </div>
 
                                 <div>
                                     <h3 class="text-xl font-bold mb-4 text-gray-900">Required Skills</h3>
                                     <div class="flex flex-wrap gap-3">
-                                        <span class="bg-lime-100 text-lime-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-lime-200 cursor-pointer">Communication</span>
-                                        <span class="bg-sky-100 text-sky-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-sky-200 cursor-pointer">Management</span>
+
+                                        <!-- Populating the skill required based on event_id -->
+                                        <?php
+                                        $sql = "SELECT skill_name FROM `skill` WHERE skill_id in (SELECT skill_id FROM `event_req_skill` WHERE event_id=?)";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->bind_param("i", $event_id);
+                                        $stmt->execute();
+                                        $result = $stmt->get_result();
+                                        $index2 = 0;
+                                        $styles2 = [
+                                            "bg-lime-100 text-lime-800 hover:bg-lime-200",
+                                            "bg-sky-100 text-sky-800 hover:bg-sky-200 "
+                                        ];
+
+                                        if ($result->num_rows > 0) {
+
+                                            while ($row = $result->fetch_assoc()) {
+                                                $skill_name = $row['skill_name'];
+                                                $style2 = $styles2[$index2 % 2];
+                                                $index2++;
+                                                echo '
+                                                <span class=" ' . $style2 . '   rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 cursor-pointer">' . $skill_name . '</span>
+                                                 ';
+                                            }
+                                        } else {
+                                            echo '
+                                            <span class=" bg-orange-100 text-orange-800 hover:bg-orange-200  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 cursor-pointer"> No Skill</span>
+                                               ';
+                                        }
+
+                                        ?>
+                                        <!-- <span class="bg-lime-100 text-lime-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-lime-200 cursor-pointer">Communication</span>
+                                        <span class="bg-sky-100 text-sky-800 rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300 hover:bg-sky-200 cursor-pointer">Management</span> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Reviews Section -->
-                        <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <!-- <div class="bg-white rounded-2xl shadow-lg p-8">
                             <div class="flex items-center justify-between mb-8">
                                 <h2 class="text-3xl font-bold">Reviews</h2>
                                 <div class="flex items-center space-x-2">
@@ -259,81 +433,178 @@ if ($result && $row = $result->fetch_assoc()) {
                                         <span class="text-sm text-gray-500">128 reviews</span>
                                     </div>
                                 </div>
+                            </div>-->
+
+                        <!-- Add Review -->
+                        <!-- <div class="mb-10 border-b pb-10">
+                            <h3 class="text-xl font-bold mb-6">Share Your Experience</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-3">
+                                    <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                    <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                    <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                    <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                    <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                </div>
+                                <textarea
+                                    id="review-text"
+                                    rows="4"
+                                    class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                                    placeholder="Share your experience with this event..."></textarea>
+                                <button
+                                    class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 
+                         transition-colors duration-200 font-semibold text-lg">
+                                    Submit Review
+                                </button>
+                            </div>
+                        </div> -->
+
+                        <!-- Review List -->
+                        <!-- <div class="space-y-8">
+                           
+                            <div class="border-b pb-8">
+                                <div class="flex items-start space-x-6">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"
+                                        alt="Reviewer"
+                                        class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+                                    <div class="flex-1">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <h4 class="font-bold text-lg">John Doe</h4>
+                                                <div class="flex text-yellow-400 text-base">★★★★★</div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">2 days ago</span>
+                                        </div>
+                                        <p class="mt-3 text-gray-600 text-lg leading-relaxed">
+                                            Amazing experience! The community was very welcoming and the work was meaningful.
+                                            Would definitely volunteer again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                     
+                            <div class="border-b pb-8">
+                                <div class="flex items-start space-x-6">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
+                                        alt="Reviewer"
+                                        class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+                                    <div class="flex-1">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div>
+                                                <h4 class="font-bold text-lg">Jane Smith</h4>
+                                                <div class="flex text-yellow-400 text-base">★★★★☆</div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">1 week ago</span>
+                                        </div>
+                                        <p class="mt-3 text-gray-600 text-lg leading-relaxed">
+                                            Great initiative! The garden looks much better now. The organizers were very helpful
+                                            and provided all necessary tools.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                        <?php
+
+                        // Calculate the average rating of the event
+                        $sql = "SELECT  AVG(rating) AS average FROM `feedback_rating` WHERE event_id=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $event_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $row = $result->fetch_assoc();
+                        $average = number_format($row['average'], 1);
+                        $star = round($average);
+
+
+
+                        // Fetch reviews from the database based on date_time order
+                        $sql = "SELECT r.description, r.date_time, r.rating, u.name, u.profile_picture
+                                 FROM feedback_rating r
+                                JOIN user u ON r.volunteer_id = u.user_id
+                                WHERE r.event_id = ?  ORDER BY `date_time` DESC";
+
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $event_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $reviews = $result->fetch_all(MYSQLI_ASSOC);
+
+
+                        ?>
+
+                        <!-- Reviews Section -->
+                        <div class="bg-white rounded-2xl shadow-lg p-8 ">
+                            <div class="flex items-center justify-between mb-8">
+                                <h2 class="text-3xl font-bold">Reviews</h2>
+                                <div class="flex items-center space-x-2 review_info">
+                                    <span class="text-3xl font-bold text-gray-900"><?= $average ?></span>
+                                    <div>
+
+                                        <div class="flex text-yellow-400 text-sm"><?= str_repeat("★", $star) . str_repeat("☆", 5 - $star) ?></div>
+                                        <span class="text-sm text-gray-500"><?= count($reviews) ?> reviews</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Add Review -->
                             <div class="mb-10 border-b pb-10">
                                 <h3 class="text-xl font-bold mb-6">Share Your Experience</h3>
-                                <div class="space-y-6">
-                                    <div class="flex items-center space-x-3">
-                                        <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
-                                        <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
-                                        <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
-                                        <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
-                                        <button class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors">★</button>
+                                <form id="reviewForm">
+                                    <div class="space-y-6">
+                                        <div class="flex items-center space-x-3">
+
+                                            <!-- USER RATING STAR -->
+                                            <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                                <button type="button" class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition-colors" data-value="<?= $i ?>">★</button>
+                                            <?php endfor; ?>
+
+                                        </div>
+
+                                        <!-- A hidden field to manage the rating -->
+                                        <input type="hidden" name="rating" id="rating" value="0">
+
+                                        <textarea name="review_text" id="review-text" rows="4" class="w-full px-4 py-3 border rounded-xl text-gray-700" placeholder="Share your experience..."></textarea>
+                                        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition duration-200 font-semibold text-lg">
+                                            Submit Review
+                                        </button>
                                     </div>
-                                    <textarea
-                                        id="review-text"
-                                        rows="4"
-                                        class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                                        placeholder="Share your experience with this event..."></textarea>
-                                    <button
-                                        class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 
-                         transition-colors duration-200 font-semibold text-lg">
-                                        Submit Review
-                                    </button>
-                                </div>
+                                </form>
                             </div>
 
                             <!-- Review List -->
-                            <div class="space-y-8">
-                                <!-- Review 1 -->
-                                <div class="border-b pb-8">
-                                    <div class="flex items-start space-x-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"
-                                            alt="Reviewer"
-                                            class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
-                                        <div class="flex-1">
-                                            <div class="flex items-start justify-between mb-2">
-                                                <div>
-                                                    <h4 class="font-bold text-lg">John Doe</h4>
-                                                    <div class="flex text-yellow-400 text-base">★★★★★</div>
-                                                </div>
-                                                <span class="text-sm text-gray-500">2 days ago</span>
-                                            </div>
-                                            <p class="mt-3 text-gray-600 text-lg leading-relaxed">
-                                                Amazing experience! The community was very welcoming and the work was meaningful.
-                                                Would definitely volunteer again.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="space-y-8 review_list">
+                                <?php foreach ($reviews as $review) :
 
-                                <!-- Review 2 -->
-                                <div class="border-b pb-8">
-                                    <div class="flex items-start space-x-6">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
-                                            alt="Reviewer"
-                                            class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
-                                        <div class="flex-1">
-                                            <div class="flex items-start justify-between mb-2">
-                                                <div>
-                                                    <h4 class="font-bold text-lg">Jane Smith</h4>
-                                                    <div class="flex text-yellow-400 text-base">★★★★☆</div>
+                                    // REVIEWER PROFILE PHOTO
+                                    $profile = preg_replace('/^\.\.\//', '', $review['profile_picture']); ?>
+
+                                    <div class="border-b pb-8">
+                                        <div class="flex items-start space-x-6">
+                                            <img src="<?= $profile ?>" alt="Reviewer" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+                                            <div class="flex-1">
+                                                <div class="flex items-start justify-between mb-2">
+                                                    <div>
+                                                        <h4 class="font-bold text-lg"><?= $review['name'] ?></h4>
+                                                        <div class="flex text-yellow-400 text-base">
+                                                            <?= str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']) ?>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-sm text-gray-500"><?= date('jS M Y', strtotime($review['date_time'])) ?></span>
                                                 </div>
-                                                <span class="text-sm text-gray-500">1 week ago</span>
+                                                <p class="mt-3 text-gray-600 text-lg leading-relaxed"><?= $review['description'] ?></p>
                                             </div>
-                                            <p class="mt-3 text-gray-600 text-lg leading-relaxed">
-                                                Great initiative! The garden looks much better now. The organizers were very helpful
-                                                and provided all necessary tools.
-                                            </p>
                                         </div>
                                     </div>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Sidebar -->
@@ -341,7 +612,45 @@ if ($result && $row = $result->fetch_assoc()) {
                         <!-- Action Card -->
                         <div class="bg-white rounded-2xl shadow-lg p-8">
                             <div class="flex flex-col space-y-4">
-                                <button
+
+                                <?php
+                                //if organiser is equal to the logged in user then thebuser is the creator of event
+                                if ($organization_id == $user_id) {
+                                    echo '
+                                <button onclick="window.location.href=\'edit_event.php?id=' . base64_encode($event_id) . '\'" 
+                                class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                Edit Event
+                                </button>';
+
+                                    echo '
+                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
+                                    class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
+                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                   Your Profile
+                                </button>
+                                
+                                
+                                ';
+                                } else {
+
+                                    echo '
+                                <button onclick="window.location.href=\'apply_event.php?id=' . base64_encode($event_id) . '\'" 
+                                class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                Apply Now
+                                </button>';
+
+                                    echo '
+                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
+                                    class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
+                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                   Contact Organizer
+                                </button>
+                                
+                                ';
+                                }
+
+                                ?>
+                                <!-- <button
                                     class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 
                        transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
                                     Apply Now
@@ -350,7 +659,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                     class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
                        transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
                                     Contact Organizer
-                                </button>
+                                </button> -->
                             </div>
                         </div>
 
@@ -358,20 +667,25 @@ if ($result && $row = $result->fetch_assoc()) {
                         <div class="bg-white rounded-2xl shadow-lg p-8">
                             <h3 class="text-2xl font-bold mb-6">About the Organizer</h3>
                             <div class="flex items-center space-x-4 mb-6">
+                                <!-- Organizer photo,name and type -->
                                 <img
-                                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150"
+                                    src="<?= $profile ?>"
                                     alt="Organizer"
                                     class="w-20 h-20 rounded-full object-cover border-4 border-gray-100 shadow-md">
                                 <div>
-                                    <h4 class="text-lg font-bold">Green Earth Initiative</h4>
-                                    <p class="text-gray-600">Environmental Organization</p>
+                                    <h4 class="text-lg font-bold"><?= $organization_name ?></h4>
+                                    <p class="text-gray-600"><?= $organization_type ?></p>
                                 </div>
                             </div>
+
+                            <!-- Organizer paragraph -->
                             <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                                Green Earth Initiative is dedicated to environmental conservation and community engagement.
-                                We organize various events to promote sustainable living and environmental awareness.
+                                <?= $organization_name ?> is a <?= $organization_type ?> which works for community engagement.
+                                We organize various events to promote volunteer participation.
                             </p>
-                            <!-- <div class="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 mb-1">
+
+                            <!-- date of establishment -->
+                            <div class="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 mb-2">
                                 <div class="p-3 bg-blue-100 rounded-lg">
                                     <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -380,10 +694,22 @@ if ($result && $row = $result->fetch_assoc()) {
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-500 font-medium">Date Of establishment</p>
-                                    <p class="text-gray-700 font-semibold">March 20, 2024 </p>
+                                    <p class="text-gray-700 font-semibold"><?= $user_doe ?> </p>
                                 </div>
                             </div>
 
+                            <!-- email of organizer -->
+                            <div class="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 mb-2">
+                                <div class="p-3 bg-violet-100 rounded-lg ">
+                                    <i class='bx bx-at text-2xl text-violet-600'></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 font-medium">Email</p>
+                                    <p class="text-gray-700 font-semibold"><?= $user_email ?></p>
+                                </div>
+                            </div>
+
+                            <!-- address of organizer -->
                             <div class="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 mb-3">
                                 <div class="p-3 bg-emerald-100 rounded-lg">
                                     <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -394,13 +720,13 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-gray-500 font-medium">Location</p>
-                                    <p class="text-gray-700 font-semibold">Central Community Garden</p>
+                                    <p class="text-sm text-gray-500 font-medium">Address</p>
+                                    <p class="text-gray-700 font-semibold"><?= $user_address ?></p>
                                 </div>
-                            </div> -->
+                            </div>
 
-
-                            <button
+                            <!-- View organizer button -->
+                            <button onclick="window.location.href='profile.php?id=<?= base64_encode($organization_id) ?>'"
                                 class="w-full border-2 border-gray-200 text-gray-700 px-8 py-3 rounded-xl 
                      hover:bg-gray-50 transition-all duration-200 font-semibold text-lg
                      hover:border-gray-300 hover:shadow-md">
@@ -410,19 +736,26 @@ if ($result && $row = $result->fetch_assoc()) {
 
                         <!-- Share Card -->
                         <div class="bg-white rounded-2xl shadow-lg p-8">
-                            <h3 class="text-2xl font-bold mb-6">Share Event</h3>
+                            <h3 class="text-2xl font-bold mb-6 text-center"><i class='bx bxs-share-alt mr-2'></i> Share Event</h3>
+
+
+
                             <div class="flex flex-col gap-4 max-w-md mx-auto">
-                                <button class="flex items-center justify-center gap-2 bg-[#1877F2] text-white px-4 py-3 rounded-xl hover:bg-[#1864D9] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
-                                    <i class='bx bxl-facebook mr-3 text-2xl'></i>Facebook
+                                <button id="copyLink" class="bg-gray-600 text-white px-4 py-3 rounded-xl hover:bg-gray-700 transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
+                                    <i class='bx bx-link mr-3 text-2xl'></i> Copy Link
                                 </button>
-                                <button class="flex items-center justify-center gap-2 bg-[#1DA1F2] text-white px-4 py-3 rounded-xl hover:bg-[#1A8CD8] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
+                                <button id="facebookShare" class="share-btn bg-[#1877F2] text-white px-4 py-3 rounded-xl hover:bg-[#1864D9] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
+                                    <i class='bx bxl-facebook mr-3 text-2xl'></i> Facebook
+                                </button>
+                                <button id="twitterShare" class="share-btn bg-[#1DA1F2] text-white px-4 py-3 rounded-xl hover:bg-[#1A8CD8] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
                                     <i class='bx bxl-twitter mr-3 text-2xl'></i> Twitter
                                 </button>
-                                <button class="flex items-center justify-center gap-2 bg-[#25D366] text-white px-4 py-3 rounded-xl hover:bg-[#22BF5B] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
+                                <button id="whatsappShare" class="share-btn bg-[#25D366] text-white px-4 py-3 rounded-xl hover:bg-[#22BF5B] transition-all duration-200 font-semibold hover:shadow-lg transform hover:-translate-y-0.5">
                                     <i class='bx bxl-whatsapp mr-3 text-2xl'></i> WhatsApp
                                 </button>
                             </div>
                         </div>
+
 
 
                     </div>
@@ -441,7 +774,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
     <!-- Rating Js -->
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             // Handle star rating
             $('.rating-star').hover(
@@ -460,7 +793,146 @@ if ($result && $row = $result->fetch_assoc()) {
                 $(this).prevAll().addBack().addClass('selected text-yellow-400').removeClass('text-gray-300');
             });
         });
+    </script> -->
+
+
+    <!-- AJAX Script for Submitting Reviews -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let eventId = "<?= $event_id ?>"; // Replace with dynamic PHP variable
+            let eventUrl = window.location.href; // Gets the current event page URL
+
+            // Facebook Share
+            document.getElementById("facebookShare").addEventListener("click", function() {
+                let facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(eventUrl)}`;
+                window.open(facebookUrl, "_blank");
+            });
+
+            // Twitter Share
+            document.getElementById("twitterShare").addEventListener("click", function() {
+                let twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(eventUrl)}&text=Check%20out%20this%20event!`;
+                window.open(twitterUrl, "_blank");
+            });
+
+            // WhatsApp Share
+            document.getElementById("whatsappShare").addEventListener("click", function() {
+                let whatsappUrl = `https://api.whatsapp.com/send?text=Check%20out%20this%20event!%20${encodeURIComponent(eventUrl)}`;
+                window.open(whatsappUrl, "_blank");
+            });
+            
+            document.getElementById("copyLink").addEventListener("click", function() {
+                navigator.clipboard.writeText(eventUrl).then(() => {
+                    alert("Event link copied to clipboard!");
+                });
+            });
+
+        });
+
+
+
+        $(document).ready(function() {
+            let selectedRating = 0;
+
+            $(".rating-star").hover(
+                function() {
+                    $(this).prevAll().addBack().addClass("text-yellow-400").removeClass("text-gray-300");
+                },
+                function() {
+                    if (!$(this).hasClass("selected")) {
+                        $(this).prevAll().addBack().addClass("text-gray-300").removeClass("text-yellow-400");
+                    }
+                }
+            );
+
+            $(".rating-star").click(function() {
+                $(".rating-star").removeClass("selected text-yellow-400").addClass("text-gray-300");
+                $(this).prevAll().addBack().addClass("selected text-yellow-400").removeClass("text-gray-300");
+                selectedRating = $(this).data("value");
+                $("#rating").val(selectedRating);
+            });
+
+            // To re-initialize the review count and average after review submission
+            function initialize(eventId) {
+                //alert('HELLO');
+                $.ajax({
+                    url: "Backend/review_info.php",
+                    type: "POST",
+                    data: {
+                        event_id: eventId
+                    },
+                    success: function(response) {
+                        // alert("Review submitted successfully!");
+                        //location.reload();
+                        $(".review_info").html(response);
+                    }
+                });
+
+            }
+
+            // TO HANDLE REVIEW SUBMITION
+            $("#reviewForm").submit(function(e) {
+                e.preventDefault();
+                let reviewText = $("#review-text").val();
+                let rating = $("#rating").val();
+                let eventId = <?= $event_id ?>;
+                let userId = <?= $user_id ?>;
+
+                if (rating == 0 || reviewText.trim() == "") {
+                    alert("Please select a rating and enter a review.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "Backend/submit_review.php",
+                    type: "POST",
+                    data: {
+                        event_id: eventId,
+                        user_id: userId,
+                        rating: rating,
+                        review_text: reviewText
+                    },
+                    success: function(response) {
+
+                        alert("Review submitted successfully!");
+                        //location.reload();
+
+                        //to re-fresh the review-list dynamically
+                        $.ajax({
+                            url: "Backend/submit_review.php",
+                            type: "POST",
+                            data: {
+                                all_id: "all",
+                                event_id: eventId
+                            },
+                            success: function(response) {
+                                // alert("Review submitted successfully!");
+                                //location.reload();
+
+                                $(".review_list").html(response);
+
+                                // Reset the rating stars
+                                $(".rating-star").removeClass("text-yellow-400").addClass("text-gray-300");
+
+                                // Reset the hidden input field
+                                $("#rating").val("0");
+
+                                // Clear the textarea
+                                $("#review-text").val("");
+
+                                //To initilize the review info (count and average)
+                                initialize(eventId);
+                            }
+                        });
+
+                    },
+                    error: function() {
+                        alert("Failed to submit review.");
+                    }
+                });
+            });
+        });
     </script>
+
 
 
     <!-- Footer -->

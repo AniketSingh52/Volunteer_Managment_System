@@ -328,7 +328,7 @@
                  </li>
                  <li>
                      <a
-                         href="#"
+                         href="../pages/logout.php"
                          class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-log-out pr-2"></i>Logout
                      </a>
                  </li>

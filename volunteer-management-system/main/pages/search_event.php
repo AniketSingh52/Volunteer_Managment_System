@@ -138,7 +138,7 @@ if ($result && $row = $result->fetch_assoc()) {
             <!-- Search BAR And Filter -->
             <div class="container mx-auto px-4 pt-4 relative">
                 <!-- Search Bar and Filter Button -->
-                <form class="flex justify-center mb-4">
+                <form class="flex justify-center mb-4" id="form1">
                     <div class="relative w-full md:max-w-5xl  flex items-center">
                         <input type="text" id="searchInput" placeholder="Search events..." class=" h-14 transition-all w-full px-4 py-2 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <a id="cancelSearch" class="absolute text-xl right-44 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
@@ -194,8 +194,9 @@ if ($result && $row = $result->fetch_assoc()) {
                 <h2 class="text-3xl font-bold text-gray-900 mb-6">
                     Available Opportunities
                 </h2>
-                <div id="events-list" class="space-y-6 list1">
-                    <div
+                <div id="events-list" class="space-y-6 ">
+                    <!-- <div id="events-list" class="space-y-6 list1"> -->
+                    <!-- <div
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                         <div class="md:flex">
                             <div class="md:w-1/3">
@@ -231,7 +232,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                             stroke-width="2"
                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
-                                    2024-03-20 - 2024-03-20
+                                    2024-03-20 • 2024-03-20
                                 </div>
 
                                 <div class="mt-2 flex items-center text-gray-600">
@@ -547,772 +548,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
 
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="md:flex">
-                            <div class="md:w-1/3">
-                                <img
-                                    class="h-48 w-full object-cover md:h-full"
-                                    src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&amp;fit=crop&amp;q=80&amp;w=800"
-                                    alt="Food Bank Distribution" />
-                            </div>
-                            <div class="p-8 md:w-2/3 relative">
-                                <div
-                                    class="text-sm absolute top-0 right-0 bg-red-500 rounded-sm px-4 py-2 text-white mt-3 mr-3 hover:bg-red-800 hover:text-white transition duration-500 ease-in-out">
-                                    Cancelled
-                                </div>
-                                <div
-                                    class="uppercase tracking-wide text-sm text-blue-600 font-semibold">
-                                    Food for All
-                                    <span class=" ml-3 bg-gray-300 rounded-xl px-2 py-1 text-gray-500">10 days</span>
-                                </div>
-                                <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                                    Food Bank Distribution
-                                </h3>
-
-                                <div class="mt-4 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    2024-03-22 - 2024-03-22
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    08:00 - 12:00
-                                </div>
-
-                                <div class="mt-2 flex items-center text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    Community Food Bank
-                                </div>
-                                <div class="mt-2 flex items-center font-semibold text-base text-gray-600">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor">
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
-                                    </svg>
-                                    Volunteer Needed: 0/10
-                                </div>
-
-                                <p class="mt-4 text-gray-600">
-                                    Help sort and distribute food to families in need at
-                                    our local food bank.
-                                </p>
-
-                                <div class="mt-6 flex space-x-4">
-                                    <button
-                                        onclick="window.location.href='/events/3'"
-                                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                        View More
-                                    </button>
-                                    <button
-                                        onclick="window.location.href='/events/3/apply'"
-                                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                                        Apply
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- End Of Event Listing -->
@@ -1367,9 +606,83 @@ if ($result && $row = $result->fetch_assoc()) {
     <!-- Show More and Show Less END -->
 
 
+
+
+    <script>
+        $(document).ready(function() {
+
+            function initialize() {
+                let all = "all";
+                $.ajax({
+                    url: "Backend/search_events.php", // Backend PHP script
+                    method: "POST",
+                    data: {
+                        all: all
+                    },
+                    success: function(response) {
+                        $("#events-list").html(response); // Show results
+                        //  $("#events-list").html(""); // Clear results if input is empty
+                    }
+                });
+
+            }
+            initialize();
+            $("#searchInput").on("keyup", function() {
+                let query = $(this).val().trim();
+                // alert(query);
+
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "Backend/search_events.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            search: query
+                        },
+                        success: function(response) {
+                            $("#events-list").html(response); // Show results
+                        }
+                    });
+                } else {
+                    // let all = "all";
+                    // $.ajax({
+                    //     url: "Backend/search_events.php", // Backend PHP script
+                    //     method: "POST",
+                    //     data: {
+                    //         all: all
+                    //     },
+                    //     success: function(response) {
+                    //         $("#events-list").html(response); // Show results
+                    //         //  $("#events-list").html(""); // Clear results if input is empty
+                    //     }
+                    // });
+                    initialize();
+                }
+            });
+        });
+    </script>
+
+
+
     <!-- Filter and Cancel button js -->
     <script>
         $(document).ready(function() {
+
+            function initialize() {
+                let all = "all";
+                $.ajax({
+                    url: "Backend/search_events.php", // Backend PHP script
+                    method: "POST",
+                    data: {
+                        all: all
+                    },
+                    success: function(response) {
+                        $("#events-list").html(response); // Show results
+                        //  $("#events-list").html(""); // Clear results if input is empty
+                    }
+                });
+
+            }
+            
             $("#filterBtn").click(function() {
                 $("#filterMenu").toggleClass("hidden");
             });
@@ -1394,13 +707,22 @@ if ($result && $row = $result->fetch_assoc()) {
 
             $("#cancelSearch").click(function() {
                 $("#searchInput").val('');
+                initialize();
                 $(this).hide();
             });
 
             $("#searchBtn").click(function() {
                 // Here you would typically send the search query to your backend
                 // and update the event listing based on the response
-                console.log("Search performed");
+                //console.log("Search performed");
+            });
+            $("#form1").submit(function(e) {
+
+                // Check if the listener has already been added to prevent duplication
+                const form = document.getElementById("form1");
+                e.preventDefault(); // Prevent default form submission
+
+
             });
 
 
@@ -1408,10 +730,6 @@ if ($result && $row = $result->fetch_assoc()) {
     </script>
 
     <!-- Filter and Cancel button js end-->
-
-
-
-
 
 
 

@@ -69,7 +69,7 @@
             $skill = $_POST['skill'];
             $causes = $_POST['cause'];
             $registration_date = date('Y-m-d');
-            $type = 'volunteer';
+            $type = 'V';
 
 
             $flag = "";   // For ERROR Checking
@@ -278,7 +278,7 @@
             $username = $_POST['username'];
             $causes = $_POST['cause'];
             $registration_date = date('Y-m-d');
-            $type = 'organisation';
+            $type = 'O';
             $gender="N";
             $occupation=NULL;
 

@@ -2,6 +2,10 @@
 
 <?php
 session_start();
+
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('error_log', 'error_log.txt');
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {

@@ -205,6 +205,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                 </div>
                             </div>
                         </a>
+
                     </div>
 
                     <!-- Gallery Item 2 -->

@@ -30,7 +30,7 @@
       <ul class="mt-4">
           <!-- <span class="text-gray-400 font-bold">Home</span> -->
           <li class="mb-1 group">
-              <a 
+              <a
                   href="admin.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="ri-home-2-line mr-3 text-lg"></i>
@@ -56,7 +56,7 @@
             </li> -->
 
           <li class="mb-1 group">
-              <a 
+              <a
                   href="../pages/gallery.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-list-ul mr-3 text-lg"></i>
@@ -92,7 +92,7 @@
                 </ul>
             </li> -->
           <li class="mb-1 group">
-              <a 
+              <a
                   href="../pages/search_event.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-search mr-3 text-lg"></i>
@@ -100,25 +100,44 @@
               </a>
           </li>
           <li class="mb-1 group">
-              <a 
+              <a
                   href="../pages/add_event.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bxs-plus-circle mr-3 text-lg"></i>
                   <span class="text-sm">Add Event</span>
               </a>
           </li>
-          <li class="mb-1 group">
+          <!-- <li class="mb-1 group">
               <a href="../pages/Event_Applications.php"
-                  
+
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-book-bookmark mr-3 text-lg"></i>
                   <span class="text-sm">My Applications</span>
+              </a>
+          </li> -->
+          <li class="mb-1 group">
+              <a href="../pages/my_events.php"
+
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+                  <span class="text-sm">Manage Events</span>
               </a>
           </li>
 
           <!-- PERSONAL SECTION SIDEBAR -->
           <span class="text-gray-400 font-bold">PERSONAL</span>
-          <li class="mb-1 mt-2 group">
+          <li class="mb-1 group">
+              <a
+                  href="../pages/chat.php"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 ">
+                  <i class="bx bx-chat mr-3 text-lg"></i>
+                  <span class="text-sm">Chats</span>
+                  <span
+                      class="md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">5 New</span>
+                  <i class='bx bx-chevron-right text-xl'></i>
+              </a>
+          </li>
+          <!-- <li class="mb-1 mt-2 group">
               <a
                   href=""
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
@@ -155,7 +174,7 @@
                           class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Vipul</a>
                   </li>
               </ul>
-          </li>
+          </li> -->
           <!--             
             <li class="mb-1 group">
                 <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
@@ -166,7 +185,7 @@
             </li> -->
           <li class="mb-1 group">
               <a
-                  href=""
+                  href="../pages/add_post.php"
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bxs-plus-circle mr-3 text-lg"></i>
                   <span class="text-sm">Add Post</span>
@@ -181,36 +200,36 @@
   <!-- end sidenav -->
 
   <script>
-    //   function loadContent(page) {
-    //       alert(page);
-    //      // document.getElementById('dynamiccontents').innerHTML = "data";
-    //       // Get the base URL up to the directory containing index.php
-    //       const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
+      //   function loadContent(page) {
+      //       alert(page);
+      //      // document.getElementById('dynamiccontents').innerHTML = "data";
+      //       // Get the base URL up to the directory containing index.php
+      //       const baseUrl = `${window.location.origin}/volunteer-management-system/main/pages/`;
 
-    //       // Check if the current page is 'index.php'
-    //       const isMainPage = window.location.pathname.includes("index.php");
+      //       // Check if the current page is 'index.php'
+      //       const isMainPage = window.location.pathname.includes("index.php");
 
-    //       if (!isMainPage) {
-    //           alert('inside if');
-    //           //   // Redirect to index.php with the 'page' parameter, using the base URL
-    //           //   window.location.href = `${baseUrl}index.php?page=${page}`;
+      //       if (!isMainPage) {
+      //           alert('inside if');
+      //           //   // Redirect to index.php with the 'page' parameter, using the base URL
+      //           //   window.location.href = `${baseUrl}index.php?page=${page}`;
 
-    //           // If the dynamic content container doesn't exist, redirect to index.php
-    //           const url = new URL(`${baseUrl}index.php`);
-    //           url.searchParams.set('page', page); // Add the 'page' parameter to the URL
-    //           window.location.href = url;
-    //       } else {
-    //           alert('inside else');
-    //           // If already on index.php, load the content dynamically
-    //           fetch(`../components/${page}.php`)
-    //               .then(response => response.text())
-    //               .then(data => {
-    //                 document.getElementsByClassName('dynamiccontents')[0].innerHTML = data;
-    //                 //document.getElementById('dynamiccontents').innerHTML = data;
-    //               })
-    //               .catch(error => console.error('Error loading content:', error));
-    //       }
-    //   }
+      //           // If the dynamic content container doesn't exist, redirect to index.php
+      //           const url = new URL(`${baseUrl}index.php`);
+      //           url.searchParams.set('page', page); // Add the 'page' parameter to the URL
+      //           window.location.href = url;
+      //       } else {
+      //           alert('inside else');
+      //           // If already on index.php, load the content dynamically
+      //           fetch(`../components/${page}.php`)
+      //               .then(response => response.text())
+      //               .then(data => {
+      //                 document.getElementsByClassName('dynamiccontents')[0].innerHTML = data;
+      //                 //document.getElementById('dynamiccontents').innerHTML = data;
+      //               })
+      //               .catch(error => console.error('Error loading content:', error));
+      //       }
+      //   }
 
       //   function loadContent(page) {
       //       // Get the base URL up to the directory containing index.php
