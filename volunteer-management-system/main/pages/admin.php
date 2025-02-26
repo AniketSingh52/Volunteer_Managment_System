@@ -116,188 +116,9 @@ if ($result && $row = $result->fetch_assoc()) {
 </head>
 
 <body class="text-gray-800 font-inter">
-  <!--sidenav -->
-  <div
-    class="fixed left-0 top-0 w-72 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
-    <!-- <a href="#" class="flex items-center justify-items-center text-center pb-4 border-b border-b-gray-800 bg-black">
-             <div class="inline-block p-2 rounded-full mb-4 bg-red-600">
-                <div class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
-                    <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 object-cover" alt="Profile Image">
-                </div>
-            </div>
-             <div class="font-bold text-2xl">Volunteer<span class="bg-[#42eda3] text-white px-2 ml-1 rounded-md">HUB</span></div>
-           
-        </a> -->
-    <!-- Volunteer Logo -->
-    <a
-      href="#"
-      class="flex items-center justify-items-center text-center border-b border-b-gray-800 w-full p-2">
-      <div class="inline-block p-1 rounded-full bg-red-400">
-        <div
-          class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
-          <img
-            src="../assets/Screenshot 2025-02-05 215045.svg"
-            class="profile-image2 object-cover"
-            alt="Profile Image" />
-        </div>
-      </div>
-      <div class="font-bold text-2xl w-full">
-        Volunteer<span class="bg-[#1dab6d] text-white px-2 ml-1 rounded-md">HUB</span>
-      </div>
-    </a>
-    <ul class="mt-4">
-      <!-- <span class="text-gray-400 font-bold">Home</span> -->
-      <li class="mb-1 group">
-        <a
-          href="admin.php"
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="ri-home-2-line mr-3 text-lg"></i>
-          <span class="text-sm">Home</span>
-        </a>
-      </li>
 
-      <!--Drop Doen list Template  -->
-      <!-- <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                    <i class='bx bx-user mr-3 text-lg'></i>                
-                    <span class="text-sm">Users</span>
-                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                </a>
-                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li> 
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
-                    </li> 
-                </ul>
-            </li> -->
-
-      <li class="mb-1 group">
-        <a
-          href="gallery.php"
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="bx bx-list-ul mr-3 text-lg"></i>
-          <span class="text-sm">Explore Post</span>
-        </a>
-      </li>
-
-      <!-- Events Section Sidebar -->
-      <span class="text-gray-400 font-bold">Events</span>
-      <!-- For Dropdown in sidebar -->
-      <!-- <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                    <i class='bx bxl-blogger mr-3 text-lg' ></i>                 
-                    <span class="text-sm">Post</span>
-                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                </a>
-                <ul class=" max-h-20 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li> 
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
-                    </li> 
-                </ul>
-            </li> -->
-      <li class="mb-1 group">
-        <a
-          href="search_event.php"
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="bx bx-search mr-3 text-lg"></i>
-          <span class="text-sm">Search</span>
-        </a>
-      </li>
-      <li class="mb-1 group">
-
-        <a
-          href="add_event.php"
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="bx bxs-plus-circle mr-3 text-lg"></i>
-          <span class="text-sm">Add Event</span>
-        </a>
-      </li>
-      <li class="mb-1 group">
-        <a href="my_events.php"
-
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="bx bx-book-bookmark mr-3 text-lg"></i>
-          <span class="text-sm">Manage Events</span>
-        </a>
-      </li>
-
-      <!-- PERSONAL SECTION SIDEBAR -->
-      <span class="text-gray-400 font-bold">PERSONAL</span>
-      <li class="mb-1 mt-2 group">
-        <a
-          href=""
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-          <i class="bx bx-chat mr-3 text-lg"></i>
-          <span class="text-sm">Chats</span>
-          <i
-            class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-        </a>
-        <ul
-          class="max-h-30 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
-          <li class="mb-4">
-            <a
-              href=""
-              class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Abhishek</a>
-          </li>
-          <li class="mb-4">
-            <a
-              href=""
-              class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Nitin</a>
-          </li>
-          <li class="mb-4">
-            <a
-              href=""
-              class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Aryan</a>
-          </li>
-          <li class="mb-4">
-            <a
-              href=""
-              class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Omkar</a>
-          </li>
-          <li class="mb-4">
-            <a
-              href=""
-              class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Vipul</a>
-          </li>
-        </ul>
-      </li>
-      <!--             
-            <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-chat mr-3 text-lg' ></i>                
-                    <span class="text-sm">Chats</span>
-                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
-                </a>
-            </li> -->
-      <li class="mb-1 group">
-        <a
-          href=""
-          class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-          <i class="bx bxs-plus-circle mr-3 text-lg"></i>
-          <span class="text-sm">Add Post</span>
-          <span
-            class="md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div
-    class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
-  <!-- end sidenav -->
+  <!-- Sidebar -->
+  <?php include('../layouts/sidebar.php'); ?>
 
   <main
     class="w-full md:w-[calc(100%-288px)] md:ml-72 bg-gray-200 min-h-screen transition-all main">
@@ -2974,4 +2795,190 @@ if ($result && $row = $result->fetch_assoc()) {
   //             </div>
   //           </div>
   //         </div>
+</script>
+
+<script>
+//   <!--sidenav 
+//   -->
+// <div
+//   class="fixed left-0 top-0 w-72 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+//   <!-- <a href="#" class="flex items-center justify-items-center text-center pb-4 border-b border-b-gray-800 bg-black">
+//              <div class="inline-block p-2 rounded-full mb-4 bg-red-600">
+//                 <div class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
+//                     <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 object-cover" alt="Profile Image">
+//                 </div>
+//             </div>
+//              <div class="font-bold text-2xl">Volunteer<span class="bg-[#42eda3] text-white px-2 ml-1 rounded-md">HUB</span></div>
+           
+//         </a> -->
+//   <!-- Volunteer Logo -->
+//   <a
+//     href="#"
+//     class="flex items-center justify-items-center text-center border-b border-b-gray-800 w-full p-2">
+//     <div class="inline-block p-1 rounded-full bg-red-400">
+//       <div
+//         class="h-10 w-10 rounded-full shadow-md flex items-center justify-center overflow-hidden">
+//         <img
+//           src="../assets/Screenshot 2025-02-05 215045.svg"
+//           class="profile-image2 object-cover"
+//           alt="Profile Image" />
+//       </div>
+//     </div>
+//     <div class="font-bold text-2xl w-full">
+//       Volunteer<span class="bg-[#1dab6d] text-white px-2 ml-1 rounded-md">HUB</span>
+//     </div>
+//   </a>
+//   <ul class="mt-4">
+//     <!-- <span class="text-gray-400 font-bold">Home</span> -->
+//     <li class="mb-1 group">
+//       <a
+//         href="admin.php"
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="ri-home-2-line mr-3 text-lg"></i>
+//         <span class="text-sm">Home</span>
+//       </a>
+//     </li>
+
+//     <!--Drop Doen list Template  -->
+//     <!-- <li class="mb-1 group">
+//                 <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+//                     <i class='bx bx-user mr-3 text-lg'></i>                
+//                     <span class="text-sm">Users</span>
+//                     <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+//                 </a>
+//                 <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+//                     </li> 
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+//                     </li> 
+//                 </ul>
+//             </li> -->
+
+//     <li class="mb-1 group">
+//       <a
+//         href="gallery.php"
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="bx bx-list-ul mr-3 text-lg"></i>
+//         <span class="text-sm">Explore Post</span>
+//       </a>
+//     </li>
+
+//     <!-- Events Section Sidebar -->
+//     <span class="text-gray-400 font-bold">Events</span>
+//     <!-- For Dropdown in sidebar -->
+//     <!-- <li class="mb-1 group">
+//                 <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+//                     <i class='bx bxl-blogger mr-3 text-lg' ></i>                 
+//                     <span class="text-sm">Post</span>
+//                     <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+//                 </a>
+//                 <ul class=" max-h-20 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">All</a>
+//                     </li>
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+//                     </li>
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525]  before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+//                     </li>
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+//                     </li> 
+//                     <li class="mb-4">
+//                         <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
+//                     </li> 
+//                 </ul>
+//             </li> -->
+//     <li class="mb-1 group">
+//       <a
+//         href="search_event.php"
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="bx bx-search mr-3 text-lg"></i>
+//         <span class="text-sm">Search</span>
+//       </a>
+//     </li>
+//     <li class="mb-1 group">
+
+//       <a
+//         href="add_event.php"
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="bx bxs-plus-circle mr-3 text-lg"></i>
+//         <span class="text-sm">Add Event</span>
+//       </a>
+//     </li>
+//     <li class="mb-1 group">
+//       <a href="my_events.php"
+
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+//         <span class="text-sm">Manage Events</span>
+//       </a>
+//     </li>
+
+//     <!-- PERSONAL SECTION SIDEBAR -->
+//     <span class="text-gray-400 font-bold">PERSONAL</span>
+//     <li class="mb-1 mt-2 group">
+//       <a
+//         href=""
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+//         <i class="bx bx-chat mr-3 text-lg"></i>
+//         <span class="text-sm">Chats</span>
+//         <i
+//           class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+//       </a>
+//       <ul
+//         class="max-h-30 overflow-auto pl-7 mt-2 hidden group-[.selected]:block">
+//         <li class="mb-4">
+//           <a
+//             href=""
+//             class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Abhishek</a>
+//         </li>
+//         <li class="mb-4">
+//           <a
+//             href=""
+//             class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Nitin</a>
+//         </li>
+//         <li class="mb-4">
+//           <a
+//             href=""
+//             class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Aryan</a>
+//         </li>
+//         <li class="mb-4">
+//           <a
+//             href=""
+//             class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Omkar</a>
+//         </li>
+//         <li class="mb-4">
+//           <a
+//             href=""
+//             class="text-gray-900 text-base flex items-center hover:text-[#f84525] before:w-2 before:h-2 before:rounded-full before:bg-blue-700 before:mr-3">Vipul</a>
+//         </li>
+//       </ul>
+//     </li>
+//     <!--             
+//             <li class="mb-1 group">
+//                 <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//                     <i class='bx bx-chat mr-3 text-lg' ></i>                
+//                     <span class="text-sm">Chats</span>
+//                     <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
+//                 </a>
+//             </li> -->
+//     <li class="mb-1 group">
+//       <a
+//         href=""
+//         class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+//         <i class="bx bxs-plus-circle mr-3 text-lg"></i>
+//         <span class="text-sm">Add Post</span>
+//         <span
+//           class="md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
+//       </a>
+//     </li>
+//   </ul>
+// </div>
+// <div
+//   class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
+// <!-- end sidenav -->
 </script>

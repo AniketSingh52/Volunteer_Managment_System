@@ -8,6 +8,15 @@ if (!$user_id) {
     exit;
 } else {
     //echo "<script>alert('$user_id');</script>";
+    $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
+    $result = $conn->query($sql);
+    if ($result && $row = $result->fetch_assoc()) {
+        $name = $row['name'];
+        $type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
+        // $profile = $row['profile_picture']; //Original String
+        // $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
+    //echo "<script>alert('$profile');</script>";  
+    }
 }
 
 if (isset($_POST['search'])) {
@@ -122,6 +131,7 @@ GROUP BY event_id;
                 $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
                 $organization_name = $row['name'];
+                $organization_email = $row['email'];
 
 
 
@@ -329,6 +339,15 @@ GROUP BY event_id;
                     </button>
                 </a>
                     ';
+                } elseif ($type == "Organisation") {
+
+                    echo '
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $organization_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                        target="_blank"
+                        class="bg-green-600  text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                            Contact Organizer
+                        </a>       
+                            ';
                 } else {
 
 
@@ -438,6 +457,7 @@ elseif(isset($_POST['all'])){
                 $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
                 $organization_name = $row['name'];
+                $organization_email=$row['email'];
 
                 $query = "SELECT 
     event_id, 
@@ -672,6 +692,17 @@ GROUP BY event_id;
                     </button>
                 </a>
                     ';
+                }
+                elseif($type== "Organisation"){
+                   
+                    echo '
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' .$organization_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                        target="_blank"
+                        class="bg-green-600  text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                            Contact Organizer
+                        </a>       
+                            ';
+
                 } else {
                 
 

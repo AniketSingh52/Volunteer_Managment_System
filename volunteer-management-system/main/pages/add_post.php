@@ -160,7 +160,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
             <!-- Form Section -->
             <div class="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-                <form id="yourFormID" method="POST" enctype="multipart/form-data" action="add_event.php" class="space-y-12">
+                <form id="yourFormID" method="POST" enctype="multipart/form-data" class="space-y-12">
                     <!-- Event Poster Section -->
                     <div class="bg-white rounded-2xl shadow-sm p-8 space-y-6">
                         <div class="border-b border-gray-200 pb-6">
@@ -205,11 +205,16 @@ if ($result && $row = $result->fetch_assoc()) {
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Your Name</label>
                                 <input
-                                    name="organizer"
+
                                     type="text"
                                     readonly
                                     value="<?php echo $name; ?>"
                                     class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
+                                <input
+                                    name="userid"
+                                    value="<?= $user_id ?>"
+                                    type="hidden"
+                                    readonly />
                             </div>
 
                             <!-- Creation Date -->
@@ -259,7 +264,7 @@ if ($result && $row = $result->fetch_assoc()) {
                     </div>
 
                     <!-- Causes and Skills -->
-                    <div class="bg-white rounded-2xl shadow-sm p-8 space-y-4">
+                    <!-- <div class="bg-white rounded-2xl shadow-sm p-8 space-y-4">
                         <div class="border-b border-gray-200 pb-6">
                             <h2 class="text-2xl font-bold text-gray-900 tracking-wider">Tags</h2>
                             <p class="mt-1 text-sm text-gray-500">Select relevant Tags for your Post.</p>
@@ -268,34 +273,34 @@ if ($result && $row = $result->fetch_assoc()) {
                         <div class="space-y-2">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-4">
-                                   Tags <span class="text-sm font-normal text-gray-500">(relevant Categories)</span>
+                                    Tags <span class="text-sm font-normal text-gray-500">(optional)</span>
                                 </label>
                                 <select
                                     name="cause[]"
                                     multiple
-                                    required
+                                    
                                     multiselect-search="true"
                                     multiselect-select-all="true"
                                     multiselect-max-items="5"
                                     multiselect-hide-x="false"
                                     class="block w-full rounded-lg border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600">
                                     <?php
-                                    $query = "SELECT * FROM causes";
-                                    $result = $conn->query($query);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<option value="' . $row['cause_id'] . '">' . $row['name'] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No Cause Available</option>';
-                                    }
+                                    // $query = "SELECT * FROM causes";
+                                    // $result = $conn->query($query);
+                                    // if ($result->num_rows > 0) {
+                                    //     while ($row = $result->fetch_assoc()) {
+                                    //         echo '<option value="' . $row['cause_id'] . '">' . $row['name'] . '</option>';
+                                    //     }
+                                    // } else {
+                                    //     echo '<option value="">No Cause Available</option>';
+                                    // }
                                     ?>
                                 </select>
                             </div>
 
-    
+
                         </div>
-                    </div>
+                    </div> -->
 
 
 
@@ -346,9 +351,10 @@ if ($result && $row = $result->fetch_assoc()) {
                 for (let [key, value] of formData.entries()) {
                     console.log(`${key}: ${value}`);
                 }
+
                 //   Send AJAX request
                 $.ajax({
-                    url: "Backend/add_event.php", // Update with your correct path to dl.php
+                    url: "Backend/add_post.php", // Update with your correct path to dl.php
                     type: "POST",
                     data: formData,
                     cache: false,
@@ -359,7 +365,11 @@ if ($result && $row = $result->fetch_assoc()) {
                         if (response.status === 'success') {
                             alert(response.message); // Show success message
                             //form.submit();
+                            $('#preview-image').attr('src', "");
+                            $('#preview-image').addClass('hidden');
+                            $('#upload-prompt').removeClass('hidden');
                             form.reset(); // Reset the form
+
                             //loadContent('dl');
                         } else {
                             alert(response.message); // Show error message if any
@@ -385,80 +395,6 @@ if ($result && $row = $result->fetch_assoc()) {
 
     <!-- Js for Form Hide and show and Profile Photo Change on File select -->
     <script>
-        function calculateDays() {
-            const fromDate = document.getElementById("from_date").value;
-            const toDate = document.getElementById("to_date").value;
-
-            if (fromDate && toDate) {
-                const from = new Date(fromDate);
-                const to = new Date(toDate);
-                const timeDiff = to - from;
-                const daysDiff = timeDiff / (1000 * 60 * 60 * 24) + 1; // Adding 1 to include the start date
-
-                document.getElementById("no_of_days").value = daysDiff > 0 ? daysDiff : 0;
-            } else {
-                document.getElementById("no_of_days").value = "";
-            }
-        }
-
-        function setMinToDate() {
-            const fromDate = document.getElementById("from_date").value;
-            const toDate = document.getElementById("to_date");
-
-            if (fromDate) {
-                toDate.min = fromDate;
-                toDate.disabled = false; // Enable the "to_date" field
-            } else {
-                toDate.value = ""; // Clear the "to_date" field
-                toDate.disabled = true; // Disable the "to_date" field
-            }
-
-            calculateDays();
-        }
-
-        function calculateTotalTime() {
-            const fromDate = document.getElementById("from_date").value;
-            const toDate = document.getElementById("to_date").value;
-            const fromTime = document.getElementById("from_time").value;
-            const toTime = document.getElementById("to_time").value;
-            const totalTimeInput = document.getElementById("total_time");
-
-            // Clear the field if any value is missing
-            if (!fromDate || !toDate || !fromTime || !toTime) {
-                totalTimeInput.value = "";
-                return;
-            }
-
-            // Calculate total days
-            const startDate = new Date(fromDate);
-            const endDate = new Date(toDate);
-            const totalDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1; // Ensure correct day count
-
-            // Calculate total time per day
-            const [fromHours, fromMinutes] = fromTime.split(":").map(Number);
-            const [toHours, toMinutes] = toTime.split(":").map(Number);
-
-            let totalMinutes = (toHours * 60 + toMinutes) - (fromHours * 60 + fromMinutes);
-
-            if (totalMinutes < 0) {
-                totalTimeInput.value = ""; // Reset if invalid time range
-                alert("Invalid Time: 'To Time' must be greater than 'From Time'");
-                return;
-            }
-
-            // Multiply by total days
-            const totalVolunteeringMinutes = totalMinutes * totalDays;
-            let hours = Math.floor(totalVolunteeringMinutes / 60);
-            let minutes = totalVolunteeringMinutes % 60;
-
-            // Format time in HH:mm (valid input format)
-            hours = hours.toString().padStart(2, '0'); // Ensure 2-digit format
-            minutes = minutes.toString().padStart(2, '0');
-
-            totalTimeInput.value = `${hours}:${minutes}`; // Store in HH:mm format
-        }
-
-
         $(document).ready(function() {
             // Image preview
             $('#volunteer-profile-photo').change(function(e) {
@@ -472,50 +408,20 @@ if ($result && $row = $result->fetch_assoc()) {
                 }
             });
 
-            // Enable to_date when from_date is selected
-            $('#from_date').change(function() {
-                $('#to_date').prop('disabled', false).attr('min', $(this).val());
-            });
 
-            // Calculate number of days and total time
-            function calculateDays() {
-                const fromDate = $('#from_date').val();
-                const toDate = $('#to_date').val();
-                if (fromDate && toDate) {
-                    const diff = Math.floor((new Date(toDate) - new Date(fromDate)) / (1000 * 60 * 60 * 24)) + 1;
-                    $('#no_of_days').val(diff + ' day' + (diff > 1 ? 's' : ''));
-                }
-            }
+            // $(".profile-input").change(function(e) {
+            //     var file = e.target.files[0];
+            //     var reader = new FileReader();
+            //     reader.onload = function(event) {
+            //         var img = $(e.target).closest('.relative').find('.profile-image');
+            //         var icon = $(e.target).closest('.relative').find('.profile-icon');
+            //         img.attr('src', event.target.result);
+            //         img.show();
+            //         icon.hide();
+            //     }
+            //     reader.readAsDataURL(file);
+            // });
 
-            $(".profile-input").change(function(e) {
-                var file = e.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    var img = $(e.target).closest('.relative').find('.profile-image');
-                    var icon = $(e.target).closest('.relative').find('.profile-icon');
-                    img.attr('src', event.target.result);
-                    img.show();
-                    icon.hide();
-                }
-                reader.readAsDataURL(file);
-            });
-
-            $("#from_date").change(function() {
-
-                setMinToDate()
-                calculateTotalTime();
-            });
-            $("#to_date").change(function() {
-
-                calculateDays()
-                calculateTotalTime();
-            });
-            $("#from_time").change(function() {
-                calculateTotalTime();
-            });
-            $("#to_time").change(function() {
-                calculateTotalTime();
-            });
 
         });
     </script>

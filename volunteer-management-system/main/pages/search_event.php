@@ -724,6 +724,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
             });
+            
             $(document).on('click', '.apply_button', function(e) {
                 let eventID = $(this).data("event");
                 let userId = <?= $user_id; ?>;

@@ -1,3 +1,24 @@
+  <?php include("../../config/connect.php"); ?>
+
+  <?php
+    
+    $user_id = $_SESSION['user_id'];
+
+    if (!$user_id) {
+        echo "<script>alert('User not logged in.'); window.location.href='login_in.php';</script>";
+        exit;
+    } else {
+        //echo "<script>alert('$user_id');</script>";
+    }
+
+    $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
+    $result = $conn->query($sql);
+    if ($result && $row = $result->fetch_assoc()) {
+        $name = $row['name'];
+        $type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
+    }
+    ?>
+
   <!--sidenav -->
   <div
       class="fixed left-0 top-0 w-72 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
@@ -99,30 +120,39 @@
                   <span class="text-sm">Search</span>
               </a>
           </li>
+
+          <?php
+
+            if ($type == "Organisation"):
+
+            ?>
+              <li class="mb-1 group">
+                  <a
+                      href="../pages/add_event.php"
+                      class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                      <i class="bx bxs-plus-circle mr-3 text-lg"></i>
+                      <span class="text-sm">Add Event</span>
+                  </a>
+              </li>
+              <li class="mb-1 group">
+                  <a href="../pages/my_events.php"
+
+                      class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                      <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+                      <span class="text-sm">Manage Events</span>
+                  </a>
+              </li>
+          <?php endif;
+            if ($type == "Volunteer"):  ?>
           <li class="mb-1 group">
-              <a
-                  href="../pages/add_event.php"
-                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class="bx bxs-plus-circle mr-3 text-lg"></i>
-                  <span class="text-sm">Add Event</span>
-              </a>
-          </li>
-          <!-- <li class="mb-1 group">
-              <a href="../pages/Event_Applications.php"
+              <a href="../pages/my_participations.php"
 
                   class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <i class="bx bx-book-bookmark mr-3 text-lg"></i>
-                  <span class="text-sm">My Applications</span>
-              </a>
-          </li> -->
-          <li class="mb-1 group">
-              <a href="../pages/my_events.php"
-
-                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class="bx bx-book-bookmark mr-3 text-lg"></i>
-                  <span class="text-sm">Manage Events</span>
+                  <span class="text-sm">My Participation</span>
               </a>
           </li>
+          <?php endif;?>
 
           <!-- PERSONAL SECTION SIDEBAR -->
           <span class="text-gray-400 font-bold">PERSONAL</span>

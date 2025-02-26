@@ -69,6 +69,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             $volunteer_needed = $row['volunteers_needed'];
 
             $organization_id = $row['organization_id'];
+            $max_applications = $row['maximum_application'];
             $event_image = $row['poster'];
             $event_image = preg_replace('/^\.\.\//', '', $event_image);
 
@@ -88,17 +89,17 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             //Calculate Days Ago
             $creation_date = new DateTime($from_date);
-            $end_date=new DateTime($to_date);
+            $end_date = new DateTime($to_date);
             $today = new DateTime();
             $diff = $creation_date->diff($today);
 
             if ($creation_date > $today) {
                 $days_ago = "{$diff->days} days remaining";
             } elseif ($creation_date < $today) {
-                if($today<$end_date){
+                if ($today < $end_date) {
                     $days_ago = "Ongoing";
-                }else{
-                $days_ago = "Completed";
+                } else {
+                    $days_ago = "Completed";
                 }
             } else {
                 $days_ago = "Started";
@@ -144,11 +145,11 @@ GROUP BY event_id;
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             $organization_name = $row['name'];
-            $profile = $row['profile_picture'];
+            $profile2 = $row['profile_picture'];
             $user_address = $row['address'];
             $user_email = $row['email'];
             $user_doe = date('jS M Y', strtotime($row['DOB/DOE']));
-            $profile = preg_replace('/^\.\.\//', '', $profile);
+            $profile2 = preg_replace('/^\.\.\//', '', $profile2);
 
             //Fetch Organization Type
             $sql = "SELECT type_name FROM `organization_type` WHERE type_id in (SELECT type_id FROM `organization_belongs_type` WHERE user_id=?)";
@@ -158,6 +159,8 @@ GROUP BY event_id;
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             $organization_type = $row['type_name'];
+
+            $notice_updates = 0; //Notices flag
         }
     }
 } else {
@@ -250,6 +253,22 @@ GROUP BY event_id;
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
+
+        /* Style scrollbar track */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Style scrollbar thumb */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        /* Style scrollbar on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
     </style>
 </head>
 
@@ -282,7 +301,7 @@ GROUP BY event_id;
                         <div class="absolute bottom-0 left-0 p-12 text-white max-w-3xl">
                             <div class="flex items-center space-x-6 mb-6">
                                 <img
-                                    src="<?php echo htmlspecialchars($profile) ?>"
+                                    src="<?php echo htmlspecialchars($profile2) ?>"
                                     alt="Organizer"
                                     class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-xl">
                                 <div>
@@ -356,7 +375,7 @@ GROUP BY event_id;
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 font-medium">Volunteers</p>
-                                        <p class="text-green-500 font-semibold"><?= $accepted_count?>/<?php echo htmlspecialchars($volunteer_needed) ?> Spots</p>
+                                        <p class="text-green-500 font-semibold"><?= $accepted_count ?>/<?php echo htmlspecialchars($volunteer_needed) ?> Spots</p>
                                     </div>
                                 </div>
                             </div>
@@ -541,6 +560,167 @@ GROUP BY event_id;
                         </div>
                     </div> -->
 
+
+
+                        <?php
+
+                        $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
+                        $checkResult2 = $conn->query($sql2);
+                        if ($checkResult2->num_rows > 0) {
+                            $row3 = $checkResult2->fetch_assoc();
+                            if ($row3['status'] == 'accepted') {
+                                $notice_updates = 1;
+                            }
+                        }
+
+
+                        if ($notice_updates == 1) {
+                            // Calculate the Total of the event
+                            $sql = "SELECT  COUNT(*) AS Total FROM `event_has_notices` WHERE event_id=?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("i", $event_id);
+                            $stmt->execute();
+                            $result4 = $stmt->get_result();
+                            $row = $result4->fetch_assoc();
+                            $notice_total = $row['Total'];
+
+
+
+
+                            // Fetch reviews from the database based on date_time order
+                            $sql = "SELECT e.notice, e.date, u.name, u.profile_picture, u.user_name,u.user_type,u.user_id AS ID FROM event_has_notices e
+                                JOIN user u ON e.user_id = u.user_id
+                                WHERE e.event_id = ?  ORDER BY e.date DESC";
+
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("i", $event_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $notices = $result->fetch_all(MYSQLI_ASSOC);
+
+
+                        ?>
+
+                            <!-- Notice Section -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8 ">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h2 class="text-3xl font-bold">Notices & Updates</h2>
+                                    <div class="flex items-center space-x-2 ">
+                                        <div>
+                                            <span class="text-lg font-semibold text-gray-800"><?= $notice_total ?> Notices</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- Notice List -->
+                                <div class="space-y-8 max-h-96 overflow-y-scroll overflow-x-hidden">
+
+                                    <?php foreach ($notices as $notice) :
+
+                                        // REVIEWER PROFILE PHOTO
+                                        $card_style = ($notice['ID'] == $organization_id) ? " bg-green-50 " : "";
+
+                                        $profile = preg_replace('/^\.\.\//', '', $notice['profile_picture']);
+                                        $notice_type = ($notice['user_type'] == 'V') ? "Volunteer" : "Organisation";
+                                        $notice_style = ($notice['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
+
+                                    ?>
+
+                                        <div class="border-b pb-8">
+                                            <div class="flex <?= $card_style ?> rounded-lg px-3 items-start space-x-6">
+                                                <img src="<?= $profile ?>" alt="<?= $notice['name'] ?>" class="w-16 h-16 rounded-full object-cover border-2 border-gray-200">
+                                                <div class="flex-1 ">
+                                                    <div class="flex  items-start justify-between mb-2">
+                                                        <div>
+                                                            <h4 class="font-bold text-lg"><?= $notice['name'] ?>
+                                                                <?php if ($card_style != "") {
+                                                                    echo ' <span class=" ml-2  text-sm bg-red-100 text-red-800  rounded-xl px-2 py-1">Organizer</span>';
+                                                                } else {
+                                                                    echo '
+                                                                <span class=" ml-2  text-sm ' . $notice_style . ' rounded-xl px-2 py-1">' . $notice_type . '</span>
+                                                                ';
+                                                                }
+                                                                ?>
+                                                                <!-- <span class=" ml-2  text-sm <?= $notice_style ?>   rounded-xl px-2 py-1"><?= $notice_type ?></span> -->
+                                                            </h4>
+
+                                                            <span class=" text-sm"> @<?= $notice['user_name'] ?></span>
+                                                        </div>
+                                                        <span class="text-sm text-gray-500"><?= date('jS M Y', strtotime($notice['date'])) ?></span>
+                                                    </div>
+                                                    <p class="mt-3 text-gray-600 text-lg leading-relaxed"><?= $notice['notice'] ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php endforeach; ?>
+
+                                </div>
+
+                                <!-- Add Notice-->
+                                <div class="mb-6  mt-6 border-b pb-6">
+                                    <h3 class="text-xl font-bold mb-6">Share Your Words Here!!</h3>
+                                    <form id="notice">
+                                        <div class="space-y-6">
+
+                                            <textarea rows="2" id="notice_text" class="w-full px-4 py-3 border rounded-xl text-gray-700" placeholder="Share your experience..."></textarea>
+                                            <button type="submit"  class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition duration-200 font-semibold text-lg">
+                                                Sent
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+
+                            <script>
+                                $(document).ready(function() {
+
+                                    $("#notice").submit(function(e) {
+                                        e.preventDefault();
+                                        let noticeText = $("#notice_text").val();
+                                        let eventId = <?= $event_id ?>;
+                                        let userId = <?= $user_id ?>;
+                                        //alert(noticeText);
+
+                                        if (noticeText.trim() == "") {
+                                            alert("Please select a rating and enter a review.");
+                                            return;
+
+                                        }
+
+                                        $.ajax({
+                                            url: "Backend/add_notice.php",
+                                            type: "POST",
+                                            data: {
+                                                event_id: eventId,
+                                                user_id: userId,
+                                                notice_text: noticeText
+                                            },
+                                            success: function(response) {
+
+                                                alert("Notice added successfully!");
+                                                location.reload();
+
+                                            },
+                                            error: function() {
+                                                alert("Failed to add Notice.");
+                                            }
+                                        });
+                                    });
+
+                                });
+                            </script>
+
+
+                        <?php } ?>
+
+
+
                         <?php
 
                         // Calculate the average rating of the event
@@ -556,7 +736,7 @@ GROUP BY event_id;
 
 
                         // Fetch reviews from the database based on date_time order
-                        $sql = "SELECT r.description, r.date_time, r.rating, u.name, u.profile_picture
+                        $sql = "SELECT r.description, r.date_time, r.rating, u.name, u.profile_picture, u.user_name,u.user_type
                                  FROM feedback_rating r
                                 JOIN user u ON r.volunteer_id = u.user_id
                                 WHERE r.event_id = ?  ORDER BY `date_time` DESC";
@@ -566,6 +746,7 @@ GROUP BY event_id;
                         $stmt->execute();
                         $result = $stmt->get_result();
                         $reviews = $result->fetch_all(MYSQLI_ASSOC);
+
 
 
                         ?>
@@ -614,22 +795,29 @@ GROUP BY event_id;
                                 <?php foreach ($reviews as $review) :
 
                                     // REVIEWER PROFILE PHOTO
-                                    $profile = preg_replace('/^\.\.\//', '', $review['profile_picture']); ?>
+                                    $profile = preg_replace('/^\.\.\//', '', $review['profile_picture']);
+                                    $rev_type = ($review['user_type'] == 'V') ? "Volunteer" : "Organisation";
+                                    $rev_style = ($review['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
+
+                                ?>
 
                                     <div class="border-b pb-8">
                                         <div class="flex items-start space-x-6">
-                                            <img src="<?= $profile ?>" alt="Reviewer" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+                                            <img src="<?= $profile ?>" alt="Reviewer" class=" w-16 h-16 rounded-full object-cover border-2 border-gray-200">
                                             <div class="flex-1">
                                                 <div class="flex items-start justify-between mb-2">
                                                     <div>
-                                                        <h4 class="font-bold text-lg"><?= $review['name'] ?></h4>
+                                                        <h4 class="font-bold text-lg"><?= $review['name'] ?>
+                                                            <span class=" ml-2  text-sm <?= $rev_style ?> hover:bg-orange-200  rounded-xl px-2 py-1"><?= $rev_type ?></span>
+                                                        </h4>
+                                                        <span class=" text-sm">@<?= $review['user_name'] ?></span>
                                                         <div class="flex text-yellow-400 text-base">
                                                             <?= str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']) ?>
                                                         </div>
                                                     </div>
                                                     <span class="text-sm text-gray-500"><?= date('jS M Y', strtotime($review['date_time'])) ?></span>
                                                 </div>
-                                                <p class="mt-3 text-gray-600 text-lg leading-relaxed"><?= $review['description'] ?></p>
+                                                <p class="mt-2 text-gray-600 text-lg leading-relaxed"><?= $review['description'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -663,44 +851,64 @@ GROUP BY event_id;
                                 
                                 
                                 ';
+                                } elseif ($type == "Organisation") {
+                                    echo '
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                        target="_blank"
+                        class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
+                                transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                            Contact Organizer
+                        </a>       
+                            ';
                                 } else {
 
                                     $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
                                     $checkResult2 = $conn->query($sql2);
                                     if ($checkResult2->num_rows > 0) {
+                                        $row3 = $checkResult2->fetch_assoc();
+                                        if ($row3['status'] == 'accepted') {
+                                            $notice_updates = 1;
+                                        }
 
                                         echo '
                                 <button disabled 
                                 class="w-full  bg-emerald-500 text-white px-8 py-4 rounded-xl font-bold text-lg ">
                                 <i class="bx bxs-bookmark-minus mr-4"></i>Applied
                                 </button>';
+                                        echo '
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                        target="_blank"
+                        class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
+                                transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                            Contact Organizer
+                        </a>       
+                            ';
+                                    } else {
 
                                         echo '
-                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
-                                    class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
-                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                                   Contact Organizer
-                                </button>
-                                
-                                ';
-                                    } else{
-                                        echo '
-                                <button onclick="window.location.href=\'apply_event.php?id=' . base64_encode($event_id) . '\'" 
-                                class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '" data-max_needed="' . $max_applications - $total_applications . '"
+                                class=" apply_button w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
                                 Apply Now
                                 </button>';
 
                                         echo '
-                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
-                                    class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
-                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                                   Contact Organizer
-                                </button>
-                                
-                                ';
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                        target="_blank"
+                        class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
+                                transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                            Contact Organizer
+                        </a>       
+                            ';
+                                        //         echo '
+                                        //  <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
+                                        //     class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
+                                        //     transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                        //    Contact Organizer
+                                        // </button>
+
+                                        // ';
 
                                     }
-
                                 }
 
                                 ?>
@@ -723,7 +931,7 @@ GROUP BY event_id;
                             <div class="flex items-center space-x-4 mb-6">
                                 <!-- Organizer photo,name and type -->
                                 <img
-                                    src="<?= $profile ?>"
+                                    src="<?= $profile2 ?>"
                                     alt="Organizer"
                                     class="w-20 h-20 rounded-full object-cover border-4 border-gray-100 shadow-md">
                                 <div>
@@ -873,7 +1081,7 @@ GROUP BY event_id;
                 let whatsappUrl = `https://api.whatsapp.com/send?text=Check%20out%20this%20event!%20${encodeURIComponent(eventUrl)}`;
                 window.open(whatsappUrl, "_blank");
             });
-            
+
             document.getElementById("copyLink").addEventListener("click", function() {
                 navigator.clipboard.writeText(eventUrl).then(() => {
                     alert("Event link copied to clipboard!");
@@ -904,6 +1112,63 @@ GROUP BY event_id;
                 selectedRating = $(this).data("value");
                 $("#rating").val(selectedRating);
             });
+
+            // Handle AJAX form submission
+            $(document).on('click', '.apply_button', function(e) {
+                let eventID = $(this).data("event");
+                let userId = <?= $user_id; ?>;
+                let volunteer_need = $(this).data("volunteer_needed");
+                let max_applications = $(this).data("max_needed");
+                let button = $(this);
+                e.preventDefault();
+
+                // alert(userId);
+                // alert(eventID);
+                // alert(volunteer_need);
+
+                if (volunteer_need > 0) {
+
+                    if (max_applications > 0) {
+                        $.ajax({
+                            url: "Backend/Event_apply.php", // Backend PHP script
+                            method: "POST",
+                            data: {
+                                user_id: userId,
+                                event_id: eventID
+                            },
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    // Show success message
+                                    //location.reload();
+                                    // Modify button appearance and disable it
+                                    button.attr('disabled', true);
+                                    button.html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+                                    button.addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
+                                    alert(response.message);
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("AJAX Error: " + status + " " + error);
+                                alert("AJAX Error: " + status + " " + error);
+                            }
+                        });
+
+                    } else {
+                        alert("Maximum Application Limit Reached!!");
+                    }
+
+
+                } else {
+                    alert("Required Volunteer Count Reached!!");
+                }
+                // $(this).attr('disabled', true)
+                // $(this).html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+                // $(this).addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
+
+            });
+
 
             // To re-initialize the review count and average after review submission
             function initialize(eventId) {

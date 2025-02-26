@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['all_id']) && !empty($_POST['all_id']) && isset($_POST['event_id'])) {
 
         $event_id = $_POST['event_id'];
-        $sql = "SELECT r.description, r.date_time, r.rating, u.name, u.profile_picture
+        $sql = "SELECT r.description, r.date_time, r.rating, u.name, u.profile_picture, u.user_name,u.user_type
                                  FROM feedback_rating r
                                 JOIN user u ON r.volunteer_id = u.user_id
                                 WHERE r.event_id = ?  ORDER BY `date_time` DESC";
@@ -33,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                
             while ($row = $result->fetch_assoc()) {
                 $profile = preg_replace('/^\.\.\//', '', $row['profile_picture']);
+                $rev_type = ($row['user_type'] == 'V') ? "Volunteer" : "Organisation";
+                $rev_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
+                                    
 
                 echo '
                                     <div class="border-b pb-8">
@@ -41,7 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <div class="flex-1">
                                                 <div class="flex items-start justify-between mb-2">
                                                     <div>
-                                                        <h4 class="font-bold text-lg">' . $row['name'] . '</h4>
+                                                        <h4 class="font-bold text-lg">' . $row['name'] . '
+                                    
+                                                         <span class=" ml-2  text-sm '. $rev_style.' hover:bg-orange-200  rounded-xl px-2 py-1">'.$rev_type.'</span></h4>
+                                                          <span class=" text-sm">@'.$row['user_name'].'</span>
                                                         <div class="flex text-yellow-400 text-base">
                                                              ' . str_repeat("★", $row['rating']) . str_repeat("☆", 5 - $row['rating']) . '
                                                         </div>

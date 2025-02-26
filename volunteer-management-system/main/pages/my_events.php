@@ -69,7 +69,7 @@ $sql = "SELECT * FROM `events`
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$result = $stmt->get_result();
+$result2 = $stmt->get_result();
 
 
 
@@ -231,10 +231,11 @@ $result = $stmt->get_result();
                 <div class="space-y-6 event_list">
                     <!-- Event Card 1 -->
                     <?php
-                    if ($result->num_rows > 0) {
-                        $rows = $result->fetch_all(MYSQLI_ASSOC);
+                    if ($result2->num_rows > 0) {
+                       
+                        $rows = $result2->fetch_all(MYSQLI_ASSOC);
                         foreach ($rows as $row) {
-
+                            
                             $event_id = $row['event_id'];
                             $event_name = $row['event_name'];
                             $from_date = date('jS M y', strtotime($row['from_date']));
