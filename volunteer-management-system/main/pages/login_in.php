@@ -1,5 +1,18 @@
 <?php
 session_start();
+error_reporting(0);
+if ($_SESSION['user_id']) {
+    echo "<script>alert('You are Already Logged In.'); window.location.href='admin.php';</script>";
+    exit;
+} else {
+    //echo "<script>alert('$user_id');</script>";
+}
+
+
+?>
+
+<?php
+// session_start();
 include("../../config/connect.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -29,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($password === $user['password']) {
                 // Set session variables
                 $_SESSION['user_id'] = $user['user_id'];
-                
+
                 echo "
                 <script>
                 alert('success login');

@@ -2,6 +2,11 @@
 include("../../../config/connect.php"); // Connection to the database
 
 header('Content-Type: application/json');
+
+
+date_default_timezone_set("Asia/Kolkata");
+
+
 ob_clean(); // Cle // Return JSON response
 error_reporting(E_ALL);
 ini_set('log_errors', 1);

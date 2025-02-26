@@ -140,7 +140,7 @@ if ($result && $row = $result->fetch_assoc()) {
                     class="mb-1 mx-auto space-y-2 text-center max-w-7xl bg-white py-4 rounded-xl">
                     <h2 class="text-4xl font-bold text-gray-800">My Posts</h2>
                     <p class="lg:mx-auto lg:w-6/12 text-gray-600 dark:text-gray-500">
-                        Manage Your Posts
+                        Manage Your Posts and Comments
                     </p>
                 </div>
 
@@ -170,7 +170,7 @@ if ($result && $row = $result->fetch_assoc()) {
                         if (
                             $diff->days == 0
                         ) {
-                            $days_ago = "Today";
+                            $days_ago = "Today at: ".date("h:i A", strtotime($picture_date));
                         } else {
                             $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($picture_date));
                         }

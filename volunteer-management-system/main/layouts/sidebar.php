@@ -1,7 +1,7 @@
   <?php include("../../config/connect.php"); ?>
 
   <?php
-    
+
     $user_id = $_SESSION['user_id'];
 
     if (!$user_id) {
@@ -144,15 +144,15 @@
               </li>
           <?php endif;
             if ($type == "Volunteer"):  ?>
-          <li class="mb-1 group">
-              <a href="../pages/my_participations.php"
+              <li class="mb-1 group">
+                  <a href="../pages/my_participations.php"
 
-                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class="bx bx-book-bookmark mr-3 text-lg"></i>
-                  <span class="text-sm">My Participation</span>
-              </a>
-          </li>
-          <?php endif;?>
+                      class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                      <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+                      <span class="text-sm">My Participation</span>
+                  </a>
+              </li>
+          <?php endif; ?>
 
           <!-- PERSONAL SECTION SIDEBAR -->
           <span class="text-gray-400 font-bold">PERSONAL</span>
@@ -221,6 +221,15 @@
                   <span class="text-sm">Add Post</span>
                   <span
                       class="md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
+              </a>
+          </li>
+          <li class="mb-1 group">
+              <a
+                  href="../pages/manage_post.php"
+                  class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                  <i class="bx bx-book-bookmark mr-3 text-lg"></i>
+                  <span class="text-sm">My Posts</span>
+
               </a>
           </li>
       </ul>

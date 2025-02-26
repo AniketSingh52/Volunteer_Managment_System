@@ -646,7 +646,7 @@ GROUP BY event_id;
                                                                 <!-- <span class=" ml-2  text-sm <?= $notice_style ?>   rounded-xl px-2 py-1"><?= $notice_type ?></span> -->
                                                             </h4>
 
-                                                            <span class=" text-sm"> @<?= $notice['user_name'] ?></span>
+                                                            <span class=" text-sm font-mono"> @<?= $notice['user_name'] ?></span>
                                                         </div>
                                                         <span class="text-sm text-gray-500"><?= date('jS M Y', strtotime($notice['date'])) ?></span>
                                                     </div>
@@ -666,7 +666,7 @@ GROUP BY event_id;
                                         <div class="space-y-6">
 
                                             <textarea rows="2" id="notice_text" class="w-full px-4 py-3 border rounded-xl text-gray-700" placeholder="Share your experience..."></textarea>
-                                            <button type="submit"  class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition duration-200 font-semibold text-lg">
+                                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition duration-200 font-semibold text-lg">
                                                 Sent
                                             </button>
                                         </div>
@@ -810,7 +810,7 @@ GROUP BY event_id;
                                                         <h4 class="font-bold text-lg"><?= $review['name'] ?>
                                                             <span class=" ml-2  text-sm <?= $rev_style ?> hover:bg-orange-200  rounded-xl px-2 py-1"><?= $rev_type ?></span>
                                                         </h4>
-                                                        <span class=" text-sm">@<?= $review['user_name'] ?></span>
+                                                        <span class=" text-sm font-mono">@<?= $review['user_name'] ?></span>
                                                         <div class="flex text-yellow-400 text-base">
                                                             <?= str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']) ?>
                                                         </div>

@@ -2,6 +2,7 @@
 include('../../../config/connect.php');
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
+date_default_timezone_set("Asia/Kolkata");
 ini_set('error_log', 'error_log.txt');
 
 session_start();
@@ -21,10 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $event_id = $_POST['event_id'];
         $user_id2 = $_POST['user_id'];
         $notice_text = $_POST['notice_text'];
+        $date = date("Y-m-d H:i:s");
 
-        $sql = "INSERT INTO event_has_notices (notice, date, user_id, event_id) VALUES (?, NOW(), ?, ?)";
+        $sql = "INSERT INTO event_has_notices (notice, date, user_id, event_id) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sii", $notice_text, $user_id2, $event_id);
+        $stmt->bind_param("ssii", $notice_text,$date, $user_id2, $event_id);
 
         if ($stmt->execute()) {
             echo "Success";

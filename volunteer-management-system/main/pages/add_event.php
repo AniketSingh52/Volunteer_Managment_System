@@ -224,7 +224,9 @@ if ($result && $row = $result->fetch_assoc()) {
                                 <input
                                     name="date_of_creation"
                                     type="date"
-                                    value="<?php echo date('Y-m-d'); ?>"
+                                    value="<?php
+                                            date_default_timezone_set("Asia/Kolkata");
+                                    echo date('Y-m-d'); ?>"
                                     readonly
                                     class="mt-2 block w-full rounded-lg border-gray-300 bg-gray-50 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm">
                             </div>
