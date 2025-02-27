@@ -182,9 +182,44 @@ $result2 = $stmt->get_result();
 
                     ?>
 
+                            <!-- Can be Commented  animation-->
+
+                            <div
+                                class="mx-auto flex justify-center items-center filter blur-2xl animate-pulse duration-500 transition w-full">
+                                <div class="mt-2 mr-10 flex relative">
+                                    <div
+                                        class="p-44 rounded-full bg-gradient-to-r to-indigo-700 from-pink-900 absolute top-20 right-0"></div>
+                                    <div
+                                        class="p-44 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute md:flex hidden"></div>
+                                </div>
+                                <!-- Right Side -->
+                                <div class="flex flex-col absolute top-8 right-10 space-y-4">
+                                    <div
+                                        class="p-5 rounded-full bg-gradient-to-r to-pink-700 via-red-500 from-indigo-900 absolute right-16 top-10"></div>
+                                </div>
+                                <div class="flex flex-col absolute bottom-8 right-10 space-y-4">
+                                    <div
+                                        class="p-10 rounded-full bg-gradient-to-r to-pink-700 from-indigo-900 absolute right-16 bottom-10"></div>
+                                </div>
+                                <!--  Left side -->
+                                <div
+                                    class="flex flex-col space-y-2 filter animate-pulse duration-500">
+                                    <div
+                                        class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute top-20 left-20"></div>
+                                    <div
+                                        class="p-10 bg-gradient-to-r to-indigo-700 from-blue-900 absolute bottom-20 right-20"></div>
+                                </div>
+                            </div>
+                            <!-- Can be Commented  end-->
+
+
+
+
+
+
                             <!-- 1st Post  -->
                             <div
-                                class="mx-auto flex justify-center max-w-4xl md:mb-8 mt-4 bg-white rounded-lg items-center relative md:p-0 p-8"
+                                class="mx-auto flex justify-center max-w-4xl md:mb-8  bg-white rounded-lg items-center relative md:p-0 p-8"
                                 x-data="{
         comment : false,
     }">
