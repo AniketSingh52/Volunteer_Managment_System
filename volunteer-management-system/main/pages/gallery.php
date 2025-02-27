@@ -22,6 +22,19 @@ if ($result && $row = $result->fetch_assoc()) {
 
 }
 
+
+$sql = "SELECT u.name,u.user_name,u.user_type, u.profile_picture, p.picture_url,p.upload_date,p.picture_id FROM `pictures` p JOIN user u ON p.user_id=u.user_id 
+             ORDER BY p.upload_date DESC";
+
+$result2 = $conn->query($sql);
+
+// // Display results
+// if ($checkResult->num_rows > 0) {
+// $stmt = $conn->prepare($sql);
+// $stmt->bind_param("i", $user_id);
+// $stmt->execute();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -130,17 +143,17 @@ if ($result && $row = $result->fetch_assoc()) {
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Header Section -->
-                <div class="relative mb-12">
+                <div class="relative mb-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <h1 class="text-3xl font-bold text-gray-900">Photo Gallery</h1>
                             <p class="mt-2 text-gray-600">Capturing moments of impact and community service</p>
                         </div>
-                        <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md">
+                        <button onclick="window.location.href='add_post.php'" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
-                            Add Photos
+                            Add Post
                         </button>
                     </div>
 
@@ -153,7 +166,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                 </svg>
                                 All Photos
                             </button>
-                            <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center">
+                            <!-- <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                 </svg>
@@ -170,282 +183,100 @@ if ($result && $row = $result->fetch_assoc()) {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
                                 Favorites
-                            </button>
+                            </button> -->
                         </nav>
                     </div>
                 </div>
 
                 <!-- Gallery Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
                     <!-- Gallery Item 1 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1000"
-                            alt="Community Garden Clean-up"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <a href="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1000" data-fancybox="gallery" data-caption="Caption Images 1" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Community Garden Clean-up</h3>
-                                        <p class="text-gray-200 text-sm">March 20, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+                    <?php
 
-                    </div>
+                    if ($result2->num_rows > 0) {
 
-                    <!-- Gallery Item 2 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=1000"
-                            alt="Youth Mentorship Program"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <a href="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=1000" data-fancybox="gallery" data-caption="Caption Images 1" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Youth Mentorship Program</h3>
-                                        <p class="text-gray-200 text-sm">March 15, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        // $rows = $result2->fetch_all(MYSQLI_ASSOC);
 
-                    <!-- Gallery Item 3 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1000"
-                            alt="Food Distribution Drive"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <a href="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1000" data-fancybox="gallery" data-caption="Caption Images 1" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Food Distribution Drive</h3>
-                                        <p class="text-gray-200 text-sm">March 10, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        while ($row = $result2->fetch_assoc()) {
+                            $username = $row['name'];
+                            $user_name = $row['user_name'];
+                            $user_profile = $row['profile_picture'];
+                            $picture_id = $row['picture_id'];
+                            $picture_url = $row['picture_url'];
+                            $picture_url = preg_replace('/^\.\.\//', '', $picture_url);
+                            $picture_date = $row['upload_date'];
+                            $user_profile = preg_replace('/^\.\.\//', '', $user_profile);
+                        $comment_type = ($row['user_type'] == 'V') ? "Volunteer" : "Organisation";
+                        $comment_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 font-medium text-green-800";
 
-                    <!-- Gallery Item 4 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=1000"
-                            alt="Beach Clean-up Initiative"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <a href="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=1000" data-fancybox="gallery" data-caption="Caption Images 1" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Beach Clean-up Initiative</h3>
-                                        <p class="text-gray-200 text-sm">March 5, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
 
-                    <!-- Gallery Item 5 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=1000"
-                            alt="Educational Workshop"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <a href="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=1000" data-fancybox="gallery" data-caption="Caption Images 1" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Educational Workshop</h3>
-                                        <p class="text-gray-200 text-sm">March 1, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            $creation_date = new DateTime($picture_date);
+                            $today = new DateTime();
+                            $diff = $today->diff($creation_date);
 
-                    <!-- Gallery Item 6 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=1000"
-                            alt="Animal Shelter Visit"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Animal Shelter Visit</h3>
-                                        <p class="text-gray-200 text-sm">February 28, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Gallery Item 4 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=1000"
-                            alt="Beach Clean-up Initiative"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Beach Clean-up Initiative</h3>
-                                        <p class="text-gray-200 text-sm">March 5, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            if (
+                                $diff->days == 0
+                            ) {
+                                $days_ago = "Today at: " . date("h:i A", strtotime($picture_date));
+                            } else {
+                                $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($picture_date));
+                            }
 
-                    <!-- Gallery Item 5 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=1000"
-                            alt="Educational Workshop"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Educational Workshop</h3>
-                                        <p class="text-gray-200 text-sm">March 1, 2024</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Gallery Item 6 -->
-                    <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
-                        <img
-                            src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=1000"
-                            alt="Animal Shelter Visit"
-                            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-0 left-0 right-0 p-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-white font-semibold">Animal Shelter Visit</h3>
-                                        <p class="text-gray-200 text-sm">February 28, 2024</p>
+                    ?>
+
+
+
+
+
+                            <div class="relative group rounded-xl overflow-hidden bg-gray-100 hover:shadow-xl transition-all duration-300">
+                                <img
+                                    src="<?= $picture_url ?>"
+                                    alt="<?= $username ?>"
+                                    class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <a onclick="window.location.href='view_post.php?id=<?= base64_encode($picture_id) ?>'" class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class=" flex space-x-2">
+                                                <div class="mr-1 p-1">
+                                                    <img
+                                                        src="<?= $user_profile ?>"
+                                                        alt="<?= $username ?>"
+                                                        class="w-10 h-10 rounded-full object-cover" />
+                                                </div>
+                                                <div class="ml-3 flex justify-start flex-col items-start">
+                                                    <p class="text-lg text-white/90 font-serif ">@<?= $user_name ?>
+                                                        <span class=" ml-2  text-sm <?= $comment_style ?> rounded-xl px-2 py-1"><?= $comment_type ?></span>
+                                                    </p>
+                                                    <p class="text-white/80 text-sm "><?= $days_ago ?></p>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- <div class="flex space-x-2">
+                                    <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                        </svg>
+                                    </button>
+                                </div> -->
+                                        </div>
                                     </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                            </svg>
-                                        </button>
-                                        <button class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
+                                </a>
+
                             </div>
-                        </div>
-                    </div>
+
+                    <?php
+
+                        }
+                    }
+                    ?>
                 </div>
 
             </div>
@@ -453,14 +284,14 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
             <!-- Load More Button -->
-            <div class="mt-12 text-center">
-                <button class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    Load More
-                </button>
-            </div>
+            <!-- <div class="mt-12 text-center">
+            <button class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+                Load More
+            </button>
+        </div> -->
         </div>
 
         <script>
@@ -492,13 +323,13 @@ if ($result && $row = $result->fetch_assoc()) {
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="../../js/fancycss.js"></script>
+    <!-- <script src="../../js/fancycss.js"></script> -->
     <!-- Home Page NavBar Sidebar Don't Touch -->
 
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js'></script>
     <!-- Script JS -->
-    <script src="./js/script.js"></script>
+    <!-- <script src="./js/script.js"></script> -->
     <!--$%analytics%$-->
     <script>
         // start: Sidebar

@@ -23,14 +23,20 @@ if ($result && $row = $result->fetch_assoc()) {
 
 }
 
+//GET THE EVENT ID FOR DETAILS FETCHING
 
-$sql = "SELECT p.user_id,u.name,u.user_name,u.user_type, u.profile_picture, p.picture_url,p.caption,p.upload_date,p.likes, p.picture_id FROM `pictures` p JOIN user u ON p.user_id=u.user_id 
-            WHERE p.user_id = ? ORDER BY p.upload_date DESC";
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $post_id = base64_decode($_GET['id']);
+    $sql = "SELECT p.user_id,u.name,u.user_name,u.user_type, u.profile_picture, p.picture_url,p.caption,p.upload_date,p.likes, p.picture_id FROM `pictures` p JOIN user u ON p.user_id=u.user_id 
+            WHERE p.picture_id = ? ORDER BY p.upload_date DESC";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result2 = $stmt->get_result();
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $post_id);
+    $stmt->execute();
+    $result2 = $stmt->get_result();
+} else {
+    echo "<script>alert('Select an Post to view.'); window.location.href='gallery.php';</script>";
+}
 
 ?>
 
@@ -137,23 +143,29 @@ $result2 = $stmt->get_result();
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 py-3">
-                <div
-                    class="mb-1 mx-auto space-y-2 text-center max-w-7xl bg-white py-4 rounded-xl">
-                    <h2 class="text-4xl font-bold text-gray-800">My Posts</h2>
-                    <p class="lg:mx-auto lg:w-6/12 text-gray-600 dark:text-gray-500">
-                        Manage Your Posts and Comments
-                    </p>
+                <div class="relative mb-10 mt-5 max-w-6xl mx-auto">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Comments & Likes</h1>
+                            <p class="mt-2 text-gray-600">Capturing moments of impact and community service</p>
+                        </div>
+                        <button onclick="window.location.href='add_post.php'" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-sm hover:shadow-md">
+                            <i class="bx bx-search mr-3 text-lg"></i>
+                            View Other Post
+                        </button>
+                    </div>
+
                 </div>
 
                 <div class=" mt-6 space-y-10">
 
                     <?php
 
-                    if ($result2->num_rows > 0) {
+                    if ($result2->num_rows ==1 ) {
 
-                        $rows = $result2->fetch_all(MYSQLI_ASSOC);
+                        $row = $result2->fetch_assoc();
 
-                        foreach ($rows as $row) {
+                      
                             $username = $row['name'];
                             $picture_creator_id = $row['user_id'];
                             $user_name = $row['user_name'];
@@ -209,22 +221,12 @@ $result2 = $stmt->get_result();
                        <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
 
                                             </div>
-                                            <!-- <button
-                                                type="button"
-                                                class="relative p-2 focus:outline-none border-none bg-gray-100 rounded-full">
-                                                <svg
-                                                    class="w-5 h-5 text-gray-700"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                                                </svg>
-                                            </button> -->
+
+                                            <?php
+                                            if ($picture_creator_id==$user_id){
+
+                                            
+                                            ?>
                                             <div class="flex space-x-2 mr-3 .action">
                                                 <button class="p-2 text-gray-400 hover:text-blue-600" onclick="window.location.href='edit_post.php?id=<?= base64_encode($picture_id) ?>'">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,6 +239,32 @@ $result2 = $stmt->get_result();
                                                     </svg>
                                                 </button>
                                             </div>
+
+                                        <?php
+                                            }else{
+                                                echo
+                                                '
+                                                 <button
+                                                type="button" 
+                                                class="relative p-2 focus:outline-none border-none hover:bg-gray-100  rounded-full">
+                                                <svg
+                                                    class="w-5 h-5 text-gray-700 hover:text-pink-500"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                                </svg>
+                                            </button>
+                                                ';
+
+                                            }
+                                        
+                                        ?>
                                         </div>
                                     </div>
                                     <div class="relative w-full h-full">
@@ -477,10 +505,10 @@ $result2 = $stmt->get_result();
                             <!-- End 1st Post -->
 
                     <?php
-                        }
+                        
                     } else {
                         echo '
-                    <h1 class=" text-3xl font-medium text-center mt-10">No Post Available</h1>
+                    <h1 class=" text-3xl font-medium">No Post Available</h1>
                     ';
                     }
                     ?>
@@ -538,37 +566,7 @@ $result2 = $stmt->get_result();
             });
 
 
-            $(document).on('click', '.delete-post', function(e) {
-                e.preventDefault();
-                let post = $(this).data("postid");
-                alert(post);
-
-                if (confirm("Are you sure you want to delete this event?")) {
-                    $.ajax({
-                        url: "Backend/delete_post.php",
-                        type: "POST",
-                        data: {
-                            post_id: post
-                        },
-                        dataType: "json", // Expect JSON response
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                alert(response.message); // Show success message
-                                location.reload(); // Reload the page after deletion
-                            } else {
-                                alert(response.message); // Show error message
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log("AJAX Error: " + status + " " + error);
-                            console.log("Server Response: " + xhr.responseText);
-                        }
-                    });
-                }
-            });
-
-
-
+        
 
             $(".comment-form").submit(function(e) {
                 e.preventDefault(); // Prevent form from refreshing the page
@@ -805,96 +803,3 @@ $result2 = $stmt->get_result();
 </body>
 
 </html>
-<script>
-    //     <!-- 1st Comment 
-    //     -->
-    // <div
-    //     class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
-
-
-
-    //     <div class="relative mt-1 mb-3 pt-2 flex w-full">
-    //         <div class="mr-2">
-    //             <img
-    //                 src="https://avatars.githubusercontent.com/u/68494287?v=4"
-    //                 alt="saman sayyar"
-    //                 class="w-12 h-12 rounded-full object-cover" />
-    //         </div>
-    //         <div class="ml-2 w-full" x-data="{ replies : false }">
-    //             <p class="text-gray-600 md:text-lg text-xs w-full">
-    //                 <!-- Username User -->
-    //                 <span class="font-normal text-gray-900">samansayyar</span>
-    //                 <!-- Username User -->
-    //                 You Can see?
-    //             </p>
-    //             <div class="flex space-x-4 w-full">
-    //                 <div class="time mt-1 text-gray-400 text-xs">
-    //                     <p>2d</p>
-    //                 </div>
-    //                 <button
-    //                     type="button"
-    //                     class="focus:outline-none time mt-1 text-gray-400 text-sm">
-    //                     <p>replay</p>
-    //                 </button>
-    //             </div>
-    //             <button
-    //                 type="button"
-    //                 @click="replies = !replies"
-    //                 class="focus:outline-none mt-3 flex justify-center items-center">
-    //                 <p
-    //                     class="text-sm text-center text-indigo-500 flex space-x-2">
-    //                     <span>____ View replies (1)</span>
-    //                     <svg
-    //                         class="w-3 h-4"
-    //                         fill="none"
-    //                         stroke="currentColor"
-    //                         viewBox="0 0 24 24"
-    //                         xmlns="http://www.w3.org/2000/svg">
-    //                         <path
-    //                             stroke-linecap="round"
-    //                             stroke-linejoin="round"
-    //                             stroke-width="2"
-    //                             d="M19 9l-7 7-7-7"></path>
-    //                     </svg>
-    //                 </p>
-    //             </button>
-    //             <div
-    //                 x-show="replies"
-    //                 x-transition=""
-    //                 class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100"
-    //                 style="display: none">
-    //                 <div class="relative mt-1 mb-3 pt-2 flex w-full">
-    //                     <div class="mr-2">
-    //                         <img
-    //                             src="https://avatars.githubusercontent.com/u/68494287?v=4"
-    //                             alt="saman sayyar"
-    //                             class="w-8 h-8 rounded-full object-cover" />
-    //                     </div>
-    //                     <div
-    //                         class="ml-2 w-full"
-    //                         x-data="{ replies : true }">
-    //                         <p
-    //                             class="text-gray-600 md:text-sm text-xs w-full">
-    //                             <!-- Username User -->
-    //                             <span class="font-normal text-gray-900">samansayyar</span>
-    //                             <!-- Username User -->
-    //                             You Can see?
-    //                         </p>
-    //                         <div class="flex space-x-4">
-    //                             <div
-    //                                 class="time mt-1 text-gray-400 text-xs">
-    //                                 <p>2d</p>
-    //                             </div>
-    //                             <button
-    //                                 type="button"
-    //                                 class="focus:outline-none time mt-1 text-gray-400 text-xs">
-    //                                 <p>replay</p>
-    //                             </button>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
-</script>
