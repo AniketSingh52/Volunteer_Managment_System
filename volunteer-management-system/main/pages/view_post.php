@@ -143,6 +143,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 py-3">
+                <button onclick="history.back()" class="flex items-center gap-1  text-gray-700 font-semibold rounded-lg hover:text-blue-400 transition-all duration-200 px-2 text-xl hover:scale-105">
+                    <i class=" bx bx-arrow-back text-2xl"></i>Back
+                </button>
                 <div class="relative mb-10 mt-5 max-w-6xl mx-auto">
                     <div class="flex items-center justify-between">
                         <div>
@@ -161,72 +164,72 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
                     <?php
 
-                    if ($result2->num_rows ==1 ) {
+                    if ($result2->num_rows == 1) {
 
                         $row = $result2->fetch_assoc();
 
-                      
-                            $username = $row['name'];
-                            $picture_creator_id = $row['user_id'];
-                            $user_name = $row['user_name'];
-                            $user_profile = $row['profile_picture'];
-                            $picture_id = $row['picture_id'];
-                            $picture_url = $row['picture_url'];
-                            $picture_url = preg_replace('/^\.\.\//', '', $picture_url);
-                            $picture_caption = $row['caption'];
-                            $picture_date = $row['upload_date'];
-                            $picture_likes = $row['likes'];
-                            $user_profile = preg_replace('/^\.\.\//', '', $user_profile);
-                            $comment_type = ($row['user_type'] == 'V') ? "Volunteer" : "Organisation";
-                            $comment_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
 
-                            $creation_date = new DateTime($picture_date);
-                            $today = new DateTime();
-                            $diff = $today->diff($creation_date);
+                        $username = $row['name'];
+                        $picture_creator_id = $row['user_id'];
+                        $user_name = $row['user_name'];
+                        $user_profile = $row['profile_picture'];
+                        $picture_id = $row['picture_id'];
+                        $picture_url = $row['picture_url'];
+                        $picture_url = preg_replace('/^\.\.\//', '', $picture_url);
+                        $picture_caption = $row['caption'];
+                        $picture_date = $row['upload_date'];
+                        $picture_likes = $row['likes'];
+                        $user_profile = preg_replace('/^\.\.\//', '', $user_profile);
+                        $comment_type = ($row['user_type'] == 'V') ? "Volunteer" : "Organisation";
+                        $comment_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
 
-                            if (
-                                $diff->days == 0
-                            ) {
-                                $days_ago = "Today at: " . date("h:i A", strtotime($picture_date));
-                            } else {
-                                $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($picture_date));
-                            }
+                        $creation_date = new DateTime($picture_date);
+                        $today = new DateTime();
+                        $diff = $today->diff($creation_date);
+
+                        if (
+                            $diff->days == 0
+                        ) {
+                            $days_ago = "Today at: " . date("h:i A", strtotime($picture_date));
+                        } else {
+                            $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($picture_date));
+                        }
 
                     ?>
 
-                            <!-- 1st Post  -->
-                            <div
-                                class="mx-auto flex justify-center max-w-4xl md:mb-8 mt-4 bg-white rounded-lg items-center relative md:p-0 p-8"
-                                x-data="{
+                        <!-- 1st Post  -->
+                        <div
+                            class="mx-auto flex justify-center max-w-4xl md:mb-8 mt-4 bg-white rounded-lg items-center relative md:p-0 p-8"
+                            x-data="{
         comment : false,
     }">
-                                <div class="h-full relative">
-                                    <div class="py-2 px-2">
-                                        <div class="flex justify-between items-center py-2">
-                                            <div class="relative mt-1 flex">
+                            <div class="h-full relative">
+                                <div class="py-2 px-2">
+                                    <div class="flex justify-between items-center py-2">
+                                        <div class="relative mt-1 flex">
 
-                                                <div class="mr-2 p-1">
-                                                    <img
-                                                        src="<?= $user_profile ?>"
-                                                        alt="<?= $username ?>"
-                                                        class="w-10 h-10 rounded-full object-cover" />
+                                            <div class="mr-2 p-1">
+                                                <img
+                                                    src="<?= $user_profile ?>"
+                                                    alt="<?= $username ?>"
+                                                    class="w-10 h-10 rounded-full object-cover" />
+                                            </div>
+                                            <a onclick="window.location.href='profile2.php?id=<?= base64_encode($picture_creator_id) ?>'">
+                                                <div class="ml-3 flex justify-start flex-col items-start">
+                                                    <p class="text-lg font-bold "><?= $username ?> <span class=" ml-2  text-sm <?= $comment_style ?> rounded-xl px-2 py-1"><?= $comment_type ?></span></p>
+                                                    <p class="text-gray-600 text-sm font-mono">@<?= $user_name ?></p>
                                                 </div>
-                                                <a onclick="window.location.href='profile2.php?id=<?= base64_encode($picture_creator_id) ?>'">
-                                                    <div class="ml-3 flex justify-start flex-col items-start">
-                                                        <p class="text-lg font-bold "><?= $username ?> <span class=" ml-2  text-sm <?= $comment_style ?> rounded-xl px-2 py-1"><?= $comment_type ?></span></p>
-                                                        <p class="text-gray-600 text-sm font-mono">@<?= $user_name ?></p>
-                                                    </div>
-                                                </a>
-                                                <!-- <span class="text-xs mx-2">•</span>
+                                            </a>
+                                            <!-- <span class="text-xs mx-2">•</span>
                        <button class="text-indigo-500 text-sm capitalize flex justify-start items-start">follow</button> -->
 
-                                            </div>
+                                        </div>
 
-                                            <?php
-                                            if ($picture_creator_id==$user_id){
+                                        <?php
+                                        if ($picture_creator_id == $user_id) {
 
-                                            
-                                            ?>
+
+                                        ?>
                                             <div class="flex space-x-2 mr-3 .action">
                                                 <button class="p-2 text-gray-400 hover:text-blue-600" onclick="window.location.href='edit_post.php?id=<?= base64_encode($picture_id) ?>'">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,9 +244,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                             </div>
 
                                         <?php
-                                            }else{
-                                                echo
-                                                '
+                                        } else {
+                                            echo
+                                            '
                                                  <button
                                                 type="button" 
                                                 class="relative p-2 focus:outline-none border-none hover:bg-gray-100  rounded-full">
@@ -261,34 +264,140 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                 </svg>
                                             </button>
                                                 ';
+                                        }
 
-                                            }
-                                        
                                         ?>
+                                    </div>
+                                </div>
+                                <div class="relative w-full h-full">
+                                    <img
+                                        src="<?= $picture_url ?>"
+                                        alt="<?= $username ?>"
+                                        class="rounded-lg w-full h-full object-cover" />
+                                </div>
+                                <div class="">
+                                    <!-- Comment -->
+                                    <div
+                                        class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
+                                        x-show="comment"
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 transform scale-90"
+                                        x-transition:enter-end="opacity-100 transform scale-100"
+                                        x-transition:leave="transition ease-in duration-100"
+                                        x-transition:leave-start="opacity-100 transform scale-100"
+                                        x-transition:leave-end="opacity-0 transform scale-90">
+                                        <div
+                                            class="flex justify-start items-center py-2 px-4 border-b"
+                                            @click="comment = !comment">
+                                            <svg
+                                                class="w-8 h-8 text-gray-700"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="1.5"
+                                                    d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+                                            </svg>
+                                            <div
+                                                class="text-xl w-full text-center p-4 font-semibold justify-between">
+                                                Comments
+                                            </div>
+                                        </div>
+
+                                        <div class="p-2 mb-10" id="comment_list_<?= $picture_id ?>">
+
+                                            <?php
+                                            // Calculate the average rating of the event
+                                            $sql = "SELECT COUNT(*) AS Total FROM `comments` WHERE picture_id=?";
+                                            $stmt = $conn->prepare($sql);
+                                            $stmt->bind_param("i", $picture_id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+                                            $row = $result->fetch_assoc();
+                                            $comments_total = $row['Total'];
+
+
+
+
+                                            // // Fetch reviews from the database based on date_time order
+                                            $sql = "SELECT c.text,c.date_time,c.comment_id,u.user_id, u.name, u.profile_picture,
+                                                            u.user_name,u.user_type FROM comments c JOIN user u ON c.user_id = u.user_id WHERE c.picture_id = ? ORDER BY `date_time` DESC";
+
+                                            $stmt = $conn->prepare($sql);
+                                            $stmt->bind_param("i", $picture_id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $comment_id = $row['comment_id'];
+                                                    $comment_text = $row['text'];
+                                                    $comment_date = $row['date_time'];
+                                                    $comment_user_id = $row['user_id'];
+                                                    $comment_name = $row['name'];
+                                                    $comment_user_name = $row['user_name'];
+                                                    $comment_user_profile = $row['profile_picture'];
+                                                    $comment_user_profile = preg_replace('/^\.\.\//', '', $comment_user_profile);
+                                                    $comment_user_style = ($row['user_type'] == 'O') ? "bg-indigo-100 " : "";
+                                                    $comment_creation_date = new DateTime($comment_date);
+                                                    $comment_today = new DateTime();
+                                                    $comment_diff = $comment_today->diff($comment_creation_date);
+                                                    if (
+                                                        $comment_diff->days == 0
+                                                    ) {
+                                                        $comment_days_ago = "Today at: " . date("h:i A", strtotime($comment_date));
+                                                    } else {
+                                                        $comment_days_ago = ($comment_diff->days <= 10) ? "{$comment_diff->days} days ago" : date('jS M y', strtotime($comment_date));
+                                                    }
+
+
+                                            ?>
+
+
+                                                    <!-- 1nd Comment -->
+                                                    <div
+                                                        class="flex justify-start <?= $comment_user_style ?> flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm">
+                                                        <div class="relative w-full mt-1 mb-3 pt-2 flex">
+                                                            <div class="mr-2">
+                                                                <img
+                                                                    src="<?= $comment_user_profile ?>"
+                                                                    alt="<?= $comment_name ?>"
+
+                                                                    class="w-12 h-12 rounded-full object-cover" />
+                                                            </div>
+                                                            <div class="ml-2 w-full">
+                                                                <p class="text-gray-600 md:text-lg text-xs w-full">
+                                                                    <!-- Username User -->
+                                                                    <span class=" text-gray-900 mr-2 font-mono">@<?= $comment_user_name ?></span>
+                                                                    <!-- Username Comment -->
+                                                                    <?= $comment_text ?>
+                                                                </p>
+                                                                <div class="time mt-1 text-gray-400 text-xs">
+                                                                    <p><?= $comment_days_ago ?></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                            <?php
+
+                                                }
+                                            } else {
+                                                echo "<h1 class='text-xl mt-10 text-center font-serif font-medium'>No Comments Available</h1>";
+                                            }
+                                            ?>
                                         </div>
                                     </div>
-                                    <div class="relative w-full h-full">
-                                        <img
-                                            src="<?= $picture_url ?>"
-                                            alt="<?= $username ?>"
-                                            class="rounded-lg w-full h-full object-cover" />
-                                    </div>
-                                    <div class="">
-                                        <!-- Comment -->
-                                        <div
-                                            class="overflow-y-scroll w-full absolute inset-0 bg-white transform transition duration-200"
-                                            x-show="comment"
-                                            x-transition:enter="transition ease-out duration-200"
-                                            x-transition:enter-start="opacity-0 transform scale-90"
-                                            x-transition:enter-end="opacity-100 transform scale-100"
-                                            x-transition:leave="transition ease-in duration-100"
-                                            x-transition:leave-start="opacity-100 transform scale-100"
-                                            x-transition:leave-end="opacity-0 transform scale-90">
-                                            <div
-                                                class="flex justify-start items-center py-2 px-4 border-b"
-                                                @click="comment = !comment">
+
+                                    <!-- System Like and tools Feed -->
+                                    <div class="flex justify-between items-start p-2 py-">
+                                        <div class="flex space-x-2 items-center">
+                                            <button type="button" class=" heart2 focus:outline-none Like" data-pictureid=<?= $picture_id ?>>
                                                 <svg
-                                                    class="w-8 h-8 text-gray-700"
+                                                    class="w-8 h-8 heart hover:fill-red-500 hover:text-red-500 text-gray-600"
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
@@ -296,216 +405,109 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                     <path
                                                         stroke-linecap="round"
                                                         stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+                                                        stroke-width="1.6"
+                                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                                                 </svg>
-                                                <div
-                                                    class="text-xl w-full text-center p-4 font-semibold justify-between">
-                                                    Comments
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="focus:outline-none Comment"
+                                                @click="comment = !comment">
+                                                <svg
+                                                    class="w-8 h-8 text-gray-600"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="1.6"
+                                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="focus:outline-none save">
+                                                <svg
+                                                    class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="1.6"
+                                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="flex space-x-2 items-center">
+                                            <button type="button" class="focus:outline-none Like">
+                                                <svg
+                                                    class="w-8 h-8 text-gray-600"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="1.6"
+                                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Post Details -->
+                                    <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
+                                        <div class="w-full">
+                                            <p class="font-bold text-lg text-gray-700" id="likes_<?= $picture_id ?>"><?= $picture_likes ?> likes</p>
+                                        </div>
+                                        <div class="text-base">
+                                            <?= $picture_caption ?>
+                                        </div>
+
+                                        <div id="comment_count_<?= $picture_id ?>" class="text-gray-500 leading-loose text-base font-semibold">
+                                            View all <?= $comments_total ?> comments
+                                        </div>
+
+                                        <div class="w-full">
+                                            <p class="text-sm font-normal text-gray-400"><?= $days_ago ?></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Comment Input Field ans send button -->
+                                    <!-- End System Like and tools Feed  -->
+                                    <div class="z-50">
+                                        <form class="comment-form" data-post-id="<?= $picture_id ?>">
+                                            <div
+                                                class="flex justify-between border-t items-center w-full"
+                                                :class="comment ? 'absolute bottom-0' : '' ">
+                                                <div class="w-full">
+                                                    <input
+                                                        type="text"
+                                                        name="comment"
+                                                        id="comment"
+                                                        placeholder="Add A Comment..."
+                                                        class="comment-input w-full text-sm py-4 px-3 border-none outline-none rounded-none focus:border-none" />
+                                                </div>
+                                                <div class="w-20">
+                                                    <button
+                                                        class=" comment-submit border-none border-white text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
+                                                        <i class="bx bx-send text-3xl"></i>
+                                                    </button>
                                                 </div>
                                             </div>
-
-                                            <div class="p-2 mb-10" id="comment_list_<?= $picture_id ?>">
-
-                                                <?php
-                                                // Calculate the average rating of the event
-                                                $sql = "SELECT COUNT(*) AS Total FROM `comments` WHERE picture_id=?";
-                                                $stmt = $conn->prepare($sql);
-                                                $stmt->bind_param("i", $picture_id);
-                                                $stmt->execute();
-                                                $result = $stmt->get_result();
-                                                $row = $result->fetch_assoc();
-                                                $comments_total = $row['Total'];
-
-
-
-
-                                                // // Fetch reviews from the database based on date_time order
-                                                $sql = "SELECT c.text,c.date_time,c.comment_id,u.user_id, u.name, u.profile_picture,
-                                                            u.user_name,u.user_type FROM comments c JOIN user u ON c.user_id = u.user_id WHERE c.picture_id = ? ORDER BY `date_time` DESC";
-
-                                                $stmt = $conn->prepare($sql);
-                                                $stmt->bind_param("i", $picture_id);
-                                                $stmt->execute();
-                                                $result = $stmt->get_result();
-
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $comment_id = $row['comment_id'];
-                                                        $comment_text = $row['text'];
-                                                        $comment_date = $row['date_time'];
-                                                        $comment_user_id = $row['user_id'];
-                                                        $comment_name = $row['name'];
-                                                        $comment_user_name = $row['user_name'];
-                                                        $comment_user_profile = $row['profile_picture'];
-                                                        $comment_user_profile = preg_replace('/^\.\.\//', '', $comment_user_profile);
-                                                        $comment_user_style = ($row['user_type'] == 'O') ? "bg-indigo-100 " : "";
-                                                        $comment_creation_date = new DateTime($comment_date);
-                                                        $comment_today = new DateTime();
-                                                        $comment_diff = $comment_today->diff($comment_creation_date);
-                                                        if (
-                                                            $comment_diff->days == 0
-                                                        ) {
-                                                            $comment_days_ago = "Today at: " . date("h:i A", strtotime($comment_date));
-                                                        } else {
-                                                            $comment_days_ago = ($comment_diff->days <= 10) ? "{$comment_diff->days} days ago" : date('jS M y', strtotime($comment_date));
-                                                        }
-
-
-                                                ?>
-
-
-                                                        <!-- 1nd Comment -->
-                                                        <div
-                                                            class="flex justify-start <?= $comment_user_style ?> flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm">
-                                                            <div class="relative w-full mt-1 mb-3 pt-2 flex">
-                                                                <div class="mr-2">
-                                                                    <img
-                                                                        src="<?= $comment_user_profile ?>"
-                                                                        alt="<?= $comment_name ?>"
-
-                                                                        class="w-12 h-12 rounded-full object-cover" />
-                                                                </div>
-                                                                <div class="ml-2 w-full">
-                                                                    <p class="text-gray-600 md:text-lg text-xs w-full">
-                                                                        <!-- Username User -->
-                                                                        <span class=" text-gray-900 mr-2 font-mono">@<?= $comment_user_name ?></span>
-                                                                        <!-- Username Comment -->
-                                                                        <?= $comment_text ?>
-                                                                    </p>
-                                                                    <div class="time mt-1 text-gray-400 text-xs">
-                                                                        <p><?= $comment_days_ago ?></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                <?php
-
-                                                    }
-                                                } else {
-                                                    echo "<h1 class='text-xl mt-10 text-center font-serif font-medium'>No Comments Available</h1>";
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-
-                                        <!-- System Like and tools Feed -->
-                                        <div class="flex justify-between items-start p-2 py-">
-                                            <div class="flex space-x-2 items-center">
-                                                <button type="button" class=" heart2 focus:outline-none Like" data-pictureid=<?= $picture_id ?>>
-                                                    <svg
-                                                        class="w-8 h-8 heart hover:fill-red-500 hover:text-red-500 text-gray-600"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="1.6"
-                                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="focus:outline-none Comment"
-                                                    @click="comment = !comment">
-                                                    <svg
-                                                        class="w-8 h-8 text-gray-600"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="1.6"
-                                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                                    </svg>
-                                                </button>
-                                                <button type="button" class="focus:outline-none save">
-                                                    <svg
-                                                        class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="1.6"
-                                                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <div class="flex space-x-2 items-center">
-                                                <button type="button" class="focus:outline-none Like">
-                                                    <svg
-                                                        class="w-8 h-8 text-gray-600"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            stroke-width="1.6"
-                                                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <!-- Post Details -->
-                                        <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
-                                            <div class="w-full">
-                                                <p class="font-bold text-lg text-gray-700" id="likes_<?= $picture_id ?>"><?= $picture_likes ?> likes</p>
-                                            </div>
-                                            <div class="text-base">
-                                                <?= $picture_caption ?>
-                                            </div>
-
-                                            <div id="comment_count_<?= $picture_id ?>" class="text-gray-500 leading-loose text-base font-semibold">
-                                                View all <?= $comments_total ?> comments
-                                            </div>
-
-                                            <div class="w-full">
-                                                <p class="text-sm font-normal text-gray-400"><?= $days_ago ?></p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Comment Input Field ans send button -->
-                                        <!-- End System Like and tools Feed  -->
-                                        <div class="z-50">
-                                            <form class="comment-form" data-post-id="<?= $picture_id ?>">
-                                                <div
-                                                    class="flex justify-between border-t items-center w-full"
-                                                    :class="comment ? 'absolute bottom-0' : '' ">
-                                                    <div class="w-full">
-                                                        <input
-                                                            type="text"
-                                                            name="comment"
-                                                            id="comment"
-                                                            placeholder="Add A Comment..."
-                                                            class="comment-input w-full text-sm py-4 px-3 border-none outline-none rounded-none focus:border-none" />
-                                                    </div>
-                                                    <div class="w-20">
-                                                        <button
-                                                            class=" comment-submit border-none border-white text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
-                                                            <i class="bx bx-send text-3xl"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End 1st Post -->
+                        </div>
+                        <!-- End 1st Post -->
 
                     <?php
-                        
+
                     } else {
                         echo '
                     <h1 class=" text-3xl font-medium">No Post Available</h1>
@@ -566,7 +568,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             });
 
 
-        
+
 
             $(".comment-form").submit(function(e) {
                 e.preventDefault(); // Prevent form from refreshing the page
