@@ -26,3 +26,8 @@ style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))
 
 //Icon
 https://boxicons.com/?query=sen
+
+
+focus:ring-offset-2 focus:ring-blue-500
+focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+hover:scale-105 transition-all duration-300

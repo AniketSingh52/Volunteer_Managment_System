@@ -20,9 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Delete event query
         $deleteSql = "DELETE FROM `events_application` WHERE event_id = '$event_id' AND volunteer_id='$user_id'";
         if ($conn->query($deleteSql)) {
-            $response = ['status' => 'success', 'message' => 'Event Deleted Successfully!'];
+            $response = ['status' => 'success', 'message' => 'Application Deleted Successfully!'];
         } else {
-            $response = ['status' => 'error', 'message' => 'Failed to delete the event!'];
+            $response = ['status' => 'error', 'message' => 'Failed to delete the Application!'];
         }
     } else {
         $response = ['status' => 'error', 'message' => 'Invalid event ID!'];

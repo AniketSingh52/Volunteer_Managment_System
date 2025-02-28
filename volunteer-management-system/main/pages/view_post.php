@@ -608,6 +608,15 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 let user_id = <?= $user_id ?> // Get the comment text
                 let comment_list = ("#comment_list_" + postId);
                 let comment_count = ("#comment_count_" + postId);
+
+                let commentList = $(comment_list);
+                let noCommentsHeading = commentList.find("h1");
+
+                if (noCommentsHeading.length) {
+                    noCommentsHeading.remove(); // Remove the "No Comments Available" message
+                }
+                
+
                 // $(comment_list).html(comment);
                 if (comment.trim() === "") {
                     alert("Comment cannot be empty!");
@@ -630,6 +639,10 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         if (response.status === 'success') {
                             // alert(response.message); // Show success message
                             form.find(".comment-input").val(""); // Clear input field
+
+
+
+
                             $(comment_list).prepend(`
     <div class='flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm'>
         <div class='relative w-full mt-1 mb-3 pt-2 flex'>

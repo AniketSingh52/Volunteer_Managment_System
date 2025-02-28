@@ -193,11 +193,11 @@ GROUP BY event_id;
 
                      <div class="mt-6 flex justify-end space-x-4">
                          <button onclick="window.location.href=\'event_detail.php?id='. base64_encode($event_id) . '\'"
-                             class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                             class="px-4 py-2 border hover:scale-105 transition-all duration-300 border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                              View Details
                          </button>
                          <button onclick="window.location.href=\'Event_Applications.php?id='. base64_encode($event_id).'\'"
-                             class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                             class="px-4 py-2 border hover:scale-105 transition-all duration-300 border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                              View Applications
                          </button>
                      </div>

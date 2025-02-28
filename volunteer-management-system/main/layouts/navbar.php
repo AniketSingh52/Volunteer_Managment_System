@@ -318,7 +318,7 @@
                  class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[240px]">
                  <li>
                      <a
-                         href="../pages/profile2.php"
+                         href="../pages/profile2.php?id=<?= base64_encode($user_id)?>"
                          class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-user pr-2"></i> Profile</a>
                  </li>
                  <li>

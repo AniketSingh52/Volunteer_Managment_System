@@ -478,7 +478,7 @@ $result2 = $stmt->get_result();
                                             </div>
 
                                             <div class="w-full">
-                                                <p class="text-sm font-normal text-gray-400"><?= $days_ago ?></p>
+                                                <p class="text-base font-medium text-gray-400"><?= $days_ago ?></p>
                                             </div>
                                         </div>
 
@@ -615,6 +615,14 @@ $result2 = $stmt->get_result();
                 let comment_list = ("#comment_list_" + postId);
                 let comment_count = ("#comment_count_" + postId);
                 // $(comment_list).html(comment);
+
+
+                let commentList = $(comment_list);
+                let noCommentsHeading = commentList.find("h1");
+
+                if (noCommentsHeading.length) {
+                    noCommentsHeading.remove(); // Remove the "No Comments Available" message
+                }
                 if (comment.trim() === "") {
                     alert("Comment cannot be empty!");
                     return;

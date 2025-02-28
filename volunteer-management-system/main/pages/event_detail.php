@@ -305,7 +305,9 @@ GROUP BY event_id;
                                     alt="Organizer"
                                     class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-xl">
                                 <div>
-                                    <h3 class="text-xl font-semibold mb-1"><?php echo htmlspecialchars($organization_name) ?></h3>
+                                    
+                                        <h3 class="text-xl font-semibold mb-1"><?php echo htmlspecialchars($organization_name) ?></h3>
+                                
                                     <p class="text-base opacity-90"><?php echo htmlspecialchars($organization_type) ?></p>
                                 </div>
                             </div>
@@ -988,7 +990,7 @@ GROUP BY event_id;
                             </div>
 
                             <!-- View organizer button -->
-                            <button onclick="window.location.href='profile.php?id=<?= base64_encode($organization_id) ?>'"
+                            <button onclick="window.location.href='profile2.php?id=<?= base64_encode($organization_id) ?>'"
                                 class="w-full border-2 border-gray-200 text-gray-700 px-8 py-3 rounded-xl 
                      hover:bg-gray-50 transition-all duration-200 font-semibold text-lg
                      hover:border-gray-300 hover:shadow-md">

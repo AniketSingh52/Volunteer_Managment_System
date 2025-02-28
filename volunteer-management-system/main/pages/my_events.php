@@ -360,7 +360,7 @@ GROUP BY event_id;
                                                                 stroke-linejoin="round"
                                                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                                                         </svg>
-                                                        Volunteer Needed: <?= $accepted_count?>/<?= $volunteer_needed ?>
+                                                        Volunteer Needed:<?= $accepted_count ?><?= $volunteer_needed ?>
                                                     </div>
                                                     <div class="mt-2 flex items-center font-bold text-base text-gray-600">
                                                         <svg
@@ -375,7 +375,7 @@ GROUP BY event_id;
                                                                 stroke-linejoin="round"
                                                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                                                         </svg>
-                                                        Max Application: <?= $total_applications?>/<?= $max_application ?>
+                                                        Max Application:<?= $total_applications?>/<?= $max_application ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -399,7 +399,7 @@ GROUP BY event_id;
                                             <div class="grid grid-cols-3 gap-4">
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center ">
                                                     <p class="text-sm font-medium text-gray-500">Total Applications</p>
-                                                    <p class="mt-2 text-xl font-bold text-gray-900"><?= $total_applications?></p>
+                                                    <p class="mt-2 text-xl font-bold text-gray-900"> <?= $total_applications?></p>
                                                 </div>
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center">
                                                     <p class="text-sm font-medium text-gray-500">Approved</p>
@@ -414,11 +414,11 @@ GROUP BY event_id;
 
                                         <div class="mt-6 flex justify-end space-x-4">
                                             <button onclick="window.location.href='event_detail.php?id=<?= base64_encode($event_id) ?>'"
-                                                class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                class="px-4 hover:scale-105 transition-all duration-300 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 View Details
                                             </button>
                                             <button onclick="window.location.href='Event_Applications.php?id=<?= base64_encode($event_id) ?>'"
-                                                class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                class="px-4 py-2 hover:scale-105 transition-all duration-300 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 View Applications
                                             </button>
                                         </div>
@@ -431,7 +431,7 @@ GROUP BY event_id;
                     } else {
 
                         echo "
-                            <h1 class=' text-2xl font-semibold'>No Event Created</h1>
+                            <h1 class=' text-2xl font-semibold'>No Post Created</h1>
                             ";
                     }
                     ?>

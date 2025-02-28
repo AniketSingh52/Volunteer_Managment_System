@@ -506,10 +506,10 @@ if ($result2->num_rows > 0) {
 
                                         <div class="mt-6 flex justify-end space-x-4">
                                             <button onclick="window.location.href='event_detail.php?id=<?= base64_encode($event_id) ?>'"
-                                                class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                                class="px-4 py-2 hover:scale-105 transition-all duration-300  border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 View Details
                                             </button>
-                                            <button data-event_id="<?= $event_id ?>" class="delete-application flex text-center px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 " data-event-id="<?= $event_id ?>">
+                                            <button data-event_id="<?= $event_id ?>" class="delete-application flex text-center px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 focus:ring-offset-2 focus:ring-red-500" data-event-id="<?= $event_id ?>">
                                                 Cancel
                                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -582,7 +582,7 @@ if ($result2->num_rows > 0) {
                     $(document).on('click', '.delete-application', function(e) {
                         e.preventDefault();
                         let eventId = $(this).data("event_id");
-                        let userId=<?= $user_id ?>;
+                        let userId = <?= $user_id ?>;
                         // alert(userId);
                         // alert(eventId);
 
@@ -592,7 +592,7 @@ if ($result2->num_rows > 0) {
                                 type: "POST",
                                 data: {
                                     event_id: eventId,
-                                    user_id:userId
+                                    user_id: userId
                                 },
                                 dataType: "json", // Expect JSON response
                                 success: function(response) {

@@ -277,7 +277,7 @@ GROUP BY event_id;
                         <div class="absolute bottom-0 left-0 p-8 text-white">
                             <div class="flex items-center space-x-4 mb-4">
                                 <span class="<?= $status_style ?> backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold"><?= $status ?></span>
-                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm"><?= $volunteer_needed- $accepted_count ?> spots remaining</span>
+                                <span class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm"><?= $volunteer_needed - $accepted_count ?> spots remaining</span>
                             </div>
                             <h1 class="text-4xl font-bold mb-2"><?= $event_name ?></h1>
                             <p class="text-lg opacity-90"><?= $from_date ?> • <?= $to_date ?>, <?= $from_time ?> - <?= $to_time ?></p>
@@ -714,28 +714,28 @@ GROUP BY event_id;
 
                                     <!-- Action Buttons -->
                                     <div class="mt-6 flex justify-end space-x-4">
-                                        <button onclick="window.location.href='profile.php?<? base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        <button onclick="window.location.href='profile.php?<?= base64_encode($applicunt_id) ?>'" class="px-4 hover:scale-105 transition-all duration-300 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                             View Full Profile
                                         </button>
                                         <div class="applicunt_action">
 
                                             <?php if ($applicunt_status == 'Accepted') {
                                                 echo '
-                                             <button data-action="rejected" data-userid="' . $applicunt_id . '" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                             <button data-action="rejected" data-userid="' . $applicunt_id . '" class="px-4 py-2 hover:scale-105 transition-all duration-300 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                                 Reject
                                             </button>
                                             ';
                                             } elseif ($applicunt_status == 'Rejected') {
                                                 echo '
-                                                 <button data-action="accepted" data-userid="' . $applicunt_id . '" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                 <button data-action="accepted" data-userid="' . $applicunt_id . '" class="px-4 py-2 hover:scale-105 transition-all duration-300 border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                                 Accept
                                                </button>
                                                 ';
                                             } else { ?>
-                                                <button data-action="rejected" data-userid="<?= $applicunt_id ?>" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                <button data-action="rejected" data-userid="<?= $applicunt_id ?>" class="px-4 hover:scale-105 transition-all duration-300 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                                     Reject
                                                 </button>
-                                                <button data-action="accepted" data-userid="<?= $applicunt_id ?>" class="px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                <button data-action="accepted" data-userid="<?= $applicunt_id ?>" class="px-4 py-2  border border-transparent rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                                     Accept
                                                 </button>
                                             <?php
