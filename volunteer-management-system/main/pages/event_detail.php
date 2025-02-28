@@ -845,10 +845,10 @@ GROUP BY event_id;
                                 </button>';
 
                                     echo '
-                                 <button onclick="window.location.href=\'profile.php?id=' . base64_encode($organization_id) . '\'"
+                                 <button onclick="window.location.href=\'Event_Applications.php?id=' . base64_encode($event_id) . '\'"
                                     class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
                                     transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                                   Your Profile
+                                  View Applicants
                                 </button>
                                 
                                 

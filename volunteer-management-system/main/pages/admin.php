@@ -971,7 +971,7 @@ if ($result && $row = $result->fetch_assoc()) {
                             alt="<?= $username ?>"
                             class="w-10 h-10 rounded-full object-cover" />
                         </div>
-                        <a onclick="window.location.href='profile2.php?id=<?= base64_encode($picture_creator_id) ?>'">
+                        <a onclick="window.location.href='view_post.php?id=<?= base64_encode($picture_id) ?>'">
                           <div class="ml-3 flex justify-start flex-col items-start">
                             <p class="text-lg font-bold "><?= $username ?> <span class=" ml-2  text-sm <?= $comment_style ?> rounded-xl px-2 py-1"><?= $comment_type ?></span></p>
                             <p class="text-gray-600 text-sm font-mono">@<?= $user_name ?></p>

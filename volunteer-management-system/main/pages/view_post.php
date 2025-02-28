@@ -502,7 +502,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                         </div>
 
                                         <div class="w-full">
-                                            <p class="text-sm font-normal text-gray-400"><?= $days_ago ?></p>
+                                            <p class="text-base font-medium text-gray-400"><?= $days_ago ?></p>
                                         </div>
                                     </div>
 
@@ -615,7 +615,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 if (noCommentsHeading.length) {
                     noCommentsHeading.remove(); // Remove the "No Comments Available" message
                 }
-                
+
 
                 // $(comment_list).html(comment);
                 if (comment.trim() === "") {

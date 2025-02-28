@@ -1,8 +1,9 @@
 <?php include("../../config/connect.php"); ?>
+
 <?php
 session_start();
 $user_id = $_SESSION['user_id'];
-date_default_timezone_set("Asia/Kolkata");
+
 if (!$user_id) {
     echo "<script>alert('User not logged in.'); window.location.href='login_in.php';</script>";
     exit;
@@ -127,7 +128,7 @@ if ($result && $row = $result->fetch_assoc()) {
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 py-3">
 
-                <div class=" h-[82svh] flex">
+                <div class="min-h-screen flex">
                     <!-- Sidebar - User List -->
                     <div class="w-96 bg-white border-r border-gray-200 flex flex-col">
                         <!-- Header -->
@@ -135,7 +136,7 @@ if ($result && $row = $result->fetch_assoc()) {
                             <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center space-x-3">
                                     <img
-                                        src="<?= $profile ?>"
+                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"
                                         alt="Your Profile"
                                         class="w-10 h-10 rounded-full object-cover">
                                     <h2 class="text-xl font-semibold text-gray-800">Chats</h2>
@@ -157,7 +158,7 @@ if ($result && $row = $result->fetch_assoc()) {
                             <!-- Search -->
                             <div class="relative">
                                 <input
-                                    type="search"
+                                    type="text"
                                     placeholder="Search or start new chat"
                                     class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <svg class="w-5 h-5 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,7 +170,7 @@ if ($result && $row = $result->fetch_assoc()) {
                         <!-- Chat List -->
                         <div class="flex-1 overflow-y-auto">
                             <!-- Active Chat -->
-                            <!-- <div class="p-4 hover:bg-gray-50 cursor-pointer border-l-4 border-blue-500 bg-blue-50">
+                            <div class="p-4 hover:bg-gray-50 cursor-pointer border-l-4 border-blue-500 bg-blue-50">
                                 <div class="flex justify-between items-start">
                                     <div class="flex space-x-3">
                                         <div class="relative">
@@ -189,10 +190,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                         <div class="mt-1 bg-blue-500 text-white rounded-full px-2 py-1 text-center">2</div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!-- Other Chats -->
-                            <!-- <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                            <div class="p-4 hover:bg-gray-50 cursor-pointer">
                                 <div class="flex justify-between items-start">
                                     <div class="flex space-x-3">
                                         <div class="relative">
@@ -209,148 +210,46 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <span class="text-xs text-gray-500">Yesterday</span>
                                 </div>
-                            </div> -->
+                            </div>
 
-
-                            <?php
-
-                            $sql = "SELECT 
-                            u.user_id, 
-                            u.name, 
-                            u.user_name, 
-                            u.profile_picture, 
-                            m.text AS latest_message, 
-                            m.date_time AS latest_message_time,
-                            CASE 
-                                WHEN m.from_id = ? THEN 'from' 
-                                WHEN m.to_id = ? THEN 'to' 
-                                ELSE NULL 
-                            END AS message_direction
-                        FROM user u
-                        LEFT JOIN (
-                            -- Get the latest message exchanged between user_id = 12 and each user
-                            SELECT m1.*
-                            FROM messages m1
-                            INNER JOIN (
-                                -- Get the latest message date per user (either sent or received by user_id 12)
-                                SELECT 
-                                    CASE 
-                                        WHEN from_id = ? THEN to_id 
-                                        ELSE from_id 
-                                    END AS user_id,
-                                    MAX(date_time) AS latest_time
-                                FROM messages
-                                WHERE from_id = ? OR to_id = ?
-                                GROUP BY user_id
-                            ) m2 
-                            ON ((m1.from_id = ? AND m1.to_id = m2.user_id) OR (m1.to_id = ? AND m1.from_id = m2.user_id))
-                            AND m1.date_time = m2.latest_time
-                        ) m ON u.user_id = m.from_id OR u.user_id = m.to_id
-                        WHERE u.user_id != ?
-                        ORDER BY COALESCE(m.date_time, '0000-00-00 00:00:00') DESC;
-                        ";
-
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bind_param(
-                                "iiiiiiii",
-                                $user_id,
-                                $user_id,
-                                $user_id,
-                                $user_id,
-                                $user_id,
-                                $user_id,
-                                $user_id,
-                                $user_id
-                            ); // "i" for integer
-                            $stmt->execute();
-
-                            // $stmt = $conn->prepare($query);
-                            // $stmt->execute(['user_id' => $logged_in_user_id]);
-                            // $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            $result2 = $stmt->get_result();
-
-                            if ($result2->num_rows > 0) {
-
-                                $rows = $result2->fetch_all(MYSQLI_ASSOC);
-                                foreach ($rows as $row) {
-
-                                    $user_id2 = $row['user_id'];
-                                    $user_name = $row['user_name'];
-                                    $name = $row['name'];
-                                    $profile_img = $row['profile_picture'];
-                                    $profile_img = preg_replace('/^\.\.\//', '', $profile_img);
-                                    // $message_time = date('M d, Y', strtotime($row['latest_message_time']));
-
-                                    $message_direction = $row['message_direction']; //from,to
-                                    $message = $row['latest_message'];
-
-                                    // Convert message timestamp
-                                    $message_time = strtotime($row['latest_message_time']);
-
-                                    // Check if the date is today
-                                    if (date('Y-m-d', $message_time) == date('Y-m-d')) {
-                                        $formatted_time = "Today: " . date('h:i A', $message_time);
-                                    } else {
-                                        $formatted_time = date('M d, Y', $message_time);
-                                    }
-
-
-                            ?>
-                                    <a class="messag_profile" data-id=" <?= $user_id2 ?>">
-                                        <div class="p-4 hover:bg-gray-100 cursor-pointer">
-                                            <div class="flex justify-between items-start">
-                                                <div class="flex space-x-3">
-                                                    <div class="relative">
-                                                        <img src=" <?= htmlspecialchars($profile_img) ?>"
-                                                            alt=" <?= htmlspecialchars($user_name) ?>"
-                                                            class="w-12 h-12 rounded-full object-cover">
-                                                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                                                    </div>
-                                                    <div>
-                                                        <h3 class="font-semibold text-gray-900"><?= htmlspecialchars($name) ?></h3>
-                                                        <p class="text-base font-serif text-gray-600 line-clamp-1">
-                                                            <?= $message ?
-                                                                ($message_direction == 'from' ? "You: " : "") .
-                                                                htmlspecialchars($message) :
-                                                                "No messages yet" ?>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <span class="text-xs text-gray-500 mr-2">
-                                                    <?= $message_time ? $formatted_time : '' ?>
-                                                </span>
-                                            </div>
+                            <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex space-x-3">
+                                        <div class="relative">
+                                            <img
+                                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150"
+                                                alt="Sarah Wilson"
+                                                class="w-12 h-12 rounded-full object-cover">
+                                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                                         </div>
-                                    </a>
-                            <?php
-
-                                }
-                            } else {
-                                echo "<p>No messages</p>";
-                            }
-                            ?>
-
-
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Sarah Wilson</h3>
+                                            <p class="text-sm text-gray-600 line-clamp-1">Can you share the event details?</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-500">Tuesday</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Main Chat Area -->
                     <div class="flex-1 flex flex-col bg-[#f0f2f5]">
                         <!-- Chat Header -->
-                        <div class=" chat_header bg-white border-b border-gray-200 px-6 py-4">
+                        <div class="bg-white border-b border-gray-200 px-6 py-4">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center space-x-4">
                                     <img
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-                                        alt="Default"
+                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
+                                        alt="Jane Smith"
                                         class="w-10 h-10 rounded-full object-cover">
                                     <div>
-                                        <h3 class="font-semibold text-gray-500 opacity-35">Username</h3>
-                                        <p class="text-sm text-gray-500/30">Select a user</p>
+                                        <h3 class="font-semibold text-gray-900">Jane Smith</h3>
+                                        <p class="text-sm text-green-500">Online</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-4">
-                                    <!-- <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
                                         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                         </svg>
@@ -359,7 +258,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                         </svg>
-                                    </button> -->
+                                    </button>
                                     <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
                                         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
@@ -370,11 +269,9 @@ if ($result && $row = $result->fetch_assoc()) {
                         </div>
 
                         <!-- Messages Area -->
-                        <div class=" message_area flex-1 overflow-y-auto p-6 space-y-6" style="background-image: url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png');">
-
-                            <p class=" text-center justify-items-center text-2xl"> Select a user To chat with</p>
+                        <div class="flex-1 overflow-y-auto p-6 space-y-6" style="background-image: url('https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png');">
                             <!-- Received Message -->
-                            <!-- <div class="flex items-end space-x-2">
+                            <div class="flex items-end space-x-2">
                                 <img
                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
                                     alt="Jane Smith"
@@ -385,10 +282,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <span class="text-xs text-gray-500 ml-2">12:25 PM</span>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!-- Sent Message -->
-                            <!-- <div class="flex items-end justify-end space-x-2">
+                            <div class="flex items-end justify-end space-x-2">
                                 <div class="max-w-md">
                                     <div class="bg-blue-100 rounded-lg p-4 shadow-sm">
                                         <p class="text-gray-800">You're welcome! I'm glad you enjoyed it. We're planning another one next month.</p>
@@ -400,10 +297,10 @@ if ($result && $row = $result->fetch_assoc()) {
                                         </svg>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!-- Received Message with Image -->
-                            <!-- <div class="flex items-end space-x-2">
+                            <div class="flex items-end space-x-2">
                                 <img
                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
                                     alt="Jane Smith"
@@ -418,32 +315,39 @@ if ($result && $row = $result->fetch_assoc()) {
                                     </div>
                                     <span class="text-xs text-gray-500 ml-2">12:30 PM</span>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
 
                         <!-- Message Input -->
                         <div class="bg-white px-6 py-4 border-t border-gray-200">
                             <div class="flex items-center space-x-4">
-
                                 <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
                                     <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </button>
-
-                                <div class="flex-1">
-                                    <form class="chat_form">
-                                        <input
-                                            id="chat_message"
-                                            type="text"
-                                            placeholder="Type a message"
-                                            class="w-full px-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
-                                <button type="submit" id="chat_button" data-id=""
-                                    class=" comment-submit border-none border-white text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
-                                    <i class="bx bx-send text-3xl"></i>
+                                <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                    </svg>
                                 </button>
-                                </form>
+                                <div class="flex-1">
+                                    <input
+                                        type="text"
+                                        placeholder="Type a message"
+                                        class="w-full px-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                                <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -461,9 +365,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
     <!-- Footer -->
-    <?php
-    // include('../layouts/footer.php'); 
-    ?>
+    <?php include('../layouts/footer.php'); ?>
 
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
@@ -620,116 +522,6 @@ if ($result && $row = $result->fetch_assoc()) {
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-
-            $(document).on('click', '.messag_profile', function(e) {
-
-                let user_message_id = $(this).data("id");
-                let current_id = <?= $user_id ?>;
-                let button = $(this);
-                e.preventDefault();
-
-                // alert(user_message_id);
-
-                $.ajax({
-                    url: "Backend/chat_header.php", // Backend PHP script
-                    method: "POST",
-                    data: {
-                        user_id: user_message_id,
-                        current_id: current_id
-                    },
-                    success: function(response) {
-                        $(".chat_header").html(response); // Show results
-                        //  $("#events-list").html(""); // Clear results if input is empty
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        alert("AJAX Error: " + status + " " + error);
-                    }
-                });
-
-                $.ajax({
-                    url: "Backend/get_messages.php", // Backend PHP script
-                    method: "POST",
-                    data: {
-                        user_id: user_message_id,
-                        current_id: current_id
-                    },
-                    success: function(response) {
-                        $("#chat_button").data("id", user_message_id); // Correct way
-
-                        $(".message_area").html(response); // Show results
-                        //  $("#events-list").html(""); // Clear results if input is empty
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        alert("AJAX Error: " + status + " " + error);
-                    }
-                });
-
-
-
-            });
-            $(document).on('submit', '.chat_form', function(e) {
-                e.preventDefault();
-                let chat_message = $("#chat_message").val();
-                let user_message_id = $("#chat_button").data("id");
-                let userId = <?= $user_id ?>;
-
-                alert(chat_message);
-                alert(userId);
-                alert(user_message_id);
-
-                if (chat_message.trim() == "") {
-                    alert("Please select a rating and enter a review.");
-                    return;
-                }
-                $.ajax({
-                    url: "Backend/sent_message.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        from_id: userId,
-                        to_id: user_message_id,
-                        message:chat_message
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // alert("Message SEND successfully!");
-                            alert(response.message);
-
-                        } else {
-                            alert(response.message); // Show error message
-                        }
-
-                        //location.reload();
-
-                        // $(".review_list").html(response);
-
-                        // // Reset the rating stars
-                        // $(".rating-star").removeClass("text-yellow-400").addClass("text-gray-300");
-
-                        // // Reset the hidden input field
-                        // $("#rating").val("0");
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        alert("AJAX Error: " + status + " " + error);
-                    }
-                });
-            });
-
-        });
-    </script>
-
-
 </body>
 
 </html>
-
-
-
-<script>
-    // SELECT u.user_id, u.name, u.user_name, u.profile_picture, m.text AS latest_message, m.date_time AS latest_message_time FROM user u LEFT JOIN(--Get the latest message exchanged between user_id = 12 and each user SELECT m1.*FROM messages m1 INNER JOIN(SELECT CASE WHEN from_id = 12 THEN to_id ELSE from_id END AS user_id, MAX(date_time) AS latest_time FROM messages WHERE from_id = 12 OR to_id = 12 GROUP BY user_id) m2 ON((m1.from_id = 12 AND m1.to_id = m2.user_id) OR(m1.to_id = 12 AND m1.from_id = m2.user_id)) AND m1.date_time = m2.latest_time) m ON u.user_id = m.from_id OR u.user_id = m.to_id WHERE u.user_id != 12 ORDER BY COALESCE(m.date_time, '0000-00-00 00:00:00') DESC;
-</script>

@@ -1,2 +1,5 @@
-[27-Feb-2025 14:47:46 Europe/Berlin] PHP Warning:  Undefined variable $user_id in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\edit_post.php on line 14
-[28-Feb-2025 16:40:30 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
+[01-Mar-2025 02:34:32 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '0' for key 'PRIMARY' in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\sent_message.php:27
+Stack trace:
+#0 C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\sent_message.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\sent_message.php on line 27
