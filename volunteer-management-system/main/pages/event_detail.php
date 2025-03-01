@@ -75,6 +75,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             $date_of_creation = $row['date_of_creation'];
             $status = $row['status'];
+            $flag=false;
 
             //'Ongoing','Scheduled','Completed','Cancelled'
             if ($status == "Ongoing") {
@@ -84,6 +85,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             } elseif ($status == "Completed") {
                 $status_style = " bg-indigo-500/90 hover:bg-indigo-800/90  duration-300 transition-all ";
             } else {
+                $flag=true;
                 $status_style = " bg-red-500 hover:bg-red-800/90  duration-300 transition-all ";
             }
 
@@ -812,7 +814,7 @@ GROUP BY event_id;
                                                         <h4 class="font-bold text-lg"><?= $review['name'] ?>
                                                             <span class=" ml-2  text-sm <?= $rev_style ?> hover:bg-orange-200  rounded-xl px-2 py-1"><?= $rev_type ?></span>
                                                         </h4>
-                                                        <span class=" text-sm font-mono">@<?= $review['user_name'] ?></span>
+                                                        <span class=" text-sm  font-serif">@<?= $review['user_name'] ?></span>
                                                         <div class="flex text-yellow-400 text-base">
                                                             <?= str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']) ?>
                                                         </div>
@@ -887,11 +889,26 @@ GROUP BY event_id;
                             ';
                                     } else {
 
-                                        echo '
+                                        if($flag){
+
+                                            echo '
+                                            <button
+                                            class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
+                                            Cancelled
+                                            </button>
+                                            ';
+
+                                         }else{
+
+                                            echo '
                                 <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '" data-max_needed="' . $max_applications - $total_applications . '"
                                 class=" apply_button w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
                                 Apply Now
-                                </button>';
+                                </button>
+                                ';
+                                        }
+
+                        
 
                                         echo '
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
@@ -1182,7 +1199,6 @@ GROUP BY event_id;
                         event_id: eventId
                     },
                     success: function(response) {
-                        // alert("Review submitted successfully!");
                         //location.reload();
                         $(".review_info").html(response);
                     }
@@ -1214,7 +1230,7 @@ GROUP BY event_id;
                     },
                     success: function(response) {
 
-                        alert("Review submitted successfully!");
+                        // alert("Review submitted successfully!");
                         //location.reload();
 
                         //to re-fresh the review-list dynamically

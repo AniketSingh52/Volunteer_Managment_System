@@ -66,10 +66,10 @@
                             alt="'.$name.'"
                             class="w-8 h-8 rounded-full object-cover">
                         <div class="max-w-md">
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="bg-white rounded-lg p-4 shadow-md">
                                 <p class="text-gray-800">'.$message_text.'</p>
                             </div>
-                            <span class="text-xs text-gray-500 ml-2">'.$formatted_time.'</span>
+                            <span class="text-xs text-gray-500 ml-2 mt-1">'.$formatted_time.'</span>
                         </div>
                     </div>
                         ';
@@ -77,10 +77,10 @@
                         echo '
                         <div class="flex items-end justify-end space-x-2">
                         <div class="max-w-md">
-                            <div class="bg-blue-100 rounded-lg p-4 shadow-sm">
+                            <div class="bg-green-100 rounded-lg p-4 shadow-md">
                                 <p class="text-gray-800">'.$message_text.'</p>
                             </div>
-                            <div class="flex items-center justify-end space-x-1">
+                            <div class="flex items-center justify-end space-x-1 mt-1">
                                 <span class="text-xs text-gray-500">'.$formatted_time.'</span>
                                 <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

@@ -455,7 +455,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                                 </svg>
                                             </button>
-                                            <button type="button" class="focus:outline-none save">
+                                            <button data-pictureid=<?= base64_encode($picture_id) ?> type="button" class="whatsappShare focus:outline-none save">
                                                 <svg
                                                     class="w-7 h-7 mb-1 ml-1 text-gray-600 z-10"
                                                     fill="none"
@@ -553,6 +553,20 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
     <script>
         $(document).ready(function() {
+
+            $(".whatsappShare").click(function() {
+                let imgUrl = window.location.href; // Gets the current event page URL
+                // let picture_Id = $(this).data("pictureid"); // Replace with dynamic PHP variable
+                // alert(picture_Id);
+                let whatsappUrl = `https://api.whatsapp.com/send?text=Check%20out%20this%20event!%20${encodeURIComponent(imgUrl)}`;
+                window.open(whatsappUrl, "_blank");
+
+                // let baseUrl = window.location.origin + "/volunteer-management-system/main/pages/view_post.php?id=" + picture_Id; // Encode ID in base64
+                // let whatsappUrl = `https://api.whatsapp.com/send?text=Check%20out%20This%20AmaZingPost!%20${encodeURIComponent(baseUrl)}`;
+
+
+
+            });
 
 
             $(".heart").click(function() {

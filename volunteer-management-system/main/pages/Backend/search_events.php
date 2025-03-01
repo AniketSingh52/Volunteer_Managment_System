@@ -38,7 +38,9 @@ if (isset($_POST['search'])) {
 
         // Display results
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+            foreach ($rows as $row) {
+            // while ($row = $result->fetch_assoc()) {
 
                 $event_name = $row['event_name'];
                 $from_date = date('jS M y', strtotime($row['from_date']));
@@ -58,6 +60,7 @@ if (isset($_POST['search'])) {
                 $event_image = preg_replace('/^\.\.\//', '', $event_image);
                 $date_of_creation = $row['date_of_creation'];
                 $status = $row['status'];
+                $flag=false;
                 
                 //'Ongoing','Scheduled','Completed','Cancelled'
                 if($status=="Ongoing"){
@@ -70,6 +73,7 @@ if (isset($_POST['search'])) {
                     $status_style = " bg-indigo-500 hover:bg-indigo-800 ";
                 }
                 else{
+                    $flag=true;
                     $status_style = " bg-red-500 hover:bg-red-800 ";
                 }
 
@@ -363,6 +367,17 @@ GROUP BY event_id;
                 
                 ';
                     } else {
+                        if($flag){
+
+                            echo '
+               
+                    <button 
+                        class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
+                        Cancelled
+                    </button>
+                
+                ';
+                        }else{
 
                         echo '
                
@@ -372,6 +387,7 @@ GROUP BY event_id;
                     </button>
                 
                 ';
+                    }
                     }
                 }
                 echo'
@@ -418,6 +434,7 @@ elseif(isset($_POST['all'])){
                 $event_image = preg_replace('/^\.\.\//', '', $event_image);
                 $date_of_creation = $row['date_of_creation'];
                 $status = $row['status'];
+                $flag=false;
 
                 //'Ongoing','Scheduled','Completed','Cancelled'
                 if ($status == "Ongoing") {
@@ -428,6 +445,7 @@ elseif(isset($_POST['all'])){
                     $status_style = " bg-indigo-500 hover:bg-indigo-800 ";
                 } else {
                     $status_style = " bg-red-500 hover:bg-red-800 ";
+                    $flag=true;
                 }
 
                 // Convert to DateTime object
@@ -719,7 +737,16 @@ GROUP BY event_id;
                 ';
                         
                     }else{
+                        if($flag){
 
+                                echo '
+                                <button 
+                                    class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
+                                    Cancelled
+                                </button>
+                            
+                            ';
+                 }else{
                     echo '
                
                     <button data-event="'.$event_id.'" data-volunteer_needed="'.$volunteer_needed-$accepted_count.'"
@@ -728,6 +755,7 @@ GROUP BY event_id;
                     </button>
                 
                 ';
+                    }
                 }
             }
                 echo '

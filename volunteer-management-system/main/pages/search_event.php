@@ -141,13 +141,13 @@ if ($result && $row = $result->fetch_assoc()) {
                 <form class="flex justify-center mb-4" id="form1">
                     <div class="relative w-full md:max-w-5xl  flex items-center">
                         <input type="text" id="searchInput" placeholder="Search events..." class=" h-14 transition-all w-full px-4 py-2 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <a id="cancelSearch" class="absolute text-xl right-44 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
+                        <a id="cancelSearch" class="absolute text-xl right-20 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
                             <i class="fas fa-times"></i>
                         </a>
                         <button type="submit" id="searchBtn" class=" text-xl px-4 py-2 h-full bg-blue-500 text-white rounded-r-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             <i class="fas fa-search"></i>
                         </button>
-                        <a id="filterBtn" class="ml-2 px-4 py-2 flex bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        <a id="filterBtn" class="ml-2 hidden px-4 py-2 flex bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             <i class="fas fa-filter mr-2 m-1"></i>Filter
                         </a>
                     </div>
@@ -155,7 +155,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
                 <!-- Filter Menu (Hidden by default) -->
                 <!-- <div id="filterMenu" class="hidden bg-white p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto relative"> -->
-                <div id="filterMenu" class="bg-white top-20 z-20 border-2 bright-10 md:right-24  absolute p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto hidden">
+                <div id="filterMenu" class="  bg-white top-20 z-20 border-2 bright-10 md:right-24  absolute p-4 rounded-md shadow-md mb-8 max-w-xl mx-auto hidden">
                     <button id="closeFilter" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times"></i>
                     </button>

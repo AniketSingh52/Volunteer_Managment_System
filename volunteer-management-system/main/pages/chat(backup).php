@@ -158,7 +158,7 @@ if ($result && $row = $result->fetch_assoc()) {
                             <!-- Search -->
                             <div class="relative">
                                 <input
-                                    type="text"
+                                    type="search"
                                     placeholder="Search or start new chat"
                                     class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <svg class="w-5 h-5 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
