@@ -95,16 +95,32 @@ if (isset($_POST['search'])) {
                     $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" :date('jS M y', strtotime($date_of_creation));
                 }
 
+                $flag2 = false;
+                //To check whether event is suspeded or not
+                $query = "SELECT * FROM admin_manage_event WHERE event_id= ? ORDER BY date DESC LIMIT 1";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("i", $event_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows == 1) {
+                    $row = $result->fetch_assoc();
+                    if ($row['action'] == "Suspend") {
+                        $flag2 = true;
+                    }
+                }
+
+
+
                 $query = "SELECT 
-    event_id, 
-    COUNT(*) AS total_applications, 
-    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
-    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
-    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
-FROM events_application
-WHERE event_id = ?  -- Replace '?' with the specific event_id you want
-GROUP BY event_id;
-";
+                            event_id, 
+                            COUNT(*) AS total_applications, 
+                            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+                            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
+                            SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
+                        FROM events_application
+                        WHERE event_id = ?  -- Replace '?' with the specific event_id you want
+                        GROUP BY event_id;
+                        ";
 
                 // Prepare and execute the statement
                 $stmt = $conn->prepare($query);
@@ -358,35 +374,48 @@ GROUP BY event_id;
                     $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
                     $checkResult2 = $conn->query($sql2);
                     if ($checkResult2->num_rows > 0) {
+                        //         echo '
+
+                        //     <button
+                        //         class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
+                        //         <i class="bx bxs-bookmark-minus mr-4"></i>Applied
+                        //     </button>
+
+                        // ';
+
                         echo '
-               
-                    <button
-                        class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
-                        <i class="bx bxs-bookmark-minus mr-4"></i>Applied
-                    </button>
-                
-                ';
+                        <button disabled 
+                            class="opacity-80  w-[10rem] ' . ($flag2 ? 'bg-red-400' : 'bg-emerald-400') . ' text-white px-6 py-2 rounded-lg font-semibold">
+                            <i class="bx bxs-bookmark-minus mr-2"></i> ' . ($flag2 ? 'Suspended' : 'Applied') . '
+                        </button>
+                        ';
                     } else {
                         if($flag){
-
                             echo '
-               
-                    <button 
-                        class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
-                        Cancelled
-                    </button>
-                
-                ';
-                        }else{
+                                <button 
+                                    class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
+                                    Cancelled
+                                </button>
+                                    ';
+                             }else{
+                                if ($flag2) {
+                                    echo '
+                                        <button
+                                        class="bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:cursor-not-allowed ">
+                                    Suspended
+                                        </button>
+                                    ';
+                                    }else{
+                                        echo '
+                                        <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
+                                            class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                                            Apply
+                                        </button>
+                                            ';
 
-                        echo '
-               
-                    <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
-                        class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
-                        Apply
-                    </button>
-                
-                ';
+                                    }
+
+                                        
                     }
                     }
                 }
@@ -429,6 +458,7 @@ elseif(isset($_POST['all'])){
                 $location = $row['location'];
                 $volunteer_needed = $row['volunteers_needed'];
                 $event_id = $row['event_id'];
+                
                 $organization_id = $row['organization_id'];
                 $event_image = $row['poster'];
                 $event_image = preg_replace('/^\.\.\//', '', $event_image);
@@ -448,6 +478,22 @@ elseif(isset($_POST['all'])){
                     $flag=true;
                 }
 
+                $flag2 = false;
+                //To check whether event is suspeded or not
+                $query = "SELECT * FROM admin_manage_event WHERE event_id= ? ORDER BY date DESC LIMIT 1";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("i", $event_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows == 1) {
+                    $row = $result->fetch_assoc();
+                    if ($row['action'] == "Suspend") {
+                        $flag2 = true;
+                    }
+                }
+
+
+                
                 // Convert to DateTime object
                 // $creation_date = new DateTime($date_of_creation);
                 // $today = new DateTime();
@@ -727,34 +773,50 @@ GROUP BY event_id;
                     $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
                     $checkResult2 = $conn->query($sql2);
                     if($checkResult2->num_rows > 0){
+                        //         echo '
+
+                        //     <button
+                        //         class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
+                        //         <i class="bx bxs-bookmark-minus mr-4"></i>Applied
+                        //     </button>
+
+                        // ';
+
                         echo '
-               
-                    <button
-                        class=" opacity-80 bg-emerald-400  basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold">
-                        <i class="bx bxs-bookmark-minus mr-4"></i>Applied
-                    </button>
-                
-                ';
+                        <button disabled 
+                            class="opacity-80  w-[10rem] ' . ($flag2 ? 'bg-red-400' : 'bg-emerald-400') . ' text-white px-6 py-2 rounded-lg font-semibold">
+                            <i class="bx bxs-bookmark-minus mr-2"></i> ' . ($flag2 ? 'Suspended' : 'Applied') . '
+                        </button>
+                        ';
                         
                     }else{
+                      
                         if($flag){
-
-                                echo '
+                            echo '
                                 <button 
                                     class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
                                     Cancelled
                                 </button>
-                            
-                            ';
-                 }else{
-                    echo '
-               
-                    <button data-event="'.$event_id.'" data-volunteer_needed="'.$volunteer_needed-$accepted_count.'"
-                        class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
-                        Apply
-                    </button>
-                
-                ';
+                                    ';
+                             }else{
+                                if ($flag2) {
+                                    echo '
+                                        <button
+                                        class="bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:cursor-not-allowed ">
+                                    Suspended
+                                        </button>
+                                    ';
+                                    }else{
+                                        echo '
+                                        <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
+                                            class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
+                                            Apply
+                                        </button>
+                                            ';
+
+                                    }
+
+                                        
                     }
                 }
             }

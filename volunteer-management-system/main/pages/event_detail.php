@@ -26,11 +26,24 @@ if ($result && $row = $result->fetch_assoc()) {
 }
 
 
-
 //GET THE EVENT ID FOR DETAILS FETCHING
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $event_id = base64_decode($_GET['id']);
+
+    $flag2=false;
+    //To check whether event is suspeded or not
+    $query = "SELECT * FROM admin_manage_event WHERE event_id= ? ORDER BY date DESC LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $event_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if ($row['action'] == "Suspend") {
+            $flag2=true;
+        }
+    }
 
     // echo "
     // <script>
@@ -840,6 +853,16 @@ GROUP BY event_id;
                                 <?php
                                 //if organiser is equal to the logged in user then thebuser is the creator of event
                                 if ($organization_id == $user_id) {
+
+                                    if ($flag2) {
+                                        echo '
+                                                <button
+                                                class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
+                                               Event Suspended
+                                                </button>
+                                            ';
+                                    }
+
                                     echo '
                                 <button onclick="window.location.href=\'edit_event.php?id=' . base64_encode($event_id) . '\'" 
                                 class="w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
@@ -856,14 +879,24 @@ GROUP BY event_id;
                                 
                                 ';
                                 } elseif ($type == "Organisation") {
+
+                                    if ($flag2) {
+                                        echo '
+                                                <button
+                                                class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
+                                               Suspended
+                                                </button>
+                                            ';
+                                    }
+
                                     echo '
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
-                        target="_blank"
-                        class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
-                                transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                            Contact Organizer
-                        </a>       
-                            ';
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                                    target="_blank"
+                                    class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
+                                    transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                    Contact Organizer
+                                    </a>       
+                                    ';
                                 } else {
 
                                     $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
@@ -875,37 +908,57 @@ GROUP BY event_id;
                                         }
 
                                         echo '
-                                <button disabled 
-                                class="w-full  bg-emerald-500 text-white px-8 py-4 rounded-xl font-bold text-lg ">
-                                <i class="bx bxs-bookmark-minus mr-4"></i>Applied
-                                </button>';
-                                        echo '
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
-                        target="_blank"
-                        class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
-                                transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                            Contact Organizer
-                        </a>       
-                            ';
+                                            <button disabled 
+                                                class="w-full ' . ($flag2 ? 'bg-red-500' : 'bg-emerald-500') . ' text-white px-8 py-4 rounded-xl font-bold text-lg">
+                                                <i class="bx bxs-bookmark-minus mr-4"></i> ' . ($flag2 ? 'Suspended' : 'Applied') . '
+                                            </button>
+                                            ';
+                                                    echo '
+                                          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $user_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                                            target="_blank"
+                                            class="w-full bg-blue-600 text-white text-center px-8 py-4 rounded-xl hover:bg-blue-700  
+                                            transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                                Contact Organizer
+                                           </a>       
+                                        ';
                                     } else {
 
                                         if($flag){
 
+                                            if($flag2){
+                                                echo '
+                                                <button
+                                                class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
+                                               Suspended
+                                                </button>
+                                            ';
+                                            } else{
                                             echo '
                                             <button
                                             class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
                                             Cancelled
                                             </button>
                                             ';
+                                            }
 
                                          }else{
 
-                                            echo '
-                                <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '" data-max_needed="' . $max_applications - $total_applications . '"
-                                class=" apply_button w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
-                                Apply Now
-                                </button>
-                                ';
+                                            if ($flag2) {
+                                                echo '
+                                                <button
+                                                class=" w-full bg-red-600/70 text-white px-8 py-4 rounded-xl transition-all duration-200 font-bold text-lg hover:cursor-not-allowed ">
+                                               Suspended
+                                                </button>
+                                            ';
+                                            }else{
+                                                echo '
+                                            <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '" data-max_needed="' . $max_applications - $total_applications . '"
+                                            class=" apply_button w-full bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-200 font-bold text-lg hover:shadow-lg transform hover:-translate-y-0.5">
+                                            Apply Now
+                                            </button>
+                                            ';
+
+                                            }
                                         }
 
                         

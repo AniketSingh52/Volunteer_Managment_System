@@ -627,6 +627,25 @@ if ($result && $row = $result->fetch_assoc()) {
 
             }
             initialize();
+            // $(document).on("keyup", "#searchInput", function() {
+            //     let query = $(this).val().trim();
+            //     // alert(query);
+
+            //     if (query.length > 0) {
+            //         $.ajax({
+            //             url: "Backend/search_events.php", // Backend PHP script
+            //             method: "POST",
+            //             data: {
+            //                 search: query
+            //             },
+            //             success: function(response) {
+            //                 $("#events-list").html(response); // Show results
+            //             }
+            //         });
+            //     } else {
+            //         initialize();
+            //     }
+            // });
             $("#searchInput").on("keyup", function() {
                 let query = $(this).val().trim();
                 // alert(query);
@@ -643,18 +662,6 @@ if ($result && $row = $result->fetch_assoc()) {
                         }
                     });
                 } else {
-                    // let all = "all";
-                    // $.ajax({
-                    //     url: "Backend/search_events.php", // Backend PHP script
-                    //     method: "POST",
-                    //     data: {
-                    //         all: all
-                    //     },
-                    //     success: function(response) {
-                    //         $("#events-list").html(response); // Show results
-                    //         //  $("#events-list").html(""); // Clear results if input is empty
-                    //     }
-                    // });
                     initialize();
                 }
             });
@@ -697,6 +704,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 console.log("Filters applied");
             });
 
+
             $("#searchInput").on("input", function() {
                 if ($(this).val().length > 0) {
                     $("#cancelSearch").show();
@@ -724,7 +732,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
             });
-            
+
             $(document).on('click', '.apply_button', function(e) {
                 let eventID = $(this).data("event");
                 let userId = <?= $user_id; ?>;

@@ -1,1 +1,4 @@
 [01-Mar-2025 19:14:42 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
+[02-Mar-2025 10:30:12 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
+[02-Mar-2025 10:37:22 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
+[02-Mar-2025 10:41:59 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34

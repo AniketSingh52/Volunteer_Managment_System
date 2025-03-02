@@ -52,6 +52,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             $from_time = $row['from_time'];
             $to_time = $row['to_time'];
+            $org_id= $row['organization_id'];
+
+            if($org_id!=$user_id){
+                echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
+                exit;
+
+            }
 
 
             //Convert 24 Hour format to 12 Hour format

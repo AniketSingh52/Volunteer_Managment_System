@@ -73,6 +73,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             $volunteer_needed = $row['volunteers_needed'];
 
             $organization_id = $row['organization_id'];
+
+            //to allow only the original organizer to edit
+            $org_id =  $organization_id;
+
+            if ($org_id != $user_id) {
+                echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
+                exit;
+            }
+
+
             $event_image = $row['poster'];
             $poster_path = $event_image;
             $event_image = preg_replace('/^\.\.\//', '', $event_image);

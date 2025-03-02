@@ -49,6 +49,12 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             $caption = $row['caption'];
             $picture_url_old = $row['picture_url'];
             $user_name = $row['name'];
+            $creator_id = $row['user_id'];
+
+            if ($creator_id != $user_id) {
+                echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
+                exit;
+            }
             $post_date = date('Y-m-d', strtotime($row['upload_date']));
             $picture_url = preg_replace('/^\.\.\//', '', $picture_url_old); // Remove "../" from the start
             $likes = $row['likes'];

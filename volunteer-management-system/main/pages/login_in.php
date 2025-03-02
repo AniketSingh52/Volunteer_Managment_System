@@ -41,15 +41,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Verify password
             if ($password === $user['password']) {
                 // Set session variables
-                $_SESSION['user_id'] = $user['user_id'];
+                //$_SESSION['user_id'] = $user['user_id'];
 
-                echo "
-                <script>
-                alert('success login');
-                </script>";
+                $query = "SELECT * FROM admin_manage_user WHERE user_id= ? ORDER BY date DESC LIMIT 1";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("i", $user['user_id']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if($result->num_rows == 1){
+                    $row = $result->fetch_assoc();
+                    if($row['action']== "Suspend"){
+                        echo "
+                            <script>
+                            alert('Account Suspended !!!');
+                            </script>";
+                    }else{
+                        $_SESSION['user_id'] = $user['user_id'];
+                        echo "
+                        <script>
+                        alert('success login');
+                        </script>";
+                        //header("refresh:0.5; url=../pages/changepass.php");
+                        echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin.php">';
+                    }
 
-                //header("refresh:0.5; url=../pages/changepass.php");
-                echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin.php">';
+
+                } else{
+                    $_SESSION['user_id'] = $user['user_id'];
+                    echo "
+                        <script>
+                        alert('success login');
+                        </script>";
+                    //header("refresh:0.5; url=../pages/changepass.php");
+                    echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin.php">';
+                }
+
+                // echo "
+                // <script>
+                // alert('success login');
+                // </script>";
+
+                // //header("refresh:0.5; url=../pages/changepass.php");
+                // echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin.php">';
 
 
                 // Redirect to dashboard or home page

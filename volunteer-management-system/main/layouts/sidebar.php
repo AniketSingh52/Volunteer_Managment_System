@@ -17,6 +17,25 @@
         $name = $row['name'];
         $type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
     }
+
+
+    $query = "SELECT * FROM admin_manage_user WHERE user_id= ? ORDER BY date DESC LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        if ($row['action'] == "Suspend") {
+            echo "
+                <script>
+                alert('Account Suspended !!!');
+                </script>";
+            echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=login_in.php">';
+            session_unset();  // Unset all session variables
+            session_destroy(); // Destroy the session itself
+        } 
+    }
     ?>
 
   <!--sidenav -->
