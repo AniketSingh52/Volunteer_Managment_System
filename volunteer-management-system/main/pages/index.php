@@ -148,7 +148,7 @@
                             <h1 class="text-5xl md:text-6xl font-bold mb-6 ">
                                 Empower Your Volunteer Community
                             </h1>
-                            <p class="text-2xl mb-8 text-gray-200 font-normal">Streamline your volunteer Journey, boost engagement, and make a bigger impact With Use.</p>
+                            <p class="text-2xl mb-8 text-gray-200 font-normal"><span class=" text-3xl text-emerald-500 font-bold">Connect,</span><span class="  text-yellow-500 text-3xl font-bold"> Contribute,</span><span class=" text-rose-600 font-bold text-3xl">Create Change,</span> Join us to simplify volunteering and maximize your impact!</p>
                             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                                 <a href="login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a>
                                 <!-- <a href="#" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Learn More</a> -->
@@ -269,7 +269,7 @@
         </div>
 
 
-       
+
 
         <!-- MOTTO SECTION -->
         <section class=" h-auto p-14 flex flex-col items-center justify-center mx-auto  rounded-3xl  my-5 overflow-hidden" data-aos="zoom-in">

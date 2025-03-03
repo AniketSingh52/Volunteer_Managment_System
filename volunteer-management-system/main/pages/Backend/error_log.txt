@@ -18,3 +18,4 @@ Stack trace:
 #1 {main}
   thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\delete_event.php on line 19
 [02-Mar-2025 18:47:53 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
+[03-Mar-2025 20:40:59 Europe/Berlin] PHP Warning:  Undefined variable $message in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\Backend\Event_apply.php on line 34
