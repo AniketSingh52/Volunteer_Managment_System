@@ -590,7 +590,7 @@ $result2 = $stmt->get_result();
             $(document).on('click', '.delete-post', function(e) {
                 e.preventDefault();
                 let post = $(this).data("postid");
-                alert(post);
+                //alert(post);
 
                 if (confirm("Are you sure you want to delete this event?")) {
                     $.ajax({

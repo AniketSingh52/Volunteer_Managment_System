@@ -9,7 +9,7 @@
      </button>
 
      <ul class="ml-auto flex items-center">
-         <li class="mr-1 dropdown">
+         <!-- <li class="mr-1 dropdown">
              <button
                  type="button"
                  class="dropdown-toggle text-gray-400 mr-4 w-8 h-8 rounded flex items-center justify-center hover:text-gray-600">
@@ -36,7 +36,7 @@
                      </div>
                  </form>
              </div>
-         </li>
+         </li> -->
          <li class="dropdown">
              <button
                  type="button"

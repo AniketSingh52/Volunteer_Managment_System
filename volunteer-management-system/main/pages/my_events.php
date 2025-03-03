@@ -22,10 +22,9 @@ if ($result && $row = $result->fetch_assoc()) {
 
 }
 
-if($type== "Volunteer"){
+if ($type == "Volunteer") {
     echo "<script>alert('You are not authorized to view this page.'); window.location.href='admin.php';</script>";
     exit;
-
 }
 
 
@@ -232,10 +231,10 @@ $result2 = $stmt->get_result();
                     <!-- Event Card 1 -->
                     <?php
                     if ($result2->num_rows > 0) {
-                       
+
                         $rows = $result2->fetch_all(MYSQLI_ASSOC);
                         foreach ($rows as $row) {
-                            
+
                             $event_id = $row['event_id'];
                             $event_name = $row['event_name'];
                             $from_date = date('jS M y', strtotime($row['from_date']));
@@ -277,7 +276,7 @@ $result2 = $stmt->get_result();
                             }
 
 
-                        $query = "SELECT 
+                            $query = "SELECT 
     event_id, 
     COUNT(*) AS total_applications, 
     SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
@@ -288,26 +287,26 @@ WHERE event_id = ?  -- Replace '?' with the specific event_id you want
 GROUP BY event_id;
 ";
 
-                        // Prepare and execute the statement
-                        $stmt = $conn->prepare($query);
-                        $stmt->bind_param("i", $event_id); // "i" for integer
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                            // Prepare and execute the statement
+                            $stmt = $conn->prepare($query);
+                            $stmt->bind_param("i", $event_id); // "i" for integer
+                            $stmt->execute();
+                            $result = $stmt->get_result();
 
-                        // Initialize variables
-                        $pending_count = 0;
-                        $rejected_count = 0;
-                        $accepted_count = 0;
-                        $total_applications = 0;
+                            // Initialize variables
+                            $pending_count = 0;
+                            $rejected_count = 0;
+                            $accepted_count = 0;
+                            $total_applications = 0;
 
 
-                        // Fetch the results and store in variables
-                        if ($row = $result->fetch_assoc()) {
-                            $pending_count = $row['pending_count'];
-                            $rejected_count = $row['rejected_count'];
-                            $accepted_count = $row['accepted_count'];
-                            $total_applications = $row['total_applications'];
-                        }
+                            // Fetch the results and store in variables
+                            if ($row = $result->fetch_assoc()) {
+                                $pending_count = $row['pending_count'];
+                                $rejected_count = $row['rejected_count'];
+                                $accepted_count = $row['accepted_count'];
+                                $total_applications = $row['total_applications'];
+                            }
 
 
 
@@ -375,7 +374,7 @@ GROUP BY event_id;
                                                                 stroke-linejoin="round"
                                                                 d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                                                         </svg>
-                                                        Max Application:<?= $total_applications?>/<?= $max_application ?>
+                                                        Max Application:<?= $total_applications ?>/<?= $max_application ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -399,15 +398,15 @@ GROUP BY event_id;
                                             <div class="grid grid-cols-3 gap-4">
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center ">
                                                     <p class="text-sm font-medium text-gray-500">Total Applications</p>
-                                                    <p class="mt-2 text-xl font-bold text-gray-900"> <?= $total_applications?></p>
+                                                    <p class="mt-2 text-xl font-bold text-gray-900"> <?= $total_applications ?></p>
                                                 </div>
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center">
                                                     <p class="text-sm font-medium text-gray-500">Approved</p>
-                                                    <p class="mt-2 text-xl font-bold text-green-600"><?= $accepted_count?></p>
+                                                    <p class="mt-2 text-xl font-bold text-green-600"><?= $accepted_count ?></p>
                                                 </div>
                                                 <div class="bg-gray-100 shadow-md p-4 rounded-lg text-center">
                                                     <p class="text-sm font-medium text-gray-500">Pending</p>
-                                                    <p class="mt-2 text-xl font-bold text-amber-500"><?= $pending_count?></p>
+                                                    <p class="mt-2 text-xl font-bold text-amber-500"><?= $pending_count ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -592,14 +591,14 @@ GROUP BY event_id;
             <script>
                 $(document).ready(function() {
                     // Tab switching functionality
-                    $('nav button').click(function() {
+                    $(document).on('click', 'nav button', function() {
                         // Remove active classes from all tabs
                         $('nav button').removeClass('border-blue-500 text-blue-600').addClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
 
                         // Add active classes to clicked tab
                         $(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
                         let Type = $(this).data("status");
-                       // alert(Type);
+                        // alert(Type);
                         var organizer_id = <?= $user_id ?>
 
 
@@ -627,12 +626,12 @@ GROUP BY event_id;
 
                     //     // Add active classes to clicked tab
                     //     $(this).addClass('border-blue-500 text-blue-600').removeClass('border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300');
-                    // });
+                    // });    $(document).on('click', '.applicunt_action button', function() {});
 
-                    $(".delete-event").click(function(e) {
+                    $(document).on('click', '.delete-event', function(e) {
                         e.preventDefault();
                         let eventId = $(this).data("event-id");
-                        //alert(eventId);
+                        // alert(eventId);
 
                         if (confirm("Are you sure you want to delete this event?")) {
                             $.ajax({
@@ -656,7 +655,36 @@ GROUP BY event_id;
                                 }
                             });
                         }
+
                     });
+                    // $(".delete-event").click(function(e) {
+                    //     e.preventDefault();
+                    //     let eventId = $(this).data("event-id");
+                    //     //alert(eventId);
+
+                    //     if (confirm("Are you sure you want to delete this event?")) {
+                    //         $.ajax({
+                    //             url: "Backend/delete_event.php",
+                    //             type: "POST",
+                    //             data: {
+                    //                 event_id: eventId
+                    //             },
+                    //             dataType: "json", // Expect JSON response
+                    //             success: function(response) {
+                    //                 if (response.status === 'success') {
+                    //                     alert(response.message); // Show success message
+                    //                     location.reload(); // Reload the page after deletion
+                    //                 } else {
+                    //                     alert(response.message); // Show error message
+                    //                 }
+                    //             },
+                    //             error: function(xhr, status, error) {
+                    //                 console.log("AJAX Error: " + status + " " + error);
+                    //                 console.log("Server Response: " + xhr.responseText);
+                    //             }
+                    //         });
+                    //     }
+                    // });
 
 
 

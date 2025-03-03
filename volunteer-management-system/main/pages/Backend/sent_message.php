@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = $_POST['message'];
         $date = date("Y-m-d H:i:s");
         //INSERT INTO `messages` (`message_id`, `text`, `date_time`, `status`, `message_type`, `from_id`, `to_id`) VALUES ('4', 'hkkk', current_timestamp(), 'sent', 'Private', '19', '17');
-        $sql = "INSERT INTO messages (`text`, `date_time`, `status`, `message_type`, `from_id`, `to_id`) VALUES (?, ?, 'sent','Private',?,?)";
+        $sql = "INSERT INTO messages (`text`, `date_time`, `status`,  `from_id`, `to_id`) VALUES (?, ?, 'sent',?,?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssii", $message, $date, $from_id, $to_id);
 

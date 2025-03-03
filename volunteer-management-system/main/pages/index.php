@@ -99,9 +99,9 @@
             <div class="flex justify-between items-center">
                 <a href="#" class="text-3xl font-bold text-blue-500">VolunteerHub</a>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#features" class="text-gray-600 hover:text-primary">Features</a>
-                    <a href="#about" class="text-gray-600 hover:text-primary">About</a>
-                    <a href="#contact-us" class="text-gray-600 hover:text-primary">Contact</a>
+                    <a href="#features" class="text-gray-600 text-lg hover:text-primary">Features</a>
+                    <a href="#about" class="text-gray-600 text-lg hover:text-primary">About</a>
+                    <a href="#contact-us" class="text-gray-600 text-lg hover:text-primary">Contact</a>
                 </div>
                 <div class="hidden md:flex space-x-2">
                     <a href="login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Log in</a>
@@ -148,7 +148,7 @@
                             <h1 class="text-5xl md:text-6xl font-bold mb-6 ">
                                 Empower Your Volunteer Community
                             </h1>
-                            <p class="text-2xl mb-8 text-gray-200 font-normal">Streamline volunteer management, boost engagement, and make a bigger impact.</p>
+                            <p class="text-2xl mb-8 text-gray-200 font-normal">Streamline your volunteer Journey, boost engagement, and make a bigger impact With Use.</p>
                             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                                 <a href="login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a>
                                 <!-- <a href="#" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Learn More</a> -->
@@ -156,7 +156,7 @@
                         </div>
 
                         <!-- Right Side: Features -->
-                        <div class="w-full md:w-1/2 md:pl-12 hidden">
+                        <div class="w-full md:w-1/2 md:pl-12">
                             <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-8 shadow-2xl">
                                 <h2 class="text-2xl font-semibold mb-6">Why To Volunteer?</h2>
                                 <ul class="space-y-4">
@@ -185,18 +185,18 @@
                 </div>
 
                 <!-- Decorative Element -->
-                <div class="absolute bottom-0 left-0 right-0">
+                <!-- <div class="absolute bottom-0 left-0 right-0">
                     <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" />
                     </svg>
-                </div>
+                </div> -->
             </section>
 
             <!-- ... (rest of your main content) ... -->
         </main>
 
         <!--Our Impacts-->
-        <div class="text-gray-900 pt-5 pb-24 px-6 w-full bg-gray-50">
+        <div class="text-gray-900 pt-5 pb-24 px-6 w-full mt-10 bg-gray-50">
             <div class="max-w-7xl mx-auto text-center">
                 <h2 class="text-5xl font-bold mb-6 text-gray-800">Our Impact </h2>
                 <p class="text-lg text-gray-600 mb-16">Join thousands who trust our platform </p>
@@ -269,37 +269,7 @@
         </div>
 
 
-        <div class=" w-full mx-auto flex items-center justify-center bg-gray-100 p-4">
-            <div class="relative overflow-hidden rounded-2xl w-full">
-                <!-- Background image with gradient overlay -->
-                <div class="absolute inset-0">
-                    <img
-                        src="png-clipart-volunteering-community-symbol-sign-gospel-miscellaneous-text.png?height=600&width=1200"
-                        alt="Background"
-                        class="w-full h-full object-cover" />
-                    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-purple-600/90"></div>
-                </div>
-
-                <!-- Content -->
-                <div class="relative px-8 py-16 md:px-16 md:py-20">
-                    <!-- Logo -->
-                    <div class="flex items-center mb-8 ">
-                        <span class="text-white font-semibold text-4xl">Simplify Volunteer Participation</span>
-                    </div>
-
-                    <!-- Quote -->
-                    <blockquote class="mt-6">
-                        <p class="text-2xl font-medium text-white leading-relaxed md:leading-relaxed mb-8">
-                            " Create an easy-to-use platform for volunteers to sign up and participate in social causes for which they care about. "
-                        </p>
-                        <!-- <footer class="mt-4">
-                            <p class="text-white text-lg font-semibold">Judith Black</p>
-                            <p class="text-purple-200">CEO of Workcation</p>
-                        </footer> -->
-                    </blockquote>
-                </div>
-            </div>
-        </div>
+       
 
         <!-- MOTTO SECTION -->
         <section class=" h-auto p-14 flex flex-col items-center justify-center mx-auto  rounded-3xl  my-5 overflow-hidden" data-aos="zoom-in">
