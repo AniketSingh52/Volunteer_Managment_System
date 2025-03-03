@@ -590,16 +590,11 @@ if ($result && $row = $result->fetch_assoc()) {
 
       <?php
 
-
-      if ($type == "V") {
-        $query = "SELECT event_id, 
-                                    COUNT(*) AS total_applications, 
-                                    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
-                                    SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, 
-                                    SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count
-                                FROM events_application
-                                WHERE volunteer_id = ?  -- Replace '?' with the specific event_id you want
-                                GROUP BY event_id;
+      if ($type == "Volunteer") {
+        $query = "SELECT volunteer_id, COUNT(*) AS total_applications, SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count, 
+        SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected_count, SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS accepted_count 
+        FROM events_application WHERE volunteer_id = ? 
+        GROUP BY status;
                                 ";
 
         // Prepare and execute the statement

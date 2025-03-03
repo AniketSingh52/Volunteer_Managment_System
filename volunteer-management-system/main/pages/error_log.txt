@@ -18,3 +18,21 @@
 [02-Mar-2025 19:17:49 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
 [02-Mar-2025 19:17:58 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
 [02-Mar-2025 19:24:00 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 18:51:44 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:27:18 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:28:51 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:36:03 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 10
+[03-Mar-2025 19:36:15 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:47:43 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:52:24 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:52:58 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:54:09 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:56:14 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:58:04 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1405
+[03-Mar-2025 19:58:33 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1401
+[03-Mar-2025 19:58:52 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1400
+[03-Mar-2025 20:00:03 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1400
+[03-Mar-2025 20:00:46 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1400
+[03-Mar-2025 20:06:09 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1400
+[03-Mar-2025 20:08:38 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1394
+[03-Mar-2025 20:11:05 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1396
