@@ -776,11 +776,11 @@ if ($result && $row = $result->fetch_assoc()) {
 
             setInterval(() => {
                 initialize();
-            }, 500);
+            }, 2000);
 
             setInterval(() => {
                 chat_load();
-            }, 500);
+            }, 2000);
 
 
 
@@ -829,9 +829,11 @@ if ($result && $row = $result->fetch_assoc()) {
                     success: function(response) {
                         $("#chat_button").data("id", user_message_id); // Correct way
 
-                        $(".message_area").html(response); // Show results
-                        scrollToBottom();
-                        $("#chat_message").focus();
+                        setTimeout(function() {
+                            $(".message_area").html(response); // Show results
+                            scrollToBottom();
+                            $("#chat_message").focus();
+                        }, 1000); // 1-second delay
                         //  $("#events-list").html(""); // Clear results if input is empty
                     },
                     error: function(xhr, status, error) {

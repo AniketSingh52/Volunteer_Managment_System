@@ -104,8 +104,8 @@
                     <a href="#contact-us" class="text-gray-600 text-lg hover:text-primary">Contact</a>
                 </div>
                 <div class="hidden md:flex space-x-2">
-                    <a href="login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Log in</a>
-                    <a href="signup.php" class="px-4 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition duration-300">Sign up</a>
+                    <a href="main/pages/login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Log in</a>
+                    <a href="main/pages/signup.php" class="px-4 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition duration-300">Sign up</a>
                 </div>
                 <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -119,8 +119,8 @@
             <a href="#about" class="block py-2 text-gray-600 hover:text-primary">About</a>
             <a href="#contact" class="block py-2 text-gray-600 hover:text-primary">Contact</a>
             <div class="mt-4 space-y-2">
-                <a href="login_in.php" class="block w-full px-4 py-2 text-center border border-primary text-primary rounded hover:bg-primary hover:text-white transition duration-300">Log in</a>
-                <a href="signup.php" class="block w-full px-4 py-2 text-center bg-primary text-white rounded hover:bg-primary-dark transition duration-300">Sign up</a>
+                <a href="main/pages/login_in.php" class="block w-full px-4 py-2 text-center border border-primary text-primary rounded hover:bg-primary hover:text-white transition duration-300">Log in</a>
+                <a href="main/pages/signup.php" class="block w-full px-4 py-2 text-center bg-primary text-white rounded hover:bg-primary-dark transition duration-300">Sign up</a>
             </div>
         </div>
     </header>
@@ -150,7 +150,7 @@
                             </h1>
                             <p class="text-2xl mb-8 text-gray-200 font-normal">Streamline your volunteer Journey, boost engagement, and make a bigger impact With Use.</p>
                             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                <a href="login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a>
+                                <a href="main/pages/login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a>
                                 <!-- <a href="#" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Learn More</a> -->
                             </div>
                         </div>
@@ -269,7 +269,7 @@
         </div>
 
 
-       
+
 
         <!-- MOTTO SECTION -->
         <section class=" h-auto p-14 flex flex-col items-center justify-center mx-auto  rounded-3xl  my-5 overflow-hidden" data-aos="zoom-in">
