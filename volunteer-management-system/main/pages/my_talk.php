@@ -714,7 +714,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 let current_id = <?= $user_id ?>;
 
                 $.ajax({
-                    url: "Backend/get_messages.php", // Backend PHP script
+                    url: "Backend/get_talks.php", // Backend PHP script
                     method: "POST",
                     data: {
                         user_id: user_message_id,
@@ -748,7 +748,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
             function initialize() {
                 // alert('he');
-                fetch(`Backend/chat_list.php`)
+                fetch(`Backend/talk_list.php`)
                     .then(response => response.text())
                     .then(data => {
                         // document.getElementById('chat_list').innerHTML = data;
@@ -803,7 +803,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 // alert(user_message_id);
 
                 $.ajax({
-                    url: "Backend/chat_header.php", // Backend PHP script
+                    url: "Backend/talk_header.php", // Backend PHP script
                     method: "POST",
                     data: {
                         user_id: user_message_id,
@@ -820,7 +820,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 });
 
                 $.ajax({
-                    url: "Backend/get_messages.php", // Backend PHP script
+                    url: "Backend/get_talks.php", // Backend PHP script
                     method: "POST",
                     data: {
                         user_id: user_message_id,
@@ -863,7 +863,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
                 $.ajax({
-                    url: "Backend/sent_message.php",
+                    url: "Backend/sent_talk.php",
                     type: "POST",
                     dataType: "json",
                     data: {

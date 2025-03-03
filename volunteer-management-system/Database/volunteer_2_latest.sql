@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2025 at 08:30 PM
+-- Generation Time: Mar 03, 2025 at 02:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,6 +36,13 @@ CREATE TABLE `administration` (
   `profile_picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `administration`
+--
+
+INSERT INTO `administration` (`admin_id`, `name`, `email`, `role`, `password`, `profile_picture`) VALUES
+(1, 'Habibi', 'wwwsws', 'super', 'wsws', '../uploads/9.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -52,12 +59,12 @@ CREATE TABLE `admin_manage_event` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin_manage_group`
+-- Table structure for table `admin_manage_post`
 --
 
-CREATE TABLE `admin_manage_group` (
+CREATE TABLE `admin_manage_post` (
   `admin_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `picture_id` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `action` enum('Suspend','unsuspend') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -74,6 +81,16 @@ CREATE TABLE `admin_manage_user` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `action` enum('Suspend','unsuspend') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_manage_user`
+--
+
+INSERT INTO `admin_manage_user` (`admin_id`, `user_id`, `date`, `action`) VALUES
+(1, 19, '2025-03-02 07:44:50', 'Suspend'),
+(1, 19, '2025-03-02 08:40:39', 'unsuspend'),
+(1, 19, '2025-03-02 08:41:04', 'Suspend'),
+(1, 19, '2025-03-02 08:41:37', 'unsuspend');
 
 -- --------------------------------------------------------
 
@@ -114,6 +131,23 @@ CREATE TABLE `comments` (
   `picture_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`comment_id`, `text`, `date_time`, `user_id`, `picture_id`) VALUES
+(29, 'hello', '2025-03-02 18:48:55', 19, 23),
+(30, 'hello kitty', '2025-03-02 18:49:00', 19, 23),
+(31, 'hii', '2025-03-02 19:12:13', 17, 15),
+(32, 'd', '2025-03-02 19:12:14', 17, 15),
+(33, 'd', '2025-03-02 19:12:14', 17, 15),
+(34, 'd', '2025-03-02 19:12:15', 17, 15),
+(35, 'd', '2025-03-02 19:12:15', 17, 15),
+(36, 'gg', '2025-03-02 19:12:18', 17, 15),
+(37, 'g', '2025-03-02 19:12:18', 17, 15),
+(38, 'g', '2025-03-02 19:12:19', 17, 15),
+(39, 'what a day it was', '2025-03-02 19:12:34', 17, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -142,15 +176,15 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `event_name`, `description`, `from_date`, `to_date`, `from_time`, `to_time`, `location`, `volunteers_needed`, `maximum_application`, `status`, `organization_id`, `date_of_creation`, `poster`) VALUES
-(4, 'okaubiss', '11111', '0000-00-00', '2025-02-14', '15:23:00', '23:23:00', 's', 11, 50, 'Scheduled', 17, '2025-02-10 18:30:00', '../uploads/67ab8fa66c5ea4.82869368.png'),
-(6, 'habibi co.ltd 151551', 'sasas', '2025-02-14', '2025-02-15', '19:49:00', '20:50:00', 'mumbai', 12, 50, 'Scheduled', 17, '2025-02-11 18:30:00', '../uploads/67acadff7a62d9.24516489.png'),
-(7, 'sxsxsxxsx', 'hello world', '2025-02-13', '2025-02-14', '21:33:00', '21:34:00', 'sqs', 11, 50, 'Cancelled', 17, '2025-02-11 18:30:00', '../uploads/67acc6486af2f9.32904579.png'),
-(8, 'ss', 'ss', '2025-02-17', '2025-02-20', '21:45:00', '22:45:00', 'www', 11, 50, 'Scheduled', 17, '2025-02-11 18:30:00', '../uploads/67acc94569e242.77215616.png'),
-(9, 'merimarzi', 'haa meri jan', '2025-02-13', '2025-02-15', '21:51:00', '21:51:00', 'mere ghar pe', 100, 50, 'Scheduled', 17, '2025-02-11 18:30:00', '../uploads/67acca6993d134.91169310.png'),
-(10, 'Community Garden Clean-up', 'Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?', '2025-02-19', '2025-02-21', '22:26:00', '23:26:00', 'Central Community Garden', 1, 50, 'Ongoing', 17, '2025-02-22 18:30:00', '../uploads/67b60d9ba6d3a5.36197222.png'),
-(11, 'Youth Mentorship Program', 'Make a difference in a young person\'s life through our mentorship program. Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?', '2025-02-20', '2025-02-23', '22:30:00', '23:30:00', 'City Youth Center', 15, 50, 'Ongoing', 17, '2025-02-18 18:30:00', '../uploads/67b60e4baebf10.37713674.png'),
+(10, 'Community Garden Clean-up', 'Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?', '2025-02-19', '2025-02-21', '22:26:00', '23:26:00', 'Central Community Garden', 1, 50, 'Ongoing', 17, '2025-03-01 18:30:00', '../uploads/67b60d9ba6d3a5.36197222.png'),
+(11, 'Youth Mentorship Program', 'Make a difference in a young person\'s life through our mentorship program. Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?', '2025-02-20', '2025-02-23', '22:30:00', '23:30:00', 'City Youth Center', 15, 50, 'Ongoing', 17, '2025-03-01 18:30:00', '../uploads/67b60e4baebf10.37713674.png'),
 (12, 'Food Bank Distribution2', 'Make a difference in a young person\'s life through our mentorship program. Join us in maintaining our community garden. Help plant new vegetables and maintain existing beds. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex esse autem accusamus iste dolore amet sint magni ad, quas et, ratione doloribus modi nam unde tempore officiis ea. Quod, quae?', '2025-02-18', '2025-02-28', '13:00:00', '16:00:00', 'Community Food Bank', 20, 50, 'Completed', 17, '2025-02-10 15:11:24', '../uploads/67bb3a9c617da1.24237529.jpg'),
-(13, 'hello shrusthti', 'kkaaaakkkakakakakskaskas sasasasasasasas asasa   cxc ss ws qqsq z  s cx z  qa     s xz    qaz  azaz az az zaaaa azzazz ', '2025-02-23', '2025-03-01', '09:51:00', '10:51:00', 'mumbai', 12, 50, 'Ongoing', 17, '2025-02-18 18:30:00', '../uploads/67ba0f4c232d23.99127156.jpg');
+(125, 'Tree Plantation', 'we would be conducting tree plantation drive that would help us clean the reason and increase its visual appeal', '2025-03-09', '2025-03-12', '23:22:00', '23:26:00', 'Kondana Hallway', 15, 50, 'Ongoing', 17, '2025-03-01 18:30:00', '../uploads/67c49b363d0a99.95765106.png'),
+(126, 'Road Safety Campaign', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis ab numquam harum repudiandae doloremque in quidem repellat exercitationem expedita amet debitis quas dolorum corrupti vero, magni consequuntur? Similique, incidunt doloribus!', '2025-03-02', '2025-03-21', '14:28:00', '17:30:00', 'Mumbai Highway', 15, 50, 'Scheduled', 17, '2025-03-01 18:30:00', '../uploads/67c49b940948b5.32769018.jpg'),
+(127, 'Beach Cleaning Drive', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis ab numquam harum repudiandae doloremque in quidem repellat exercitationem expedita amet debitis quas dolorum corrupti vero, magni consequuntur? Similique, incidunt doloribus!', '2025-03-08', '2025-03-23', '02:29:00', '04:28:00', 'Sanjay Gandhi Beach', 15, 50, 'Completed', 17, '2025-03-01 18:30:00', '../uploads/67c49bff88efc0.28004455.jpg'),
+(128, 'Blood Donation', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis ab numquam harum repudiandae doloremque in quidem repellat exercitationem expedita amet debitis quas dolorum corrupti vero, magni consequuntur? Similique, incidunt doloribus!', '2025-03-15', '2025-03-27', '15:27:00', '16:27:00', 'Thane Station', 15, 50, 'Cancelled', 17, '2025-03-01 18:30:00', '../uploads/67c49c4391e463.44968017.jpg'),
+(129, 'Animal Rescue at Juhu', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis ab numquam harum repudiandae doloremque in quidem repellat exercitationem expedita amet debitis quas dolorum corrupti vero, magni consequuntur? Similique, incidunt doloribus!', '2025-03-09', '2025-03-22', '15:31:00', '17:31:00', 'Juhu Beach', 15, 50, 'Scheduled', 17, '2025-03-01 18:30:00', '../uploads/67c49d2b7f4380.22159233.jpg'),
+(130, 'Awareness CAMPAIGN FOR NO TO TABACOO', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis ab numquam harum repudiandae doloremque in quidem repellat exercitationem expedita amet debitis quas dolorum corrupti vero, magni consequuntur? Similique, incidunt doloribus!', '2025-03-08', '2025-03-09', '13:36:00', '15:36:00', 'mumbai', 12, 50, 'Scheduled', 17, '2025-03-01 18:30:00', '../uploads/67c49e2e204844.49101579.png');
 
 -- --------------------------------------------------------
 
@@ -170,12 +204,8 @@ CREATE TABLE `events_application` (
 --
 
 INSERT INTO `events_application` (`volunteer_id`, `event_id`, `date`, `status`) VALUES
-(17, 10, '2025-02-24 11:40:39', 'accepted'),
-(16, 10, '2025-02-18 11:59:00', 'rejected'),
-(17, 9, '2025-02-12 13:59:46', 'accepted'),
-(19, 11, '2025-02-24 18:30:00', 'pending'),
-(19, 13, '2025-02-24 18:30:00', 'accepted'),
-(19, 6, '2025-02-25 18:30:00', 'pending');
+(19, 11, '2025-02-27 18:30:00', 'accepted'),
+(19, 10, '2025-03-01 18:30:00', 'accepted');
 
 -- --------------------------------------------------------
 
@@ -193,26 +223,34 @@ CREATE TABLE `event_has_causes` (
 --
 
 INSERT INTO `event_has_causes` (`event_id`, `cause_id`) VALUES
-(6, 1),
-(6, 2),
-(8, 1),
-(9, 1),
-(9, 2),
-(9, 3),
-(9, 4),
 (12, 2),
 (12, 7),
-(13, 2),
-(13, 3),
 (11, 5),
 (11, 6),
-(7, 1),
-(7, 2),
-(7, 3),
-(7, 4),
 (10, 1),
 (10, 2),
-(10, 3);
+(10, 3),
+(126, 2),
+(126, 4),
+(129, 1),
+(129, 2),
+(130, 1),
+(130, 2),
+(130, 3),
+(130, 4),
+(130, 5),
+(130, 6),
+(130, 7),
+(130, 8),
+(125, 2),
+(125, 3),
+(125, 7),
+(127, 2),
+(127, 3),
+(127, 4),
+(128, 2),
+(128, 5),
+(128, 6);
 
 -- --------------------------------------------------------
 
@@ -227,17 +265,6 @@ CREATE TABLE `event_has_notices` (
   `notice_id` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `event_has_notices`
---
-
-INSERT INTO `event_has_notices` (`event_id`, `user_id`, `notice`, `notice_id`, `date`) VALUES
-(13, 17, 'ssss', 1, '2025-02-26 16:26:58'),
-(13, 19, 'ssss', 2, '2025-02-26 15:26:58'),
-(13, 19, 'habii', 3, '2025-02-26 17:04:16'),
-(13, 19, 'zzzz', 4, '2025-02-26 17:05:40'),
-(13, 19, 'ss', 5, '2025-02-26 17:06:47');
 
 -- --------------------------------------------------------
 
@@ -266,19 +293,30 @@ CREATE TABLE `event_req_skill` (
 --
 
 INSERT INTO `event_req_skill` (`event_id`, `skill_id`) VALUES
-(6, 1),
-(6, 2),
-(8, 2),
-(9, 1),
-(9, 2),
 (12, 1),
 (12, 2),
-(13, 1),
 (11, 2),
-(7, 1),
-(7, 2),
 (10, 1),
-(10, 2);
+(10, 2),
+(126, 1),
+(126, 2),
+(126, 5),
+(129, 2),
+(129, 3),
+(129, 5),
+(130, 2),
+(130, 3),
+(125, 1),
+(125, 2),
+(125, 5),
+(127, 1),
+(127, 2),
+(127, 4),
+(128, 1),
+(128, 2),
+(128, 3),
+(128, 4),
+(128, 5);
 
 -- --------------------------------------------------------
 
@@ -300,56 +338,9 @@ CREATE TABLE `feedback_rating` (
 --
 
 INSERT INTO `feedback_rating` (`review_id`, `description`, `date_time`, `rating`, `volunteer_id`, `event_id`) VALUES
-(51, 'HELLO', '2025-02-20 17:34:19', 1, 17, 12),
-(52, 'HAA MERI JAAN', '2025-02-20 17:34:40', 3, 17, 12),
-(53, 'TU HE HAI PRABLUE', '2025-02-20 17:34:56', 4, 17, 12),
-(54, 'DD', '2025-02-20 17:35:11', 2, 17, 12),
-(55, 'd', '2025-02-20 17:56:15', 3, 17, 6),
-(56, 'habbbb', '2025-02-20 18:07:59', 4, 18, 12),
-(57, 'nach ke dikha', '2025-02-20 18:08:08', 5, 18, 12),
-(58, 'he', '2025-02-22 13:05:24', 4, 17, 6),
-(59, 'd', '2025-02-22 13:05:30', 4, 17, 6),
-(60, 'a', '2025-02-25 07:31:59', 3, 17, 10),
-(61, 'xx', '2025-02-26 15:16:57', 4, 19, 10),
-(62, 'xsxs', '2025-02-26 15:17:04', 5, 19, 10),
-(63, 'ss', '2025-02-26 15:25:20', 4, 19, 13),
-(64, 'hello', '2025-02-26 15:49:09', 4, 19, 13),
-(65, 'aaa', '2025-02-26 15:50:18', 5, 19, 13),
-(66, 'xxx', '2025-02-26 17:04:55', 4, 19, 10),
-(67, 'ss', '2025-02-26 17:05:02', 4, 19, 10);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_members`
---
-
-CREATE TABLE `group_members` (
-  `group_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `date_of_joining` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_msg`
---
-
-CREATE TABLE `group_msg` (
-  `group_id` int(11) NOT NULL,
-  `group_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `date_of_creation` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `creator_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `group_msg`
---
-
-INSERT INTO `group_msg` (`group_id`, `group_name`, `description`, `date_of_creation`, `creator_id`) VALUES
-(1, 'habibi', '12', '2025-02-12 07:21:13', 17);
+(73, 'hello there', '2025-03-02 18:34:49', 5, 17, 10),
+(74, 'this could have been a great event', '2025-03-02 18:35:05', 4, 17, 10),
+(75, 'Can\'t Wait TO see the event on role', '2025-03-02 18:35:29', 5, 19, 10);
 
 -- --------------------------------------------------------
 
@@ -361,20 +352,116 @@ CREATE TABLE `messages` (
   `message_id` int(11) NOT NULL,
   `text` text NOT NULL,
   `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `image_url` varchar(255) NOT NULL,
-  `status` enum('sent','read') NOT NULL,
-  `message_type` enum('Private','Group') NOT NULL,
+  `status` enum('sent','read') DEFAULT NULL,
   `from_id` int(11) NOT NULL,
-  `to_id` int(11) NOT NULL,
-  `to_groupID` int(11) NOT NULL
+  `to_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `messages`
 --
 
-INSERT INTO `messages` (`message_id`, `text`, `date_time`, `image_url`, `status`, `message_type`, `from_id`, `to_id`, `to_groupID`) VALUES
-(1, 'xxxx', '2025-02-17 07:22:15', 'xx', 'read', 'Private', 17, 16, 1);
+INSERT INTO `messages` (`message_id`, `text`, `date_time`, `status`, `from_id`, `to_id`) VALUES
+(1, 'dddwdwd', '2025-03-01 14:11:08', 'sent', 17, 18),
+(2, 'dddwdwdss', '2025-03-01 14:11:12', 'sent', 17, 18),
+(3, 'dddwdwdssssss', '2025-03-01 14:11:14', 'sent', 17, 18),
+(4, 'hh', '2025-03-01 14:17:37', 'sent', 17, 18),
+(5, 'hh', '2025-03-01 14:17:43', 'sent', 17, 16),
+(6, 'hekk', '2025-03-01 14:18:33', 'sent', 17, 18),
+(7, 'hekk', '2025-03-01 14:18:39', 'sent', 17, 18),
+(8, 'hekk', '2025-03-01 14:18:40', 'sent', 17, 18),
+(9, 'heloo', '2025-03-01 14:19:03', 'sent', 17, 19),
+(10, 'heloo', '2025-03-01 14:19:05', 'sent', 17, 19),
+(11, 'hii', '2025-03-01 14:19:49', 'sent', 17, 19),
+(12, 'h', '2025-03-01 14:22:13', 'sent', 17, 18),
+(13, 'hekk', '2025-03-01 14:28:12', 'sent', 17, 19),
+(14, 'hell', '2025-03-01 14:51:14', 'sent', 17, 18),
+(15, 'hello', '2025-03-01 14:51:41', 'sent', 17, 18),
+(16, 'ss', '2025-03-01 14:53:12', 'sent', 17, 18),
+(17, 'ss', '2025-03-01 14:53:13', 'sent', 17, 18),
+(18, 'ssssss', '2025-03-01 14:53:17', 'sent', 17, 18),
+(19, 'hell', '2025-03-01 14:54:48', 'sent', 17, 19),
+(20, 'hell', '2025-03-01 14:54:54', 'sent', 17, 19),
+(21, 'hell556', '2025-03-01 14:54:57', 'sent', 17, 19),
+(22, 'hell556tt', '2025-03-01 14:54:59', 'sent', 17, 19),
+(23, 'hell556ttff', '2025-03-01 14:55:04', 'sent', 17, 19),
+(24, 'hell556ttffcc', '2025-03-01 14:55:06', 'sent', 17, 19),
+(25, 'hell556ttffcccc', '2025-03-01 14:55:08', 'sent', 17, 19),
+(26, 'hell556ttffccccee', '2025-03-01 14:55:09', 'sent', 17, 19),
+(27, 'hell556ttffcccceeee', '2025-03-01 14:55:10', 'sent', 17, 19),
+(28, 'hell556ttffcccceeeeee', '2025-03-01 14:55:11', 'sent', 17, 19),
+(29, 'hell556ttffcccceeeeeeee', '2025-03-01 14:55:12', 'sent', 17, 19),
+(30, 'hell556ttffcccceeeeeeeeee', '2025-03-01 14:55:13', 'sent', 17, 19),
+(31, 'helll', '2025-03-01 14:56:24', 'sent', 17, 18),
+(32, 'hellle', '2025-03-01 14:56:26', 'sent', 17, 18),
+(33, 'helllee', '2025-03-01 14:56:27', 'sent', 17, 18),
+(34, 'hellleee', '2025-03-01 14:56:27', 'sent', 17, 18),
+(35, 'hellleeedde', '2025-03-01 14:56:29', 'sent', 17, 18),
+(36, 'g', '2025-03-01 14:57:22', 'sent', 17, 18),
+(37, 'g', '2025-03-01 14:57:29', 'sent', 17, 18),
+(38, 'g', '2025-03-01 14:57:32', 'sent', 17, 18),
+(39, 'ggg', '2025-03-01 14:57:35', 'sent', 17, 18),
+(40, 'gggdeee', '2025-03-01 14:57:41', 'sent', 17, 18),
+(41, 'gggdeeeee', '2025-03-01 14:57:42', 'sent', 17, 18),
+(42, 'gggdeeeeeee', '2025-03-01 14:57:43', 'sent', 17, 18),
+(43, 'gggdeeeeeeeee4', '2025-03-01 14:57:50', 'sent', 17, 18),
+(44, 'gggdeeeeeeeee44', '2025-03-01 14:57:52', 'sent', 17, 18),
+(45, 'gggdeeeeeeeee444', '2025-03-01 14:57:56', 'sent', 17, 18),
+(46, 'gggdeeeeeeeee4444444444', '2025-03-01 14:57:59', 'sent', 17, 18),
+(47, 'gggdeeeeeeeee4444444444', '2025-03-01 14:58:00', 'sent', 17, 18),
+(48, 'gggdeeeeeeeee444444444489', '2025-03-01 14:58:06', 'sent', 17, 18),
+(49, 'gggdeeeeeeeee444444444489990', '2025-03-01 14:58:11', 'sent', 17, 18),
+(50, 'gggdeeeeeeeee444444444489990o', '2025-03-01 14:58:15', 'sent', 17, 18),
+(51, 'gggdeeeeeeeee444444444489990o9', '2025-03-01 14:58:21', 'sent', 17, 18),
+(52, 'xss', '2025-03-01 15:04:21', 'sent', 17, 18),
+(53, 'xss', '2025-03-01 15:04:22', 'sent', 17, 18),
+(54, 'xss', '2025-03-01 15:04:23', 'sent', 17, 18),
+(55, 'xss', '2025-03-01 15:04:23', 'sent', 17, 18),
+(56, 'ss', '2025-03-01 15:05:10', 'sent', 17, 18),
+(57, 'i', '2025-03-01 15:07:00', 'sent', 17, 18),
+(58, 'ip', '2025-03-01 15:07:09', 'sent', 17, 18),
+(59, 'ip\'', '2025-03-01 15:07:12', 'sent', 17, 18),
+(60, 'ip\'9', '2025-03-01 15:07:34', 'sent', 17, 18),
+(61, 'haa meri jan', '2025-03-01 15:10:22', 'sent', 17, 18),
+(62, 'haa meri jan77', '2025-03-01 15:10:31', 'sent', 17, 18),
+(63, 'haa meri jan77', '2025-03-01 15:10:31', 'sent', 17, 18),
+(64, 'haa meri jan7799', '2025-03-01 15:10:42', 'sent', 17, 18),
+(65, 'haa meri jan7799', '2025-03-01 15:15:13', 'sent', 17, 18),
+(66, 'haa meri jan7799', '2025-03-01 15:15:14', 'sent', 17, 18),
+(67, 'dd', '2025-03-01 15:18:14', 'sent', 17, 18),
+(68, 'ddd', '2025-03-01 15:18:19', 'sent', 17, 18),
+(69, 'ddd66', '2025-03-01 15:18:24', 'sent', 17, 18),
+(70, 'hh', '2025-03-01 15:19:28', 'sent', 17, 19),
+(71, 'hhf', '2025-03-01 15:19:32', 'sent', 17, 19),
+(72, 'hhff', '2025-03-01 15:19:34', 'sent', 17, 19),
+(73, 'ko', '2025-03-01 16:47:10', 'sent', 17, 19),
+(74, 'ko', '2025-03-01 16:47:11', 'sent', 17, 19),
+(75, 'ko', '2025-03-01 16:47:13', 'sent', 17, 19),
+(76, 'ko89', '2025-03-01 16:47:17', 'sent', 17, 19),
+(77, 'ko8988', '2025-03-01 16:47:21', 'sent', 17, 19),
+(78, 'ko898866', '2025-03-01 16:47:27', 'sent', 17, 19),
+(79, 'ko898866899', '2025-03-01 16:47:31', 'sent', 17, 19),
+(80, 'ko89886689900', '2025-03-01 16:47:34', 'sent', 17, 19),
+(81, 'ko89886689900777', '2025-03-01 16:47:38', 'sent', 17, 19),
+(82, 'ko89886689900777rrr', '2025-03-01 16:47:40', 'sent', 17, 19),
+(83, 'ko89886689900777rrrddde', '2025-03-01 16:47:43', 'sent', 17, 19),
+(84, 'hello world meet', '2025-03-01 16:47:58', 'sent', 17, 19),
+(85, 'hello', '2025-03-01 17:34:12', 'sent', 17, 19),
+(86, 'haa meri jaan', '2025-03-01 17:36:17', 'sent', 17, 19),
+(87, 'bol na bhai', '2025-03-01 17:36:25', 'sent', 19, 17),
+(88, 'sun na ek kam tha', '2025-03-01 17:36:35', 'sent', 19, 17),
+(89, 'kya', '2025-03-01 17:36:38', 'sent', 17, 19),
+(90, 'bachi ke dil me dishakyu', '2025-03-01 17:37:30', 'sent', 17, 19),
+(91, 'hello', '2025-03-01 17:37:42', 'sent', 19, 16),
+(92, 'kaha gyi', '2025-03-01 17:37:50', 'sent', 17, 19),
+(93, 'sun toh', '2025-03-01 17:37:55', 'sent', 17, 19),
+(94, 'bol bhai bol', '2025-03-01 17:42:14', 'sent', 17, 19),
+(95, 'haa mei jan', '2025-03-01 18:29:59', 'sent', 17, 19),
+(96, 'jjj', '2025-03-01 18:30:23', 'sent', 19, 17),
+(97, 'hello', '2025-03-02 12:23:19', 'sent', 17, 19),
+(98, 'ee', '2025-03-02 12:23:25', 'sent', 17, 18),
+(99, 'dddd', '2025-03-02 12:23:30', 'sent', 17, 16),
+(100, 'nn', '2025-03-02 12:23:32', 'sent', 17, 16);
 
 -- --------------------------------------------------------
 
@@ -436,13 +523,17 @@ CREATE TABLE `pictures` (
 --
 
 INSERT INTO `pictures` (`picture_id`, `picture_url`, `caption`, `upload_date`, `user_id`, `likes`) VALUES
-(2, '../uploads/67bf5c961cfac2.43972930.jpg', 'habiiii', '2025-02-26 13:55:26', 19, 0),
-(3, '../uploads/67bf5d07e633f0.41385679.jpg', 'habiiii', '2025-02-26 13:57:19', 19, 0),
-(4, '../uploads/67bf5d1dad8323.59902368.jpeg', 'illov', '2025-02-26 13:57:41', 19, 0),
-(5, '../uploads/67bf5d73f0c9b7.70060187.jpeg', 'ulove', '2025-02-26 13:59:07', 19, 0),
-(6, '../uploads/67bf5e08cef614.54599381.jpeg', 'hhhh', '2025-02-26 14:01:36', 19, 0),
-(7, '../uploads/67bf5e295ecaa7.64907046.jpeg', 'zzz', '2025-02-26 14:02:09', 19, 0),
-(8, '../uploads/67bf5ec7b44142.46572518.jpg', '9800', '2025-02-26 14:04:47', 19, 0);
+(11, '../uploads/67c497ac9b4401.09999009.jpg', 'awareness campaigns', '2025-03-02 17:38:52', 19, 0),
+(12, '../uploads/67c497c1eadef3.08135150.jpg', 'Tree Plantation and Cleanup', '2025-03-02 17:39:13', 19, 0),
+(13, '../uploads/67c497e4e6f586.03386056.jpeg', 'National Service Scheme Awareness campaign', '2025-03-02 17:39:48', 19, 0),
+(14, '../uploads/67c49c5c8e9ec6.58911866.jpg', 'Lonavla Trek', '2025-03-02 17:58:52', 17, 5),
+(15, '../uploads/67c49c721b1648.69728944.jpg', 'Mountain Campaiging', '2025-03-02 17:59:14', 17, 1),
+(18, '../uploads/67c49cbcefeaf6.61775156.jpg', 'Beach Cleanup at goa', '2025-03-02 18:00:28', 17, 16),
+(19, '../uploads/67c49cdc9d07f3.76376211.jpg', 'Juhu Brach Cleanup', '2025-03-02 18:01:00', 19, 0),
+(20, '../uploads/67c49d40ac0dc9.91634873.png', 'Doggie The King', '2025-03-02 18:02:40', 19, 1),
+(21, '../uploads/67c49d57a97a48.09556721.jpg', 'Baby Rhino Caretaking', '2025-03-02 18:03:03', 19, 1),
+(22, '../uploads/67c49d712add81.21711442.jpeg', 'A small Dog RESCUE', '2025-03-02 18:03:29', 19, 0),
+(23, '../uploads/67c49d8f43ba75.31744580.jpg', 'Kitten taken Care of!!', '2025-03-02 18:03:59', 19, 1);
 
 -- --------------------------------------------------------
 
@@ -461,7 +552,10 @@ CREATE TABLE `skill` (
 
 INSERT INTO `skill` (`skill_id`, `skill_name`) VALUES
 (1, 'Communication'),
-(2, 'Management');
+(2, 'Management'),
+(3, 'First Aid'),
+(4, ' Project Management'),
+(5, ' Leadership');
 
 -- --------------------------------------------------------
 
@@ -490,10 +584,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `name`, `email`, `contact`, `gender`, `occupation`, `user_name`, `password`, `address`, `profile_picture`, `user_type`, `DOB/DOE`, `registration_date`) VALUES
-(16, 'aniket', 'walfra52@gmail.com22', 7208541711, 'N', NULL, 'eee', 'dddddddd', ' ssas', '../uploads/9.jpg', 'V', '2023-02-04', '2025-02-05'),
-(17, 'Aniket Singh', 'walfra52@gmail.com', 7208541711, 'M', 'student', 'aniket52777', 'Aniket52@', ' Diva E', '../uploads/9.jpg', 'O', '2007-02-01', '2025-02-05'),
-(18, 'aniket2', 'walfra52777@gmail.com', 7208541711, 'N', NULL, 'GodLike', 'aniket52', ' habibi', '../uploads/67b70c3a97cf23.36096127.jpg', 'O', '2023-02-03', '2025-02-20'),
-(19, 'shrushti', 'walfra5244@gmail.com', 7208541711, 'M', 'business man', 'shrusthi', 'aniket123', ' tere shar pe rehta hu kabhi check krna', '../uploads/67bde77d6cbbd1.43554717.jpg', 'V', '2007-02-09', '2025-02-25');
+(16, 'Ajay Singh', 'walfra52@gmail.com22', 7208541711, 'N', 'Driver', 'AjaySingh52', 'dddddddd', ' ssas', '../uploads/9.jpg', 'V', '2023-02-04', '2025-02-05'),
+(17, 'Aniket Singh', 'walfra52@gmail.com', 7208541711, 'M', 'student', 'aniket52777', 'Aniket52@', ' Diva E', '../uploads/9.jpg', 'O', '2007-02-01', '2025-02-01'),
+(18, 'Sakshi', 'walfra52777@gmail.com', 7208541711, 'N', NULL, 'GodLike', 'Sakshi', 'sakshi13', '../uploads/images.jpg', 'O', '2023-02-03', '2025-02-21'),
+(19, 'Aniket', 'walfra5244@gmail.com', 7208541711, 'M', 'business man', 'Aniket52', 'aniket123', ' Diva West, And Building', '../uploads/profile1.jpg', 'V', '2007-02-09', '2025-03-03');
 
 -- --------------------------------------------------------
 
@@ -568,11 +662,11 @@ ALTER TABLE `admin_manage_event`
   ADD KEY `admin_manage_admin_AID` (`admin_id`);
 
 --
--- Indexes for table `admin_manage_group`
+-- Indexes for table `admin_manage_post`
 --
-ALTER TABLE `admin_manage_group`
-  ADD KEY `admin_manage_group_gid` (`group_id`),
-  ADD KEY `admin_manage_group_adminID` (`admin_id`);
+ALTER TABLE `admin_manage_post`
+  ADD KEY `admin_manage_post_pid` (`picture_id`),
+  ADD KEY `admin_manage_post_ad_id` (`admin_id`);
 
 --
 -- Indexes for table `admin_manage_user`
@@ -592,8 +686,8 @@ ALTER TABLE `causes`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`comment_id`),
-  ADD KEY `user_post_comment` (`user_id`),
-  ADD KEY `comment_on_pic` (`picture_id`);
+  ADD KEY `comment_on_pic` (`picture_id`),
+  ADD KEY `user_post_comment` (`user_id`);
 
 --
 -- Indexes for table `events`
@@ -647,27 +741,12 @@ ALTER TABLE `feedback_rating`
   ADD KEY `event_has_feedback` (`event_id`);
 
 --
--- Indexes for table `group_members`
---
-ALTER TABLE `group_members`
-  ADD KEY `group_has_member` (`group_id`),
-  ADD KEY `user_join_group` (`user_id`);
-
---
--- Indexes for table `group_msg`
---
-ALTER TABLE `group_msg`
-  ADD PRIMARY KEY (`group_id`),
-  ADD KEY `group_has_creator` (`creator_id`);
-
---
 -- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`message_id`),
   ADD KEY `user_send_msg` (`from_id`),
-  ADD KEY `user_receive_msg` (`to_id`),
-  ADD KEY `group_has_msg` (`to_groupID`);
+  ADD KEY `user_receive_msg` (`to_id`);
 
 --
 -- Indexes for table `organization_belongs_type`
@@ -720,40 +799,58 @@ ALTER TABLE `volunteer_skill`
 --
 
 --
+-- AUTO_INCREMENT for table `administration`
+--
+ALTER TABLE `administration`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `causes`
 --
 ALTER TABLE `causes`
   MODIFY `cause_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `event_has_notices`
 --
 ALTER TABLE `event_has_notices`
-  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `feedback_rating`
 --
 ALTER TABLE `feedback_rating`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `pictures`
 --
 ALTER TABLE `pictures`
-  MODIFY `picture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `picture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -767,11 +864,11 @@ ALTER TABLE `admin_manage_event`
   ADD CONSTRAINT `admin_manage_events_eid` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `admin_manage_group`
+-- Constraints for table `admin_manage_post`
 --
-ALTER TABLE `admin_manage_group`
-  ADD CONSTRAINT `admin_manage_group_adminID` FOREIGN KEY (`admin_id`) REFERENCES `administration` (`admin_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `admin_manage_group_gid` FOREIGN KEY (`group_id`) REFERENCES `group_msg` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `admin_manage_post`
+  ADD CONSTRAINT `admin_manage_post_ad_id` FOREIGN KEY (`admin_id`) REFERENCES `administration` (`admin_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `admin_manage_post_pid` FOREIGN KEY (`picture_id`) REFERENCES `pictures` (`picture_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `admin_manage_user`
@@ -784,8 +881,8 @@ ALTER TABLE `admin_manage_user`
 -- Constraints for table `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comment_on_pic` FOREIGN KEY (`picture_id`) REFERENCES `pictures` (`picture_id`),
-  ADD CONSTRAINT `user_post_comment` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `comment_on_pic` FOREIGN KEY (`picture_id`) REFERENCES `pictures` (`picture_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_post_comment` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `events`
@@ -797,7 +894,7 @@ ALTER TABLE `events`
 -- Constraints for table `events_application`
 --
 ALTER TABLE `events_application`
-  ADD CONSTRAINT `event_req_volunteer` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`),
+  ADD CONSTRAINT `event_req_volunteer` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `volunteer_apply_events` FOREIGN KEY (`volunteer_id`) REFERENCES `user` (`user_id`);
 
 --
@@ -836,23 +933,9 @@ ALTER TABLE `feedback_rating`
   ADD CONSTRAINT `volunteer_share_feedback` FOREIGN KEY (`volunteer_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `group_members`
---
-ALTER TABLE `group_members`
-  ADD CONSTRAINT `group_has_member` FOREIGN KEY (`group_id`) REFERENCES `group_msg` (`group_id`),
-  ADD CONSTRAINT `user_join_group` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Constraints for table `group_msg`
---
-ALTER TABLE `group_msg`
-  ADD CONSTRAINT `group_has_creator` FOREIGN KEY (`creator_id`) REFERENCES `user` (`user_id`);
-
---
 -- Constraints for table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `group_has_msg` FOREIGN KEY (`to_groupID`) REFERENCES `group_msg` (`group_id`),
   ADD CONSTRAINT `user_receive_msg` FOREIGN KEY (`to_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `user_send_msg` FOREIGN KEY (`from_id`) REFERENCES `user` (`user_id`);
 
