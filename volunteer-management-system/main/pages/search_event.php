@@ -139,7 +139,7 @@ if ($result && $row = $result->fetch_assoc()) {
             <div class="container mx-auto px-4 pt-4 relative">
                 <!-- Search Bar and Filter Button -->
                 <form class="flex justify-center mb-4" id="form1">
-                    <div class="relative w-full md:max-w-5xl  flex items-center">
+                    <div class="relative w-full md:max-w-5xl  flex items-center hover:scale-105 duration-300 transition-all">
                         <input type="text" id="searchInput" placeholder="Search events..." class=" h-14 transition-all w-full px-4 py-2 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <a id="cancelSearch" class="absolute text-xl right-20 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-400 hidden">
                             <i class="fas fa-times"></i>
@@ -575,7 +575,7 @@ if ($result && $row = $result->fetch_assoc()) {
     <!-- <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script> -->
     <script src="../../js/moreless.js">
     </script>
-    <script>
+    <!-- <script>
         $(function() {
             $(".example").moreLess({
                 moreLabel: "... Read more",
@@ -585,7 +585,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 wordsCount: 20,
             });
         });
-    </script>
+    </script> -->
     <!-- Read Less Read More end -->
 
 
@@ -611,22 +611,58 @@ if ($result && $row = $result->fetch_assoc()) {
     <script>
         $(document).ready(function() {
 
+            // function initialize() {
+            //     let all = "all";
+            //     $.ajax({
+            //         url: "Backend/search_events.php", // Backend PHP script
+            //         method: "POST",
+            //         data: {
+            //             all: all
+            //         },
+            //         success: function(response) {
+            //             $("#events-list").html(response); // Show results
+            //             //  $("#events-list").html(""); // Clear results if input is empty
+            //         }
+            //     });
+
+            // }
+            // initialize();
+
+            // console.log($(".example").length); // Should return number of elements
+
+
             function initialize() {
                 let all = "all";
                 $.ajax({
-                    url: "Backend/search_events.php", // Backend PHP script
+                    url: "Backend/search_events.php",
                     method: "POST",
                     data: {
                         all: all
                     },
                     success: function(response) {
-                        $("#events-list").html(response); // Show results
-                        //  $("#events-list").html(""); // Clear results if input is empty
+                        $("#events-list").html(response); // Insert new content
+
+                        // Wait until DOM updates before applying moreLess
+                        $("#events-list").promise().done(function() {
+                            if ($(".example").length > 0) { // Ensure elements exist
+                                $(".example").moreLess({
+                                    moreLabel: "... Read more",
+                                    lessLabel: "... Read less",
+                                    moreClass: "read-more-link",
+                                    lessClass: "read-less-link",
+                                    wordsCount: 20,
+                                });
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: " + status + " " + error);
                     }
                 });
-
             }
+
             initialize();
+
             // $(document).on("keyup", "#searchInput", function() {
             //     let query = $(this).val().trim();
             //     // alert(query);
@@ -659,6 +695,22 @@ if ($result && $row = $result->fetch_assoc()) {
                         },
                         success: function(response) {
                             $("#events-list").html(response); // Show results
+
+                            $("#events-list").promise().done(function() {
+                                $(".example").each(function() {
+                                    $(this).removeClass("moreLess-initialized"); // Remove previous state
+                                });
+
+                                if ($(".example").length > 0) {
+                                    $(".example").moreLess({
+                                        moreLabel: "... Read more",
+                                        lessLabel: "... Read less",
+                                        moreClass: "read-more-link",
+                                        lessClass: "read-less-link",
+                                        wordsCount: 20,
+                                    });
+                                }
+                            });
                         }
                     });
                 } else {
@@ -677,17 +729,31 @@ if ($result && $row = $result->fetch_assoc()) {
             function initialize() {
                 let all = "all";
                 $.ajax({
-                    url: "Backend/search_events.php", // Backend PHP script
+                    url: "Backend/search_events.php",
                     method: "POST",
                     data: {
                         all: all
                     },
                     success: function(response) {
-                        $("#events-list").html(response); // Show results
-                        //  $("#events-list").html(""); // Clear results if input is empty
+                        $("#events-list").html(response); // Insert new content
+
+                        // Wait until DOM updates before applying moreLess
+                        $("#events-list").promise().done(function() {
+                            if ($(".example").length > 0) { // Ensure elements exist
+                                $(".example").moreLess({
+                                    moreLabel: "... Read more",
+                                    lessLabel: "... Read less",
+                                    moreClass: "read-more-link",
+                                    lessClass: "read-less-link",
+                                    wordsCount: 20,
+                                });
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: " + status + " " + error);
                     }
                 });
-
             }
 
             $("#filterBtn").click(function() {
@@ -724,6 +790,7 @@ if ($result && $row = $result->fetch_assoc()) {
                 // and update the event listing based on the response
                 //console.log("Search performed");
             });
+
             $("#form1").submit(function(e) {
 
                 // Check if the listener has already been added to prevent duplication

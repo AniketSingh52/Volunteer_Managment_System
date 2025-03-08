@@ -37,7 +37,9 @@
     }),
       e(document).on("click", ".moreless-expand-content", function (s) {
         s.preventDefault();
-        var a = e(this).attr("data-id");
+        // var a = e(this).attr("data-id");
+        var a = e(this).closest(".example").index(".example"); // Get the index of this paragraph
+
         l[a].html(
           n[a] +
             '<a href="#" data-id="' +
@@ -51,7 +53,9 @@
       }),
       e(document).on("click", ".moreless-collapse-content", function (s) {
         s.preventDefault();
-        var t = e(this).attr("data-id");
+        // var t = e(this).attr("data-id");
+        var t = e(this).closest(".example").index(".example");
+
         a(l[t], t);
       });
   };

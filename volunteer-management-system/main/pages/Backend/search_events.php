@@ -15,7 +15,7 @@ if (!$user_id) {
         $type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
         // $profile = $row['profile_picture']; //Original String
         // $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
-    //echo "<script>alert('$profile');</script>";  
+        //echo "<script>alert('$profile');</script>";  
     }
 }
 
@@ -40,7 +40,7 @@ if (isset($_POST['search'])) {
         if ($result->num_rows > 0) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             foreach ($rows as $row) {
-            // while ($row = $result->fetch_assoc()) {
+                // while ($row = $result->fetch_assoc()) {
 
                 $event_name = $row['event_name'];
                 $from_date = date('jS M y', strtotime($row['from_date']));
@@ -60,20 +60,17 @@ if (isset($_POST['search'])) {
                 $event_image = preg_replace('/^\.\.\//', '', $event_image);
                 $date_of_creation = $row['date_of_creation'];
                 $status = $row['status'];
-                $flag=false;
-                
+                $flag = false;
+
                 //'Ongoing','Scheduled','Completed','Cancelled'
-                if($status=="Ongoing"){
-                    $status_style= " bg-green-500 hover:bg-green-800 ";
-                }
-                elseif ($status== "Scheduled") {
+                if ($status == "Ongoing") {
+                    $status_style = " bg-green-500 hover:bg-green-800 ";
+                } elseif ($status == "Scheduled") {
                     $status_style = " bg-sky-500 hover:bg-sky-800 ";
-                }
-                elseif($status=="Completed"){
+                } elseif ($status == "Completed") {
                     $status_style = " bg-indigo-500 hover:bg-indigo-800 ";
-                }
-                else{
-                    $flag=true;
+                } else {
+                    $flag = true;
                     $status_style = " bg-red-500 hover:bg-red-800 ";
                 }
 
@@ -88,11 +85,12 @@ if (isset($_POST['search'])) {
                 $today = new DateTime();
                 $diff = $today->diff($creation_date);
 
-                if ($diff->days == 0
+                if (
+                    $diff->days == 0
                 ) {
                     $days_ago = "Today";
                 } else {
-                    $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" :date('jS M y', strtotime($date_of_creation));
+                    $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($date_of_creation));
                 }
 
                 $flag2 = false;
@@ -170,7 +168,7 @@ if (isset($_POST['search'])) {
         </div>
         <div class="p-8 md:w-2/3 relative">
             <div
-                class="text-sm absolute font-semibold top-0 right-0 '.$status_style.'  rounded-sm px-4 py-2 text-white mt-3 mr-3  hover:text-white transition duration-500 ease-in-out">
+                class="text-sm absolute font-semibold top-0 right-0 ' . $status_style . '  rounded-sm px-4 py-2 text-white mt-3 mr-3  hover:text-white transition duration-500 ease-in-out">
                 ' . htmlspecialchars($status) . '
             </div>
             <div
@@ -246,7 +244,7 @@ if (isset($_POST['search'])) {
                         stroke-linejoin="round"
                         d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                 </svg>
-                Volunteer Needed: '. htmlspecialchars($accepted_count).'/
+                Volunteer Needed: ' . htmlspecialchars($accepted_count) . '/
                  ' . htmlspecialchars($volunteer_needed) . '
             </div>
             <div class=" flex">
@@ -271,8 +269,8 @@ if (isset($_POST['search'])) {
                     "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 "
                 ];
 
-                if($result->num_rows > 0){
-                  
+                if ($result->num_rows > 0) {
+
                     while ($row = $result->fetch_assoc()) {
                         $cause_name = $row['name'];
                         $style = $styles[$index % 5];
@@ -281,14 +279,12 @@ if (isset($_POST['search'])) {
                     <span class=" ml-2 mt-1 ' . $style . '  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300  cursor-pointer">' . $cause_name . '</span>
                     ';
                     }
-
-                }
-                else{
+                } else {
                     echo '
                     <span class=" ml-2 mt-1 bg-orange-100 text-orange-800 hover:bg-orange-200  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300  cursor-pointer"> No Tags</span>
                     ';
                 }
-               
+
 
                 echo '
                 </div>
@@ -312,7 +308,7 @@ if (isset($_POST['search'])) {
                     "bg-sky-100 text-sky-800 hover:bg-sky-200 "
                 ];
 
-                if($result->num_rows >0){
+                if ($result->num_rows > 0) {
 
                     while ($row = $result->fetch_assoc()) {
                         $skill_name = $row['skill_name'];
@@ -322,14 +318,13 @@ if (isset($_POST['search'])) {
                     <span class=" ml-2 mt-1 ' . $style2 . '  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300  cursor-pointer">' . $skill_name . '</span>
                     ';
                     }
-
                 } else {
                     echo '
                     <span class=" ml-2 mt-1 bg-orange-100 text-orange-800 hover:bg-orange-200  rounded-xl px-4 py-2 font-medium hover:scale-105 transition-all duration-300  cursor-pointer"> No Skill</span>
                     ';
                 }
-               
-               
+
+
 
 
                 echo '
@@ -390,47 +385,43 @@ if (isset($_POST['search'])) {
                         </button>
                         ';
                     } else {
-                        if($flag){
+                        if ($flag) {
                             echo '
                                 <button 
                                     class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
                                     Cancelled
                                 </button>
                                     ';
-                             }else{
-                                if ($flag2) {
-                                    echo '
+                        } else {
+                            if ($flag2) {
+                                echo '
                                         <button
                                         class="bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:cursor-not-allowed ">
                                     Suspended
                                         </button>
                                     ';
-                                    }else{
-                                        echo '
+                            } else {
+                                echo '
                                         <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
                                             class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
                                             Apply
                                         </button>
                                             ';
-
-                                    }
-
-                                        
-                    }
+                            }
+                        }
                     }
                 }
-                echo'
+                echo '
             </div>
         </div>
     </div>
 </div>';
             }
         } else {
-            echo "<p class='text-gray-500 text-xl'>No events found.</p>";
+            echo "<p class='text-gray-500 text-3xl text-center'>No events found.</p>";
         }
     }
-}
-elseif(isset($_POST['all'])){
+} elseif (isset($_POST['all'])) {
     // Get search input
     $all = isset($_POST['all']) ? trim($_POST['all']) : '';
 
@@ -458,13 +449,13 @@ elseif(isset($_POST['all'])){
                 $location = $row['location'];
                 $volunteer_needed = $row['volunteers_needed'];
                 $event_id = $row['event_id'];
-                
+
                 $organization_id = $row['organization_id'];
                 $event_image = $row['poster'];
                 $event_image = preg_replace('/^\.\.\//', '', $event_image);
                 $date_of_creation = $row['date_of_creation'];
                 $status = $row['status'];
-                $flag=false;
+                $flag = false;
 
                 //'Ongoing','Scheduled','Completed','Cancelled'
                 if ($status == "Ongoing") {
@@ -475,7 +466,7 @@ elseif(isset($_POST['all'])){
                     $status_style = " bg-indigo-500 hover:bg-indigo-800 ";
                 } else {
                     $status_style = " bg-red-500 hover:bg-red-800 ";
-                    $flag=true;
+                    $flag = true;
                 }
 
                 $flag2 = false;
@@ -493,7 +484,7 @@ elseif(isset($_POST['all'])){
                 }
 
 
-                
+
                 // Convert to DateTime object
                 // $creation_date = new DateTime($date_of_creation);
                 // $today = new DateTime();
@@ -521,7 +512,7 @@ elseif(isset($_POST['all'])){
                 $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
                 $organization_name = $row['name'];
-                $organization_email=$row['email'];
+                $organization_email = $row['email'];
 
                 $query = "SELECT 
     event_id, 
@@ -646,7 +637,7 @@ GROUP BY event_id;
                         stroke-linejoin="round"
                         d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
                 </svg>
-                Volunteer Needed: '. htmlspecialchars($accepted_count).'/
+                Volunteer Needed: ' . htmlspecialchars($accepted_count) . '/
                  ' . htmlspecialchars($volunteer_needed) . '
             </div>
             <div class=" flex">
@@ -735,7 +726,7 @@ GROUP BY event_id;
 
             <p class="mt-4 text-gray-600 example leading-relaxed text-base">
                 ' . $description .
-                '
+                    '
             </p>
 
           <div class="mt-6 flex space-x-4">
@@ -756,23 +747,21 @@ GROUP BY event_id;
                     </button>
                 </a>
                     ';
-                }
-                elseif($type== "Organisation"){
-                   
+                } elseif ($type == "Organisation") {
+
                     echo '
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' .$organization_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $organization_email . '&su=Inquiry about the Event&body=Hello, I am interested in your event and would like to know more."
                         target="_blank"
                         class="bg-green-600  text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
                             Contact Organizer
                         </a>       
                             ';
-
                 } else {
-                
+
 
                     $sql2 = "SELECT * FROM `events_application` WHERE event_id='$event_id' AND volunteer_id='$user_id'";
                     $checkResult2 = $conn->query($sql2);
-                    if($checkResult2->num_rows > 0){
+                    if ($checkResult2->num_rows > 0) {
                         //         echo '
 
                         //     <button
@@ -788,38 +777,34 @@ GROUP BY event_id;
                             <i class="bx bxs-bookmark-minus mr-2"></i> ' . ($flag2 ? 'Suspended' : 'Applied') . '
                         </button>
                         ';
-                        
-                    }else{
-                      
-                        if($flag){
+                    } else {
+
+                        if ($flag) {
                             echo '
                                 <button 
                                     class=" bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg hover:cursor-not-allowed font-semibold  duration-300 transition-all">
                                     Cancelled
                                 </button>
                                     ';
-                             }else{
-                                if ($flag2) {
-                                    echo '
+                        } else {
+                            if ($flag2) {
+                                echo '
                                         <button
                                         class="bg-red-600/70 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:cursor-not-allowed ">
                                     Suspended
                                         </button>
                                     ';
-                                    }else{
-                                        echo '
+                            } else {
+                                echo '
                                         <button data-event="' . $event_id . '" data-volunteer_needed="' . $volunteer_needed - $accepted_count . '"
                                             class=" apply_button bg-green-600 basis-36 w-[9rem] text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 hover:scale-105 duration-300 transition-all">
                                             Apply
                                         </button>
                                             ';
-
-                                    }
-
-                                        
+                            }
+                        }
                     }
                 }
-            }
                 echo '
             </div>
         </div>
@@ -830,23 +815,20 @@ GROUP BY event_id;
             echo "<p class='text-gray-500 text-xl'>No events found.</p>";
         }
     }
-
-
-
-
 }
 
 
 ?>
 
-<script>
-    $(function() {
-        $(".example").moreLess({
-            moreLabel: "... Read more",
-            lessLabel: "... Read less",
-            moreClass: "read-more-link",
-            lessClass: "read-less-link",
-            wordsCount: 20,
+<!-- <script src="../../../js/moreless.js"></script>
+    <script>
+        $(function() {
+            $(".example").moreLess({
+                moreLabel: "... Read more",
+                lessLabel: "... Read less",
+                moreClass: "read-more-link",
+                lessClass: "read-less-link",
+                wordsCount: 20,
+            });
         });
-    });
-</script>
+</script> -->

@@ -2,6 +2,7 @@
 
 <?php
 session_start();
+error_reporting(0);
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
@@ -116,14 +117,14 @@ if ($result && $row = $result->fetch_assoc()) {
 <body class="text-gray-800 font-inter">
 
     <!-- Sidebar -->
-    <?php include('../layouts/sidebar2.php'); ?>
+    <?php include('admin/layouts/sidebar2.php'); ?>
 
     <!-- Main -->
     <main
         class="w-full md:w-[calc(100%-288px)] md:ml-72 bg-gray-200 min-h-screen transition-all main">
 
         <!-- Navbar -->
-        <?php include('../layouts/navbar2.php'); ?>
+        <?php include('admin/layouts/navbar2.php'); ?>
 
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
@@ -957,7 +958,7 @@ if ($result && $row = $result->fetch_assoc()) {
 
 
     <!-- Footer -->
-    <?php include('../layouts/footer2.php'); ?>
+    <?php include('admin/layouts/footer2.php'); ?>
 
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
