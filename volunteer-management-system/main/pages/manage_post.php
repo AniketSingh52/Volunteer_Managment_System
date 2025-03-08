@@ -119,6 +119,23 @@ $result2 = $stmt->get_result();
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
+
+        /* Style scrollbar track */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Style scrollbar thumb */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            /* display: none; */
+        }
+
+        /* Style scrollbar on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
     </style>
 </head>
 

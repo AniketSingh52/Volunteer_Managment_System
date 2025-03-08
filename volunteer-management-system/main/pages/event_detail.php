@@ -591,7 +591,7 @@ GROUP BY event_id;
                         }
 
 
-                        if ($notice_updates == 1) {
+                        if ($notice_updates == 1 || $user_id==$organization_id) {
                             // Calculate the Total of the event
                             $sql = "SELECT  COUNT(*) AS Total FROM `event_has_notices` WHERE event_id=?";
                             $stmt = $conn->prepare($sql);

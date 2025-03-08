@@ -12,7 +12,7 @@ ini_set('display_errors', 0);
 ini_set('error_log', 'error_log.txt');
 
 $response = [];
-
+$message="";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['event_id']) && !empty($_POST['user_id'])) {
         $event_id = $conn->real_escape_string($_POST['event_id']); // Prevent SQL injection
