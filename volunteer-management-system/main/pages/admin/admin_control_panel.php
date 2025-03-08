@@ -2,6 +2,11 @@
 
 <?php
 session_start();
+ob_clean(); // Cle // Return JSON response
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('error_log', 'error_log.txt');
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
@@ -27,14 +32,14 @@ if (!$user_id) {
 $currentMonth = date('Y-m');
 $previousMonth = date('Y-m', strtotime('-1 month'));
 
-    // echo $currentMonth;
-    // echo $previousMonth;
+// echo $currentMonth;
+// echo $previousMonth;
 
 
-    // TOTAL USER GROWTH PERCENTAGE fetch (VOL, ORG)
+// TOTAL USER GROWTH PERCENTAGE fetch (VOL, ORG)
 
-    // Query to count total users registered this month and last month
-    $query = "
+// Query to count total users registered this month and last month
+$query = "
     SELECT user_type, 
         SUM(CASE WHEN DATE_FORMAT(registration_date, '%Y-%m') = '$currentMonth' THEN 1 ELSE 0 END) AS this_month,
         SUM(CASE WHEN DATE_FORMAT(registration_date, '%Y-%m') = '$previousMonth' THEN 1 ELSE 0 END) AS last_month
@@ -44,8 +49,8 @@ $previousMonth = date('Y-m', strtotime('-1 month'));
 
 $result = $conn->query($query);
 
-    // Initialize variables
-    $stats = [
+// Initialize variables
+$stats = [
     'V' => ['this_month' => 0, 'last_month' => 0, 'growth' => 0],
     'O' => ['this_month' => 0, 'last_month' => 0, 'growth' => 0]
 ];
@@ -68,8 +73,8 @@ if ($result->num_rows > 0) {
     }
 }
 
-    // TOTAL VOLUNTEER AND ORG PERCENTAGE fetch
-    $sql = "SELECT user_type, COUNT(*) AS total
+// TOTAL VOLUNTEER AND ORG PERCENTAGE fetch
+$sql = "SELECT user_type, COUNT(*) AS total
 FROM user
 GROUP BY user_type;";
 $result = $conn->query($sql);
@@ -89,9 +94,9 @@ if ($result->num_rows > 0) {
     }
 }
 
-    // TOTAL USER & GROWTH PERCENTAGE fetch
+// TOTAL USER & GROWTH PERCENTAGE fetch
 
-    $sql = "SELECT 
+$sql = "SELECT 
             IFNULL(((current_month.total_users - previous_month.total_users) / previous_month.total_users) * 100, 0) AS growth_percentage
         FROM 
             (SELECT COUNT(*) AS total_users FROM `user` WHERE MONTH(registration_date) = MONTH(CURRENT_DATE()) AND YEAR(registration_date) = YEAR(CURRENT_DATE())) AS current_month
@@ -101,12 +106,12 @@ if ($result->num_rows > 0) {
 $result2 = $conn->query($sql);
 $row = $result2->fetch_assoc();
 $growth_percentage = round($row['growth_percentage'], 2); // Round to 2 decimal places
-    // <?= $growth_percentage >= 0 ? 'text-green-600' : 'text-red-600' 
+// <?= $growth_percentage >= 0 ? 'text-green-600' : 'text-red-600' 
 
 
-    // TOTAL EVENT & GROWTH PERCENTAGE fetch
+// TOTAL EVENT & GROWTH PERCENTAGE fetch
 
-    $sql = "SELECT 
+$sql = "SELECT 
             IFNULL(((current_month.total_users - previous_month.total_users) / previous_month.total_users) * 100, 0) AS growth_percentage
         FROM 
             (SELECT COUNT(*) AS total_users FROM `events` WHERE MONTH(date_of_creation) = MONTH(CURRENT_DATE()) AND YEAR(date_of_creation) = YEAR(CURRENT_DATE())) AS current_month
@@ -130,9 +135,9 @@ if ($result->num_rows > 0) {
 
 
 
-    // TOTAL POST & GROWTH PERCENTAGE fetch
+// TOTAL POST & GROWTH PERCENTAGE fetch
 
-    $sql = "SELECT 
+$sql = "SELECT 
             IFNULL(((current_month.total_users - previous_month.total_users) / previous_month.total_users) * 100, 0) AS growth_percentage
         FROM 
             (SELECT COUNT(*) AS total_users FROM `pictures` WHERE MONTH(upload_date) = MONTH(CURRENT_DATE()) AND YEAR(upload_date) = YEAR(CURRENT_DATE())) AS current_month
@@ -157,9 +162,9 @@ if ($result->num_rows > 0) {
 
 
 
-    // ACTIVE DEACTIVE USER fetch
+// ACTIVE DEACTIVE USER fetch
 
-    $sql = "SELECT 
+$sql = "SELECT 
             SUM(CASE WHEN latest_action = 'Suspend' THEN 1 ELSE 0 END) AS suspended_users,
             SUM(CASE WHEN latest_action = 'unsuspend' OR latest_action IS NULL THEN 1 ELSE 0 END) AS unsuspended_users
         FROM (
@@ -173,46 +178,46 @@ if ($result->num_rows > 0) {
             FROM user u
         ) AS user_status";
 
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-    $suspended = $row['suspended_users'];//DEACTIVE
-    $unsuspended = $row['unsuspended_users'];//ACTIVE 
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$suspended = $row['suspended_users']; //DEACTIVE
+$unsuspended = $row['unsuspended_users']; //ACTIVE 
 
-    // echo "Suspended Users: $suspended <br>";
-    // echo "Unsuspended Users: $unsuspended";
-
-
+// echo "Suspended Users: $suspended <br>";
+// echo "Unsuspended Users: $unsuspended";
 
 
-    // Event Category fetch
 
-    $query = "SELECT status, COUNT(*) AS event_count FROM events  GROUP BY status";
 
-    $result = $conn->query($query);
+// Event Category fetch
 
-    // Initialize variables
-    $ongoing = 0;
-    $scheduled = 0;
-    $completed = 0;
-    $cancelled = 0;
+$query = "SELECT status, COUNT(*) AS event_count FROM events  GROUP BY status";
 
-    // Fetch the results and store in variables
-    while ($row = $result->fetch_assoc()) {
-        switch ($row['status']) {
-            case 'Ongoing':
-                $ongoing = $row['event_count'];
-                break;
-            case 'Scheduled':
-                $scheduled = $row['event_count'];
-                break;
-            case 'Completed':
-                $completed = $row['event_count'];
-                break;
-            case 'Cancelled':
-                $cancelled = $row['event_count'];
-                break;
-        }
+$result = $conn->query($query);
+
+// Initialize variables
+$ongoing = 0;
+$scheduled = 0;
+$completed = 0;
+$cancelled = 0;
+
+// Fetch the results and store in variables
+while ($row = $result->fetch_assoc()) {
+    switch ($row['status']) {
+        case 'Ongoing':
+            $ongoing = $row['event_count'];
+            break;
+        case 'Scheduled':
+            $scheduled = $row['event_count'];
+            break;
+        case 'Completed':
+            $completed = $row['event_count'];
+            break;
+        case 'Cancelled':
+            $cancelled = $row['event_count'];
+            break;
     }
+}
 
 
 ?>
@@ -535,6 +540,9 @@ if ($result->num_rows > 0) {
                                 </div>
 
                                 <!-- User Management Section -->
+
+
+
                                 <div class="mt-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                                     <div class="px-6 py-4 border-b border-gray-200">
                                         <div class="flex items-center justify-between">
@@ -547,7 +555,7 @@ if ($result->num_rows > 0) {
                                                         <option>Only Organisation</option>
                                                     </select>
                                                 </div>
-                                                <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <button class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     <i class='bx bx-cog mr-2'></i>
                                                     Manage Users
                                                 </button>
@@ -561,13 +569,13 @@ if ($result->num_rows > 0) {
                                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         User
                                                     </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Type
                                                     </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Status
                                                     </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Joined
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-center  text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -576,41 +584,85 @@ if ($result->num_rows > 0) {
                                                 </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center">
-                                                            <div class="flex-shrink-0 h-10 w-10">
-                                                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" alt="">
-                                                            </div>
-                                                            <div class="ml-4">
-                                                                <div class="text-sm font-medium text-gray-900">
-                                                                    Jane Cooper
+
+                                                <?php
+                                                $sql = "SELECT u.*, COALESCE(am.action, 'unsuspend') AS activation_status FROM user u LEFT JOIN (SELECT amu.user_id, amu.action FROM admin_manage_user amu WHERE amu.date = (SELECT MAX(date) FROM admin_manage_user WHERE user_id = amu.user_id) ) am ON u.user_id = am.user_id limit 5";
+                                                $result2 = $conn->query($sql);
+                                                $usercount = 0;
+
+
+                                                // Check if there are events
+                                                if ($result2->num_rows > 0) {
+                                                    $rows = $result2->fetch_all(MYSQLI_ASSOC);
+
+                                                    foreach ($rows as $row) {
+                                                        $usercount++;
+                                                        $id = $row['user_id'];
+                                                        $user_name = $row['user_name'];
+                                                        $name2 = $row['name'];
+                                                        $user_image = $row['profile_picture'];
+                                                        $user_type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
+                                                        // echo $row['activation_status'];
+                                                        $activation_status = $row['activation_status'] == "unsuspend" ? "Active" : "Deactive";
+                                                        // echo $activation_status;
+                                                        $activation_style = ($row['activation_status'] == "unsuspend") ? "bg-green-100 text-green-800 hover:bg-green-800/90 font-medium hover:text-white" : "bg-red-100 text-red-800 hover:bg-red-800/90 font-medium hover:text-white";
+                                                        $user_name_style = ($row['user_type'] == 'V') ? " bg-fuchsia-100 hover:bg-fuchsia-800/90 text-fuchsia-800 hover:text-white" : "bg-indigo-100 hover:bg-indigo-800/90 font-medium text-indigo-800 hover:text-white";
+
+                                                        // $user_image = preg_replace('/^\.\.\//', '', $user_image);
+
+                                                        $dor = date('M j, y', strtotime($row['registration_date']));
+
+
+
+
+                                                ?>
+                                                        <tr>
+                                                            <td class=" py-4  whitespace-nowrap px-10">
+                                                                <div class="flex items-center">
+                                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                                        <img class="h-10 w-10 rounded-full" src="<?= $user_image ?>" alt="<?= $name2 ?>">
+                                                                    </div>
+                                                                    <div class="ml-4">
+                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                            <?= $name2 ?>
+                                                                        </div>
+                                                                        <div class="text-sm text-gray-500 font-mono">
+                                                                            @<?= $user_name ?>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="text-sm text-gray-500">
-                                                                    jane.cooper@example.com
+                                                            </td>
+                                                            <td class="px-6 py-4  text-center whitespace-nowrap">
+                                                                <span class="px-2 py-1 inline-flex text-xs  leading-5 font-semibold rounded-full <?= $user_name_style ?>">
+                                                                    <?= $user_type ?>
+                                                                </span>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                                <span class="px-4  py-2 inline-flex text-sm leading-5 font-semibold rounded-full <?= $activation_style ?>">
+                                                                    <?= $activation_status ?>
+                                                                </span>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                                <?= $dor ?>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                <div class="flex items-center justify-center space-x-2 user_action">
+                                                                    <button data-action="IGNORE" onclick="window.location.href='../profile2.php?id=<?= base64_encode($id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
+
+                                                                    <button data-action="<?= ($activation_status == "Active") ? "Suspend" : "unsuspend" ?>" data-userid="<?= $id ?>" class=" px-4 py-2 text-center rounded-lg w-1/2 hover:scale-105 transition-all duration-300 hover:ring-2 hover:ring-red-800 text-white <?= ($activation_status == "Active") ? "bg-red-600" : "bg-green-600" ?>"><?= ($activation_status == "Active") ? "Deactivate" : "Active" ?></button>
+                                                                    <!-- <button data-action="unsuspend" data-userid="<?= $id ?>" class="bg-red-600 px-4 py-2 rounded-lg w-1/2 hover:text-red-900 text-white">Deactivate</button> -->
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="text-sm text-gray-900">Volunteer</div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                            Active
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Jan 10, 2023
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <div class="flex space-x-2">
-                                                            <button class="bg-green-600 px-4 py-2 rounded-lg w-1/2 hover:text-indigo-900 text-white">Active</button>
-                                                            <button class="bg-red-600 px-4 py-2 rounded-lg w-1/2 hover:text-red-900 text-white">Deactivate</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
+                                                            </td>
+                                                        </tr>
+
+                                                <?php
+
+                                                    }
+                                                } else {
+                                                    echo "<H1 class='text-3xl text-center p-10 m-10'>No Users Avaialbe</H1>";
+                                                }
+                                                ?>
+                                                <!-- <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         <div class="flex items-center">
                                                             <div class="flex-shrink-0 h-10 w-10">
@@ -643,7 +695,7 @@ if ($result->num_rows > 0) {
                                                             <button class="bg-red-600 px-4 py-2 rounded-lg w-1/2 hover:bg-red-900 text-white transition-all duration-300 hover:scale-105">Deactivate</button>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
                                             </tbody>
                                         </table>
@@ -652,10 +704,10 @@ if ($result->num_rows > 0) {
                                     <div class="px-6 py-4 border-t border-gray-200">
                                         <div class="flex items-center justify-between">
                                             <div class="text-sm text-gray-700">
-                                                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">25</span> results
+                                                Showing <span class="font-medium"><?= $usercount ?></span> of <span class="font-medium"><?= $reg_org_count + $reg_vol_count ?></span> results
                                             </div>
                                             <div class="flex space-x-2">
-                                                <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                                <button onclick="window.location.href='d'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     View More
                                                 </button>
 
@@ -679,6 +731,10 @@ if ($result->num_rows > 0) {
                                                         <option>Cancelled Events</option>
                                                     </select>
                                                 </div>
+                                                <button onclick="window.location.href=''" class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    <i class='bx bx-cog mr-2'></i>
+                                                    Manage Events
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -707,41 +763,107 @@ if ($result->num_rows > 0) {
                                                 </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center">
-                                                            <div class="flex-shrink-0 h-10 w-10">
-                                                                <img class="h-10 w-10 rounded object-cover" src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=150" alt="">
-                                                            </div>
-                                                            <div class="ml-4">
-                                                                <div class="text-sm font-medium text-gray-900">
-                                                                    Community Garden Clean-up
+                                                <?php
+                                                $sql = "SELECT u.*, COALESCE(am.action, 'unsuspend') AS activation_status FROM events u LEFT JOIN (SELECT amu.event_id, amu.action FROM admin_manage_event amu WHERE amu.date = (SELECT MAX(date) FROM admin_manage_event WHERE event_id = amu.event_id) ) am ON u.event_id = am.event_id limit 5";
+                                                $result2 = $conn->query($sql);
+                                                $eventcount = 0;
+
+                                                // Check if there are events
+                                                if ($result2->num_rows > 0) {
+                                                    $rows = $result2->fetch_all(MYSQLI_ASSOC);
+
+                                                    foreach ($rows as $row) {
+                                                        $eventcount++;
+
+                                                        $activation_status = $row['activation_status'] == "unsuspend" ? "Deactive" : "Active";
+                                                        // echo $activation_status;
+                                                        $activation_style = ($row['activation_status'] == "unsuspend") ? "bg-red-600 font-medium hover:text-white hover:ring-1 ring-red-800" : "bg-green-600 font-medium hover:text-white hover:ring-1 ring-green-800";
+
+                                                        $event_name = $row['event_name'];
+
+                                                        $event_id = $row['event_id'];
+                                                        $organization_id = $row['organization_id'];
+                                                        $event_image = $row['poster'];
+                                                        // $event_image = preg_replace('/^\.\.\//', '', $event_image);
+                                                        $date_of_creation = date('M j, y', strtotime($row['date_of_creation']));
+                                                        $status = $row['status'];
+
+                                                        //'Ongoing','Scheduled','Completed','Cancelled'
+                                                        if ($status == "Ongoing") {
+                                                            $status_style = " bg-green-400 hover:bg-green-600 ";
+                                                        } elseif ($status == "Scheduled") {
+                                                            $status_style = " bg-sky-400 hover:bg-sky-600 ";
+                                                        } elseif ($status == "Completed") {
+                                                            $status_style = " bg-indigo-400 hover:bg-indigo-600 ";
+                                                        } else {
+
+                                                            $status_style = " bg-red-500 hover:bg-red-800 ";
+                                                        }
+
+                                                        $sql = "SELECT * FROM `user` WHERE user_id=?";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->bind_param("i", $organization_id);
+                                                        $stmt->execute();
+                                                        $result = $stmt->get_result();
+                                                        $row = $result->fetch_assoc();
+                                                        $organization_name = $row['name'];
+
+                                                        $sql = "SELECT event_id, COUNT(*) AS total_applications FROM events_application WHERE event_id = ?";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->bind_param("i", $event_id);
+                                                        $stmt->execute();
+                                                        $result = $stmt->get_result();
+                                                        $row = $result->fetch_assoc();
+                                                        $total_application = $row['total_applications'];
+
+
+
+
+                                                ?>
+                                                        <tr>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <div class="flex items-center">
+                                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                                        <img class="h-10 w-10 rounded object-cover" src="<?= $event_image ?>" alt="<?= $event_name ?>">
+                                                                    </div>
+                                                                    <div class="ml-4">
+                                                                        <div class="text-sm font-medium text-gray-900">
+                                                                            <?= $event_name ?>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="text-sm text-gray-900">Green Earth Initiative</div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Mar 20, 2024
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                            Ongoing
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        24
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <div class="flex space-x-2">
-                                                            <button class="bg-indigo-600 w-1/2 rounded-xl px-4 py-2 hover:bg-indigo-900 text-white transition-all duration-300 hover:scale-105">View</button>
-                                                            <button class="bg-red-600 w-1/2 rounded-lg hover:bg-red-900 text-white transition-all duration-300 hover:scale-105">Cancel</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <div class="text-sm text-gray-900"><?= $organization_name ?></div>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                                <?= $date_of_creation ?>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                                <span class="px-4 py-2 inline-flex text-xs leading-5 font-semibold rounded-full text-white <?= $status_style ?>">
+                                                                    <?= $status ?>
+                                                                </span>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                                <?= $total_application ?>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                <div class="flex space-x-2 event_action">
+                                                                    <button onclick="window.location.href='../event_detail.php?id=<?= base64_encode($event_id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
+                                                                    <button data-action="<?= ($activation_status == "Deactive") ? 'Suspend' : 'unsuspend' ?>" data-eventid="<?= $event_id ?>" class=" px-4 py-2 text-center rounded-lg w-1/2 hover:scale-105 transition-all duration-300 hover:ring-2 hover:ring-red-800 text-white <?= $activation_style ?>"><?= $activation_status ?></button>
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                <?php
+
+                                                    }
+                                                } else {
+                                                    echo "<H1 class='text-3xl text-center p-10 m-10'>No Events Avaialbe</H1>";
+                                                }
+                                                ?>
+
+                                                <!-- <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         <div class="flex items-center">
                                                             <div class="flex-shrink-0 h-10 w-10">
@@ -774,63 +896,34 @@ if ($result->num_rows > 0) {
                                                             <button class="bg-red-600 w-1/2 rounded-lg hover:bg-red-900 text-white transition-all duration-300 hover:scale-105">Cancel</button>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center">
-                                                            <div class="flex-shrink-0 h-10 w-10">
-                                                                <img class="h-10 w-10 rounded object-cover" src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=150" alt="">
-                                                            </div>
-                                                            <div class="ml-4">
-                                                                <div class="text-sm font-medium text-gray-900">
-                                                                    Food Bank Distribution
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="text-sm text-gray-900">Food for All</div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Mar 22, 2024
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                                                            Completed
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        18
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <div class="flex space-x-2">
-                                                            <button class="text-indigo-600 hover:text-indigo-900">View</button>
-                                                            <button class="text-gray-600 hover:text-gray-900">Archive</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                </tr> -->
+
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="px-6 py-4 border-t border-gray-200">
                                         <div class="flex items-center justify-between">
                                             <div class="text-sm text-gray-700">
-                                                Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">15</span> results
+                                                Showing <span class="font-medium"><?= $eventcount ?></span> of <span class="font-medium"><?= $total_event_count ?></span> results
                                             </div>
                                             <div class="flex space-x-2">
-                                                <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                                <!-- <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     Previous
                                                 </button>
                                                 <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     Next
+                                                </button> -->
+                                                <button onclick="window.location.href='d'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                                    View More
                                                 </button>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Recent Activity Section -->
-                                <div class="mt-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                                <!-- <div class="mt-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                                     <div class="px-6 py-4 border-b border-gray-200">
                                         <h2 class="text-lg font-semibold text-gray-900">Recent Activity</h2>
                                     </div>
@@ -921,9 +1014,9 @@ if ($result->num_rows > 0) {
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <!-- User Traffic -->
+                                <!--web Traffic -->
                                 <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-1">
                                     <!-- User Status Chart -->
                                     <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -946,7 +1039,7 @@ if ($result->num_rows > 0) {
                                             </div>
                                         </div>
                                         <div class=" py-2 px-4">
-                                            <canvas id="order-chart"></canvas>
+                                            <canvas id="web-traffic"></canvas>
                                         </div>
                                     </div>
 
@@ -973,6 +1066,40 @@ if ($result->num_rows > 0) {
 
     <script>
         $(document).ready(function() {
+
+
+            $(document).on('click', '.user_action button', function() {
+                let action = $(this).data("action");
+                let user = $(this).data("userid");
+
+                alert(action);
+                alert(user);
+                if (action != "IGNORE") {
+
+
+                    $.ajax({
+                        url: "backend/user_management.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            action: action,
+                            user_id: user
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // alert(response.message); // Show success message
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
+                        }
+                    });
+                }
+
+            });
 
             // User Status Chart
             // const userStatusCtx = document.getElementById('userStatusChart').getContext('2d');
@@ -1047,7 +1174,7 @@ if ($result->num_rows > 0) {
                 data: {
                     labels: ['Active', 'Deactive'],
                     datasets: [{
-                        data: [<?= $unsuspended ?>, <?= $suspended?>],
+                        data: [<?= $unsuspended ?>, <?= $suspended ?>],
                         backgroundColor: [
                             'rgb(34, 197, 74)',
                             'rgb(239, 68, 78)'
@@ -1083,74 +1210,133 @@ if ($result->num_rows > 0) {
 
 
             // Yearly Website Traffic Chart
-            new Chart(document.getElementById('order-chart'), {
-                type: 'line',
-                data: {
-                    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
-                    datasets: [{
-                            label: 'User',
-                            data: generateRandomData(6),
-                            borderWidth: 1,
-                            fill: true,
-                            pointBackgroundColor: 'rgb(59, 130, 246)',
-                            borderColor: 'rgb(59, 130, 246)',
-                            backgroundColor: 'rgb(59 130 246 / .15)',
-                            tension: .2
-                        },
-                        {
-                            label: 'Event',
-                            data: generateRandomData(6),
-                            borderWidth: 1,
-                            fill: true,
-                            pointBackgroundColor: 'rgb(16, 185, 129)',
-                            borderColor: 'rgb(16, 185, 129)',
-                            backgroundColor: 'rgb(16 185 129 / .15)',
-                            tension: .2
-                        },
-                        {
-                            label: 'Post',
-                            data: generateRandomData(6),
-                            borderWidth: 1,
-                            fill: true,
-                            pointBackgroundColor: 'rgb(244, 63, 94)',
-                            borderColor: 'rgb(244, 63, 94)',
-                            backgroundColor: 'rgb(244 63 94 / .15)',
-                            tension: .2
-                        },
-                    ]
-                },
-                options: {
-                    scales: {
+            // new Chart(document.getElementById('web-traffic'), {
+            //     type: 'line',
+            //     data: {
+            //         labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
+            //         datasets: [{
+            //                 label: 'User',
+            //                 data: generateRandomData(6),
+            //                 borderWidth: 1,
+            //                 fill: true,
+            //                 pointBackgroundColor: 'rgb(59, 130, 246)',
+            //                 borderColor: 'rgb(59, 130, 246)',
+            //                 backgroundColor: 'rgb(59 130 246 / .15)',
+            //                 tension: .2
+            //             },
+            //             {
+            //                 label: 'Event',
+            //                 data: generateRandomData(6),
+            //                 borderWidth: 1,
+            //                 fill: true,
+            //                 pointBackgroundColor: 'rgb(16, 185, 129)',
+            //                 borderColor: 'rgb(16, 185, 129)',
+            //                 backgroundColor: 'rgb(16 185 129 / .15)',
+            //                 tension: .2
+            //             },
+            //             {
+            //                 label: 'Post',
+            //                 data: generateRandomData(6),
+            //                 borderWidth: 1,
+            //                 fill: true,
+            //                 pointBackgroundColor: 'rgb(244, 63, 94)',
+            //                 borderColor: 'rgb(244, 63, 94)',
+            //                 backgroundColor: 'rgb(244 63 94 / .15)',
+            //                 tension: .2
+            //             },
+            //         ]
+            //     },
+            //     options: {
+            //         scales: {
 
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+            //             y: {
+            //                 beginAtZero: true
+            //             }
+            //         }
+            //     }
+            // });
 
 
-            function generateNDays(n) {
-                const data = []
-                for (let i = 0; i < n; i++) {
-                    const date = new Date()
-                    date.setDate(date.getDate() - i)
-                    data.push(date.toLocaleString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                    }))
-                }
-                return data
-            }
+            // function generateNDays(n) {
+            //     const data = []
+            //     for (let i = 0; i < n; i++) {
+            //         const date = new Date()
+            //         date.setDate(date.getDate() - i)
+            //         data.push(date.toLocaleString('en-US', {
+            //             month: 'short',
+            //             day: 'numeric'
+            //         }))
+            //     }
+            //     return data
+            // }
 
-            function generateRandomData(n) {
-                const data = []
-                for (let i = 0; i < n; i++) {
-                    data.push(Math.round(Math.random() * 10))
-                }
-                return data
-            }
+            // function generateRandomData(n) {
+            //     const data = []
+            //     for (let i = 0; i < n; i++) {
+            //         data.push(Math.round(Math.random() * 10))
+            //     }
+            //     return data
+            // }
             // end: Chart
+
+
+            fetch('backend/get_chart_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Extract labels (months) and data
+                    const labels = data.map(item => item.month);
+                    const users = data.map(item => parseInt(item.user_count));
+                    const events = data.map(item => parseInt(item.event_count));
+                    const posts = data.map(item => parseInt(item.post_count));
+
+                    // Update Chart.js
+                    new Chart(document.getElementById('web-traffic'), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                    label: 'User Registrations',
+                                    data: users,
+                                    borderWidth: 1,
+                                    fill: true,
+                                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                                    borderColor: 'rgb(59, 130, 246)',
+                                    backgroundColor: 'rgb(59 130 246 / .15)',
+                                    tension: 0.2
+                                },
+                                {
+                                    label: 'Events Created',
+                                    data: events,
+                                    borderWidth: 1,
+                                    fill: true,
+                                    pointBackgroundColor: 'rgb(16, 185, 129)',
+                                    borderColor: 'rgb(16, 185, 129)',
+                                    backgroundColor: 'rgb(16 185 129 / .15)',
+                                    tension: 0.2
+                                },
+                                {
+                                    label: 'Posts Created',
+                                    data: posts,
+                                    borderWidth: 1,
+                                    fill: true,
+                                    pointBackgroundColor: 'rgb(244, 63, 94)',
+                                    borderColor: 'rgb(244, 63, 94)',
+                                    backgroundColor: 'rgb(244 63 94 / .15)',
+                                    tension: 0.2
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching chart data:', error));
+
 
 
             // Event Types Chart
@@ -1160,7 +1346,7 @@ if ($result->num_rows > 0) {
                 data: {
                     labels: ['Ongoing', 'Scheduled', 'Completed', 'Cancelled'],
                     datasets: [{
-                        data: [<?= $ongoing?>,<?= $scheduled?>, <?= $completed?>, <?= $cancelled?>],
+                        data: [<?= $ongoing ?>, <?= $scheduled ?>, <?= $completed ?>, <?= $cancelled ?>],
                         backgroundColor: [
                             'rgb(34, 197, 94)',
                             'rgb(59, 130, 246)',

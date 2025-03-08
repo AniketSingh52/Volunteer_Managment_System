@@ -11,6 +11,7 @@
         //echo "<script>alert('$user_id');</script>";
     }
 
+    // $ADMIN_ID=1;
     $sql = "SELECT * FROM administration WHERE admin_id = '1'";                                        //to be changed
     $result = $conn->query($sql);
     if ($result && $row = $result->fetch_assoc()) {
@@ -90,7 +91,7 @@
 
           <li class="mb-1 mt-2 group">
               <a
-                  href="#"
+                  href="user_management.php"
                   class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                   <svg class="w-6 h-6 mr-3 text-gray-400 group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>

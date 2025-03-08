@@ -54,7 +54,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             $address = $row['address'];
             $user_image = $row['profile_picture'];
             $user_type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
-            $user_name_style = ($row['user_type'] == 'V') ? "bg-green-100 hover:bg-green-800/90 text-green-800" : "bg-sky-100 hover:bg-green-800/90 font-medium text-sky-800";
+            $user_name_style = ($row['user_type'] == 'V') ? "bg-green-100 hover:bg-green-800/90 text-green-800 hover:text-white  duration-300 transition-all" : "bg-sky-100 hover:bg-sky-800/90 font-medium hover:text-white  duration-300 transition-all text-sky-800";
 
             $user_image = preg_replace('/^\.\.\//', '', $user_image);
 
