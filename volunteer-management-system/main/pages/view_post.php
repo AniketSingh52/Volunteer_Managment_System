@@ -146,7 +146,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 <button onclick="history.back()" class="flex items-center gap-1  text-gray-700 font-semibold rounded-lg hover:text-blue-400 transition-all duration-200 px-2 text-xl hover:scale-105">
                     <i class=" bx bx-arrow-back text-2xl"></i>Back
                 </button>
-                <div class="relative mb-10 mt-5 max-w-6xl mx-auto">
+                <div class="relative -mb-1 mt-5 max-w-6xl mx-auto">
                     <div class="flex items-center justify-between">
                         <div>
                             <h1 class="text-3xl font-bold text-gray-900">Comments & Likes</h1>
@@ -259,7 +259,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 
                                         ?>
-                                            <div class="flex space-x-2 mr-3 .action">
+                                            <div class="flex space-x-2 mr-3 action">
                                                 <button class="p-2 text-gray-400 hover:text-blue-600" onclick="window.location.href='edit_post.php?id=<?= base64_encode($picture_id) ?>'">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -610,7 +610,34 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             });
 
+            $(document).on('click', '.delete-post', function(e) {
+                e.preventDefault();
+                let post = $(this).data("postid");
+                //alert(post);
 
+                if (confirm("Are you sure you want to delete this event?")) {
+                    $.ajax({
+                        url: "Backend/delete_post.php",
+                        type: "POST",
+                        data: {
+                            post_id: post
+                        },
+                        dataType: "json", // Expect JSON response
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(response.message); // Show success message
+                                location.reload(); // Reload the page after deletion
+                            } else {
+                                alert(response.message); // Show error message
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            console.log("Server Response: " + xhr.responseText);
+                        }
+                    });
+                }
+            });
 
 
             $(".comment-form").submit(function(e) {

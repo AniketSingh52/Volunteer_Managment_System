@@ -7,10 +7,10 @@ error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 ini_set('error_log', 'error_log.txt');
-$user_id = $_SESSION['user_id'];
+$admin_id = $_SESSION['admin_id'];
 
-if (!$user_id) {
-    echo "<script>alert('User not logged in.'); window.location.href='../login_in.php';</script>";
+if (!$admin_id) {
+    echo "<script>alert('User not logged in.'); window.location.href='login_in2.php';</script>";
     exit;
 } else {
     //echo "<script>alert('$user_id');</script>";
@@ -260,6 +260,17 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                                         break;
                                 }
                             }
+                            
+                            $sql = "SELECT type_name FROM `organization_type` WHERE type_id=(SELECT type_id FROM `organization_belongs_type` WHERE user_id=?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("i", $applicunt_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $row = $result->fetch_assoc();
+                            $org_type_name = $row['type_name'];
+
+
+                            
                         }
 
 
@@ -318,7 +329,18 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                                                     <svg class="h-4 w-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
-                                                    <span class="text-base text-gray-600">Gender: <?= $gender ?></span>
+                                                    <?php
+                                                    if ($user_type != "Organisation") {
+
+                                                    ?>
+                                                        <span class="text-base text-gray-600">Gender: <?= $gender ?></span>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <span class="text-base text-gray-600">Organization Type: <?= $org_type_name ?></span>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -511,7 +533,7 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
                                 <!-- Action Buttons -->
                                 <div class="mt-6 action_list flex justify-end space-x-4">
-                                    <button data-action="IGNORE"  onclick="window.location.href='../profile2.php?id=<?= base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:scale-105 transition-all duration-300">
+                                    <button data-action="IGNORE" onclick="window.location.href='../profile2.php?id=<?= base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:scale-105 transition-all duration-300">
                                         View Full Profile
                                         <?php
                                         if ($user_status == "Active") {
@@ -560,30 +582,30 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
                 // alert(action);
                 // alert(user);
-                if(action!="IGNORE"){
-                
-                
-                $.ajax({
-                    url: "backend/user_management.php", // Backend PHP script
-                    method: "POST",
-                    data: {
-                        action: action,
-                        user_id: user
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert(response.message); // Show success message
-                            location.reload();
-                        } else {
-                            alert(response.message);
+                if (action != "IGNORE") {
+
+
+                    $.ajax({
+                        url: "backend/user_management.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            action: action,
+                            user_id: user
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(response.message); // Show success message
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        alert("AJAX Error: " + status + " " + error);
-                    }
-                });
-            }
+                    });
+                }
 
             });
 

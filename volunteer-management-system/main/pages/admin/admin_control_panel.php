@@ -7,10 +7,10 @@ error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
 ini_set('error_log', 'error_log.txt');
-$user_id = $_SESSION['user_id'];
+$admin_id = $_SESSION['admin_id'];
 
-if (!$user_id) {
-    echo "<script>alert('User not logged in.'); window.location.href='../login_in.php';</script>";
+if (!$admin_id) {
+    echo "<script>alert('User not logged in.'); window.location.href='login_in2.php';</script>";
     exit;
 } else {
     //echo "<script>alert('$user_id');</script>";
@@ -548,14 +548,14 @@ while ($row = $result->fetch_assoc()) {
                                         <div class="flex items-center justify-between">
                                             <h2 class="text-lg font-semibold text-gray-900">Latest User Registration</h2>
                                             <div class="flex items-center space-x-2">
-                                                <div class="relative">
+                                                <!-- <div class="relative">
                                                     <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                                         <option>All Users</option>
                                                         <option>Only Volunteer</option>
                                                         <option>Only Organisation</option>
                                                     </select>
-                                                </div>
-                                                <button class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                </div> -->
+                                                <button onclick="window.location.href='user_management.php'" class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     <i class='bx bx-cog mr-2'></i>
                                                     Manage Users
                                                 </button>
@@ -706,12 +706,12 @@ while ($row = $result->fetch_assoc()) {
                                             <div class="text-sm text-gray-700">
                                                 Showing <span class="font-medium"><?= $usercount ?></span> of <span class="font-medium"><?= $reg_org_count + $reg_vol_count ?></span> results
                                             </div>
-                                            <div class="flex space-x-2">
+                                            <!-- <div class="flex space-x-2">
                                                 <button onclick="window.location.href='d'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     View More
                                                 </button>
 
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -722,7 +722,7 @@ while ($row = $result->fetch_assoc()) {
                                         <div class="flex items-center justify-between">
                                             <h2 class="text-lg font-semibold text-gray-900">Event Management</h2>
                                             <div class="flex items-center space-x-2">
-                                                <div class="relative">
+                                                <!-- <div class="relative">
                                                     <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                                         <option>All Events</option>
                                                         <option>Ongoing Events</option>
@@ -730,8 +730,8 @@ while ($row = $result->fetch_assoc()) {
                                                         <option>Completed Events</option>
                                                         <option>Cancelled Events</option>
                                                     </select>
-                                                </div>
-                                                <button onclick="window.location.href=''" class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                </div> -->
+                                                <button onclick="window.location.href='event_management.php'" class="inline-flex hover:scale-105 duration-300 transition-all items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                     <i class='bx bx-cog mr-2'></i>
                                                     Manage Events
                                                 </button>
@@ -848,8 +848,8 @@ while ($row = $result->fetch_assoc()) {
                                                                 <?= $total_application ?>
                                                             </td>
                                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                <div class="flex space-x-2 event_action">
-                                                                    <button onclick="window.location.href='../event_detail.php?id=<?= base64_encode($event_id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
+                                                                <div class="flex space-x-2 action_list">
+                                                                    <button data-action="IGNORE" data-eventid="<?= $event_id ?>" onclick="window.location.href='../event_detail.php?id=<?= base64_encode($event_id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
                                                                     <button data-action="<?= ($activation_status == "Deactive") ? 'Suspend' : 'unsuspend' ?>" data-eventid="<?= $event_id ?>" class=" px-4 py-2 text-center rounded-lg w-1/2 hover:scale-105 transition-all duration-300 hover:ring-2 hover:ring-red-800 text-white <?= $activation_style ?>"><?= $activation_status ?></button>
 
                                                                 </div>
@@ -913,9 +913,9 @@ while ($row = $result->fetch_assoc()) {
                                                 <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     Next
                                                 </button> -->
-                                                <button onclick="window.location.href='d'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                                <!-- <button onclick="window.location.href='d'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                                     View More
-                                                </button>
+                                                </button> -->
 
                                             </div>
                                         </div>
@@ -1068,12 +1068,43 @@ while ($row = $result->fetch_assoc()) {
         $(document).ready(function() {
 
 
+            $(document).on('click', '.action_list button', function() {
+                let action = $(this).data("action");
+                let event = $(this).data("eventid");
+
+                // alert(action);
+                // alert(event);
+                if (action != "IGNORE") {
+                    $.ajax({
+                        url: "backend/event_management.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            action: action,
+                            event_id: event
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(response.message); // Show success message
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
+                        }
+                    });
+
+                }
+            });
+
             $(document).on('click', '.user_action button', function() {
                 let action = $(this).data("action");
                 let user = $(this).data("userid");
 
-                alert(action);
-                alert(user);
+                // alert(action);
+                // alert(user);
                 if (action != "IGNORE") {
 
 
@@ -1389,7 +1420,7 @@ while ($row = $result->fetch_assoc()) {
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../../js/main.js"></script>
+    <script src="../../../js/main.js"></script>
 
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script>

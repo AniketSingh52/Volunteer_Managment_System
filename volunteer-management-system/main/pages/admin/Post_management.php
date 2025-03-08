@@ -1,36 +1,28 @@
-<?php include("../../config/connect.php"); ?>
+<?php include("../../../config/connect.php"); ?>
 
 <?php
 session_start();
-$user_id = $_SESSION['user_id'];
+ob_clean(); // Cle // Return JSON response
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('error_log', 'error_log.txt');
+$admin_id = $_SESSION['admin_id'];
 
-if (!$user_id) {
-    echo "<script>alert('User not logged in.'); window.location.href='login_in.php';</script>";
+if (!$admin_id) {
+    echo "<script>alert('User not logged in.'); window.location.href='login_in2.php';</script>";
     exit;
 } else {
     //echo "<script>alert('$user_id');</script>";
 }
 
-$sql = "SELECT * FROM user WHERE user_id = '$user_id'";
-$result = $conn->query($sql);
-if ($result && $row = $result->fetch_assoc()) {
-    $name = $row['name'];
-    $name_u = $row['user_name'];
-    $type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
-    $profile = $row['profile_picture']; //Original String
-    $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
-    //echo "<script>alert('$profile');</script>";  
 
-}
 
 
 $sql = "SELECT p.user_id,u.name,u.user_name,u.user_type, u.profile_picture, p.picture_url,p.caption,p.upload_date,p.likes, p.picture_id FROM `pictures` p JOIN user u ON p.user_id=u.user_id 
-            WHERE p.user_id = ? ORDER BY p.upload_date DESC";
+           ORDER BY p.upload_date DESC";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result2 = $stmt->get_result();
+$result2 = $conn->query($sql);
 
 ?>
 
@@ -42,7 +34,7 @@ $result2 = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.bunny.net" />
-    <?php include('../../library/library.php'); ?>
+    <?php include('../../../library/library.php'); ?>
     <!-- For Latest Event Images can be deleted coursel-->
     <link
         href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
@@ -142,27 +134,27 @@ $result2 = $stmt->get_result();
 <body class="text-gray-800 font-inter">
 
     <!-- Sidebar -->
-    <?php include('../layouts/sidebar.php'); ?>
+    <?php include('layouts/sidebar2.php'); ?>
 
     <!-- Main -->
     <main
         class="w-full md:w-[calc(100%-288px)] md:ml-72 bg-gray-200 min-h-screen transition-all main">
 
         <!-- Navbar -->
-        <?php include('../layouts/navbar.php'); ?>
+        <?php include('layouts/navbar2.php'); ?>
 
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 py-3">
                 <div
                     class=" -mb-6 mx-auto space-y-2 text-center max-w-7xl bg-white py-4 rounded-xl">
-                    <h2 class="text-4xl font-bold text-gray-800">My Posts</h2>
+                    <h2 class="text-4xl font-bold text-gray-800">Post Management</h2>
                     <p class="lg:mx-auto lg:w-6/12 text-gray-600 dark:text-gray-500">
-                        Manage Your Posts and Comments
+                        Manage and monitor Posts and Comments
                     </p>
                 </div>
 
-                <div class=" mt-6 space-y-4">
+                <div class="max-w-5xl mt-6 mx-auto space-y-3">
 
                     <?php
 
@@ -177,11 +169,11 @@ $result2 = $stmt->get_result();
                             $user_profile = $row['profile_picture'];
                             $picture_id = $row['picture_id'];
                             $picture_url = $row['picture_url'];
-                            $picture_url = preg_replace('/^\.\.\//', '', $picture_url);
+                            // $picture_url = preg_replace('/^\.\.\//', '', $picture_url);
                             $picture_caption = $row['caption'];
                             $picture_date = $row['upload_date'];
                             $picture_likes = $row['likes'];
-                            $user_profile = preg_replace('/^\.\.\//', '', $user_profile);
+                            // $user_profile = preg_replace('/^\.\.\//', '', $user_profile);
                             $comment_type = ($row['user_type'] == 'V') ? "Volunteer" : "Organisation";
                             $comment_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 text-green-800";
 
@@ -195,6 +187,20 @@ $result2 = $stmt->get_result();
                                 $days_ago = "Today at: " . date("h:i A", strtotime($picture_date));
                             } else {
                                 $days_ago = ($diff->days <= 10) ? "{$diff->days} days ago" : date('jS M y', strtotime($picture_date));
+                            }
+
+                            $sql = "SELECT * FROM `admin_manage_post` WHERE picture_id=? ORDER by date Desc limit 1";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("i", $picture_id); // "i" for integer
+                            $stmt->execute();
+                            $result2 = $stmt->get_result();
+                            $user_status = "Active";
+                            $user_status_style = " bg-green-400 text-white ";
+                            if ($result2->num_rows > 0) {
+                                $row = $result2->fetch_assoc();
+                                // echo $row['action'];
+                                $user_status = ($row['action'] == "Suspend") ? "Deactive" : "Active";
+                                $user_status_style = ($row['action'] == "Suspend") ? " bg-red-500 text-white " : " bg-green-400 text-white ";
                             }
 
                     ?>
@@ -236,12 +242,12 @@ $result2 = $stmt->get_result();
 
                             <!-- 1st Post  -->
                             <div
-                                class="mx-auto flex justify-center max-w-4xl md:mb-8  bg-white rounded-lg items-center relative md:p-0 p-8"
+                                class="mx-auto flex justify-center max-w-4xl bg-white rounded-lg items-center relative md:p-0 p-8"
                                 x-data="{
         comment : false,
     }">
                                 <div class="h-full relative">
-                                    <div class="py-2 px-2">
+                                    <div class="py-2 px-0">
                                         <div class="flex justify-between items-center py-2">
                                             <div class="relative mt-1 flex">
 
@@ -251,7 +257,7 @@ $result2 = $stmt->get_result();
                                                         alt="<?= $username ?>"
                                                         class="w-10 h-10 rounded-full object-cover" />
                                                 </div>
-                                                <a onclick="window.location.href='profile2.php?id=<?= base64_encode($picture_creator_id) ?>'">
+                                                <a onclick="window.location.href='../profile2.php?id=<?= base64_encode($picture_creator_id) ?>'">
                                                     <div class="ml-3 flex justify-start flex-col items-start">
                                                         <p class="text-lg font-bold "><?= $username ?> <span class=" ml-2  text-sm <?= $comment_style ?> rounded-xl px-2 py-1"><?= $comment_type ?></span></p>
                                                         <p class="text-gray-600 text-sm font-mono">@<?= $user_name ?></p>
@@ -277,8 +283,8 @@ $result2 = $stmt->get_result();
                                                         d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                                                 </svg>
                                             </button> -->
-                                            <div class="flex space-x-2 mr-3 action">
-                                                <button class="p-2 text-gray-400 hover:text-blue-600" onclick="window.location.href='edit_post.php?id=<?= base64_encode($picture_id) ?>'">
+                                            <div class="flex space-x-2 mr-3 post-action">
+                                                <!-- <button class="p-2 text-gray-400 hover:text-blue-600" onclick="window.location.href='edit_post.php?id=<?= base64_encode($picture_id) ?>'">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>
@@ -287,7 +293,38 @@ $result2 = $stmt->get_result();
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
-                                                </button>
+                                                </button> -->
+                                                <?php
+
+                                                if ($user_status == "Active") {
+
+
+                                                ?>
+                                                    <button disabled
+                                                        class=" bg-emerald-500 opacity-30 text-gray-200 px-6 py-2 rounded-lg text-sm  font-semibold duration-300 transition-all">
+                                                        Active
+                                                    </button>
+                                                    <button data-postid="<?= $picture_id ?>" data-action="Suspend"
+                                                        class=" bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:scale-105 duration-300 transition-all">
+                                                        Deactive
+                                                    </button>
+
+                                                <?php
+                                                } else {
+
+
+                                                ?>
+                                                    <button data-postid="<?= $picture_id ?>" data-action="unuspend"
+                                                        class=" bg-emerald-500  text-white px-6 py-2 rounded-lg text-sm  font-semibold hover:scale-105 duration-300 transition-all">
+                                                        Active
+                                                    </button>
+                                                    <button disabled
+                                                        class=" opacity-30 bg-red-500 text-gray-200 px-6 py-2 rounded-lg text-sm font-semibold hover:scale-105 duration-300 transition-all">
+                                                        Deactive
+                                                    </button>
+                                                <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +399,7 @@ $result2 = $stmt->get_result();
                                                         $comment_name = $row['name'];
                                                         $comment_user_name = $row['user_name'];
                                                         $comment_user_profile = $row['profile_picture'];
-                                                        $comment_user_profile = preg_replace('/^\.\.\//', '', $comment_user_profile);
+                                                        // $comment_user_profile = preg_replace('/^\.\.\//', '', $comment_user_profile);
                                                         $comment_user_style = ($row['user_type'] == 'O') ? "bg-indigo-100 " : "";
                                                         $comment_creation_date = new DateTime($comment_date);
                                                         $comment_today = new DateTime();
@@ -482,7 +519,7 @@ $result2 = $stmt->get_result();
                                         </div>
 
                                         <!-- Post Details -->
-                                        <div class="p-2 ml-2 mr-2 flex flex-col space-y-3">
+                                        <div class="p-2 ml-2 mr-2 flex flex-col space-y-3 mb-4">
                                             <div class="w-full">
                                                 <p class="font-bold text-lg text-gray-700" id="likes_<?= $picture_id ?>"><?= $picture_likes ?> likes</p>
                                             </div>
@@ -501,28 +538,7 @@ $result2 = $stmt->get_result();
 
                                         <!-- Comment Input Field ans send button -->
                                         <!-- End System Like and tools Feed  -->
-                                        <div class="z-50">
-                                            <form class="comment-form" data-post-id="<?= $picture_id ?>">
-                                                <div
-                                                    class="flex justify-between border-t items-center w-full"
-                                                    :class="comment ? 'absolute bottom-0' : '' ">
-                                                    <div class="w-full">
-                                                        <input
-                                                            type="text"
-                                                            name="comment"
-                                                            id="comment"
-                                                            placeholder="Add A Comment..."
-                                                            class="comment-input w-full text-sm py-4 px-3 border-none outline-none rounded-none focus:border-none" />
-                                                    </div>
-                                                    <div class="w-20">
-                                                        <button
-                                                            class=" comment-submit border-none border-white text-sm px-4 bg-white py-4 text-indigo-600 focus:outline-none">
-                                                            <i class="bx bx-send text-3xl"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -577,7 +593,7 @@ $result2 = $stmt->get_result();
                 let comment_likes = ("#likes_" + post);
 
                 $.ajax({
-                    url: "Backend/add_likes_comment.php", // Backend script to handle the comment
+                    url: "../Backend/add_likes_comment.php", // Backend script to handle the comment
                     type: "POST",
                     data: {
                         post_id: post
@@ -604,111 +620,36 @@ $result2 = $stmt->get_result();
             });
 
 
-            $(document).on('click', '.delete-post', function(e) {
-                e.preventDefault();
-                let post = $(this).data("postid");
-                //alert(post);
+            $(document).on('click', '.post-action button', function() {
+                let action = $(this).data("action");
+                let postid = $(this).data("postid");
 
-                if (confirm("Are you sure you want to delete this event?")) {
+                // alert(action);
+                // alert(postid);
+               
                     $.ajax({
-                        url: "Backend/delete_post.php",
-                        type: "POST",
+                        url: "backend/post_management.php", // Backend PHP script
+                        method: "POST",
                         data: {
-                            post_id: post
+                            action: action,
+                            post_id: postid
                         },
-                        dataType: "json", // Expect JSON response
                         success: function(response) {
                             if (response.status === 'success') {
                                 alert(response.message); // Show success message
-                                location.reload(); // Reload the page after deletion
+                                location.reload();
                             } else {
-                                alert(response.message); // Show error message
+                                alert(response.message);
                             }
                         },
                         error: function(xhr, status, error) {
                             console.log("AJAX Error: " + status + " " + error);
-                            console.log("Server Response: " + xhr.responseText);
+                            alert("AJAX Error: " + status + " " + error);
                         }
                     });
-                }
+
+                
             });
-
-
-
-
-            $(".comment-form").submit(function(e) {
-                e.preventDefault(); // Prevent form from refreshing the page
-
-                let form = $(this);
-                let postId = form.data("post-id"); // Get the post ID
-                let comment = form.find(".comment-input").val();
-                let user_id = <?= $user_id ?> // Get the comment text
-                let comment_list = ("#comment_list_" + postId);
-                let comment_count = ("#comment_count_" + postId);
-                // $(comment_list).html(comment);
-
-
-                let commentList = $(comment_list);
-                let noCommentsHeading = commentList.find("h1");
-
-                if (noCommentsHeading.length) {
-                    noCommentsHeading.remove(); // Remove the "No Comments Available" message
-                }
-                if (comment.trim() === "") {
-                    alert("Comment cannot be empty!");
-                    return;
-                }
-                // alert(postId);
-                // alert(comment);
-                // alert(user_id);
-
-                $.ajax({
-                    url: "Backend/submit_comment.php", // Backend script to handle the comment
-                    type: "POST",
-                    data: {
-                        post_id: postId,
-                        comment: comment,
-                        user_id: user_id
-                    },
-                    dataType: "json", // Expect JSON response
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // alert(response.message); // Show success message
-                            form.find(".comment-input").val(""); // Clear input field
-                            $(comment_list).prepend(`
-    <div class='flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-300 rounded-sm'>
-        <div class='relative w-full mt-1 mb-3 pt-2 flex'>
-            <div class='mr-2'>
-                <img src='<?= $profile ?>' alt='<?= $name ?>' class='w-12 h-12 rounded-full object-cover' />
-            </div>
-            <div class='ml-2 w-full'>
-                <p class='text-gray-600 md:text-lg text-xs w-full'>
-                    <!-- Username User -->
-                    <span class='text-gray-900 mr-2 font-mono'>@<?= $name_u ?></span>
-                    <!-- Username Comment -->
-                    ${comment}
-                </p>
-                <div class='time mt-1 text-gray-400 text-xs'>
-                    <p>${response.date}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-`);
-
-                            $(comment_count).html(`View all  ${response.total} comments`);
-                            //location.reload(); // Reload the page after deletion
-                        } else {
-                            alert(response.message); // Show error message
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        console.log("Server Response: " + xhr.responseText);
-                    }
-                });
-            });
-
 
 
 
@@ -719,12 +660,12 @@ $result2 = $stmt->get_result();
 
 
     <!-- Footer -->
-    <?php include('../layouts/footer.php'); ?>
+    <?php include('layouts/footer2.php'); ?>
 
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../../js/main.js"></script>
+    <script src="../../../js/main.js"></script>
 
     <!-- Home Page NavBar Sidebar Don't Touch -->
     <script>
@@ -879,96 +820,3 @@ $result2 = $stmt->get_result();
 </body>
 
 </html>
-<script>
-    //     <!-- 1st Comment 
-    //     -->
-    // <div
-    //     class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100">
-
-
-
-    //     <div class="relative mt-1 mb-3 pt-2 flex w-full">
-    //         <div class="mr-2">
-    //             <img
-    //                 src="https://avatars.githubusercontent.com/u/68494287?v=4"
-    //                 alt="saman sayyar"
-    //                 class="w-12 h-12 rounded-full object-cover" />
-    //         </div>
-    //         <div class="ml-2 w-full" x-data="{ replies : false }">
-    //             <p class="text-gray-600 md:text-lg text-xs w-full">
-    //                 <!-- Username User -->
-    //                 <span class="font-normal text-gray-900">samansayyar</span>
-    //                 <!-- Username User -->
-    //                 You Can see?
-    //             </p>
-    //             <div class="flex space-x-4 w-full">
-    //                 <div class="time mt-1 text-gray-400 text-xs">
-    //                     <p>2d</p>
-    //                 </div>
-    //                 <button
-    //                     type="button"
-    //                     class="focus:outline-none time mt-1 text-gray-400 text-sm">
-    //                     <p>replay</p>
-    //                 </button>
-    //             </div>
-    //             <button
-    //                 type="button"
-    //                 @click="replies = !replies"
-    //                 class="focus:outline-none mt-3 flex justify-center items-center">
-    //                 <p
-    //                     class="text-sm text-center text-indigo-500 flex space-x-2">
-    //                     <span>____ View replies (1)</span>
-    //                     <svg
-    //                         class="w-3 h-4"
-    //                         fill="none"
-    //                         stroke="currentColor"
-    //                         viewBox="0 0 24 24"
-    //                         xmlns="http://www.w3.org/2000/svg">
-    //                         <path
-    //                             stroke-linecap="round"
-    //                             stroke-linejoin="round"
-    //                             stroke-width="2"
-    //                             d="M19 9l-7 7-7-7"></path>
-    //                     </svg>
-    //                 </p>
-    //             </button>
-    //             <div
-    //                 x-show="replies"
-    //                 x-transition=""
-    //                 class="flex justify-start flex-col space-y-3 items-start px-2 border-b border-gray-100"
-    //                 style="display: none">
-    //                 <div class="relative mt-1 mb-3 pt-2 flex w-full">
-    //                     <div class="mr-2">
-    //                         <img
-    //                             src="https://avatars.githubusercontent.com/u/68494287?v=4"
-    //                             alt="saman sayyar"
-    //                             class="w-8 h-8 rounded-full object-cover" />
-    //                     </div>
-    //                     <div
-    //                         class="ml-2 w-full"
-    //                         x-data="{ replies : true }">
-    //                         <p
-    //                             class="text-gray-600 md:text-sm text-xs w-full">
-    //                             <!-- Username User -->
-    //                             <span class="font-normal text-gray-900">samansayyar</span>
-    //                             <!-- Username User -->
-    //                             You Can see?
-    //                         </p>
-    //                         <div class="flex space-x-4">
-    //                             <div
-    //                                 class="time mt-1 text-gray-400 text-xs">
-    //                                 <p>2d</p>
-    //                             </div>
-    //                             <button
-    //                                 type="button"
-    //                                 class="focus:outline-none time mt-1 text-gray-400 text-xs">
-    //                                 <p>replay</p>
-    //                             </button>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
-</script>

@@ -1,6 +1,7 @@
 <?php
 include('../../../config/connect.php');
 session_start();
+date_default_timezone_set("Asia/Kolkata");
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
