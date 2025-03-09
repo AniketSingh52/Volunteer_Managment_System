@@ -333,7 +333,7 @@ GROUP BY event_id;
             </p>
 
           <div class="mt-6 flex space-x-4 action_list">
-                <a href="../event_detail.php?id=' . base64_encode($event_id) . '">
+                <a href="event_detail.php?id=' . base64_encode($event_id) . '">
                     <button data-userid="' . $event_id . '" data-action="IGNORE"
                         class=" bg-gray-100 border-2 text-gray-700 w-[9rem]  px-6 py-2 rounded-lg font-semibold hover:bg-gray-200 hover:scale-105 duration-300 transition-all">
                         View More

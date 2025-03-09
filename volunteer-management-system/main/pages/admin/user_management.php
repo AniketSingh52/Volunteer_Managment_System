@@ -145,6 +145,31 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
                 </div>
 
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-1 mb-10">
+                    <!--User traffic Chart -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900">User Traffic</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-blue-200 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Volunteer</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-200 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Organization</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="relative h-full mx-auto">
+                            <canvas class=" min-w-full" id="userTraffic"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- User List -->
                 <div class="space-y-6">
                     <!-- User Card -->
@@ -260,7 +285,7 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                                         break;
                                 }
                             }
-                            
+
                             $sql = "SELECT type_name FROM `organization_type` WHERE type_id=(SELECT type_id FROM `organization_belongs_type` WHERE user_id=?)";
                             $stmt = $conn->prepare($sql);
                             $stmt->bind_param("i", $applicunt_id);
@@ -268,9 +293,6 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                             $result = $stmt->get_result();
                             $row = $result->fetch_assoc();
                             $org_type_name = $row['type_name'];
-
-
-                            
                         }
 
 
@@ -533,7 +555,7 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
                                 <!-- Action Buttons -->
                                 <div class="mt-6 action_list flex justify-end space-x-4">
-                                    <button data-action="IGNORE" onclick="window.location.href='../profile2.php?id=<?= base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:scale-105 transition-all duration-300">
+                                    <button data-action="IGNORE" onclick="window.location.href='profile2.php?id=<?= base64_encode($applicunt_id) ?>'" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:scale-105 transition-all duration-300">
                                         View Full Profile
                                         <?php
                                         if ($user_status == "Active") {
@@ -594,7 +616,7 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                         },
                         success: function(response) {
                             if (response.status === 'success') {
-                                alert(response.message); // Show success message
+                                //alert(response.message); // Show success message
                                 location.reload();
                             } else {
                                 alert(response.message);
@@ -608,6 +630,55 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
                 }
 
             });
+
+
+            fetch('backend/get_user_traffic.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Extract labels (months) and data
+                    const labels = data.map(item => item.month);
+                    const usersV = data.map(item => parseInt(item.volunteer_count));
+                    const usersO = data.map(item => parseInt(item.organization_count));
+
+
+                    // Update Chart.js
+                    new Chart(document.getElementById('userTraffic'), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                    label: 'Volunteer Registrations',
+                                    data: usersV,
+                                    borderWidth: 1,
+                                    fill: true,
+                                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                                    borderColor: 'rgb(59, 130, 246)',
+                                    backgroundColor: 'rgb(59 130 246 / .15)',
+                                    tension: 0.2
+                                },
+                                {
+                                    label: 'Organization Registration',
+                                    data: usersO,
+                                    borderWidth: 1,
+                                    fill: true,
+                                    pointBackgroundColor: 'rgb(16, 185, 129)',
+                                    borderColor: 'rgb(16, 185, 129)',
+                                    backgroundColor: 'rgb(16 185 129 / .15)',
+                                    tension: 0.2
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching chart data:', error));
+
 
         });
     </script>

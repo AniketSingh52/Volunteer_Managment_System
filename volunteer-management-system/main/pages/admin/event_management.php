@@ -180,6 +180,57 @@ $result2 = $conn->query($sql2);
 
                 </div>
 
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-2 mb-10">
+                    <!-- User Status Chart -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="text-lg font-semibold text-gray-900">Event Traffic</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-200 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Event Creation</span>
+                                </div>
+                                <!-- <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Inactive</span>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="relative h-64">
+                            <canvas id="eventTrafficChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Event Types Chart -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900">Event Types</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Ongoing</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Scheduled</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Completed</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Cancelled</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative h-64">
+                            <canvas id="eventTypesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tabs -->
                 <div class="bg-white rounded-xl shadow-sm mb-8">
                     <div class="border-b border-gray-200">
@@ -240,28 +291,28 @@ $result2 = $conn->query($sql2);
                 // alert(action);
                 // alert(event);
                 if (action != "IGNORE") {
-                $.ajax({
-                    url: "backend/event_management.php", // Backend PHP script
-                    method: "POST",
-                    data: {
-                        action: action,
-                        event_id: event
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert(response.message); // Show success message
-                            location.reload();
-                        } else {
-                            alert(response.message);
+                    $.ajax({
+                        url: "backend/event_management.php", // Backend PHP script
+                        method: "POST",
+                        data: {
+                            action: action,
+                            event_id: event
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // alert(response.message); // Show success message
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error: " + status + " " + error);
+                            alert("AJAX Error: " + status + " " + error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("AJAX Error: " + status + " " + error);
-                        alert("AJAX Error: " + status + " " + error);
-                    }
-                });
+                    });
 
-            }
+                }
             });
 
             function initialize() {
@@ -336,7 +387,83 @@ $result2 = $conn->query($sql2);
                 });
             });
 
+            // Event Types Chart
+            const eventTypesCtx = document.getElementById('eventTypesChart').getContext('2d');
+            const eventTypesChart = new Chart(eventTypesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ongoing', 'Scheduled', 'Completed', 'Cancelled'],
+                    datasets: [{
+                        data: [<?= $ongoing ?>, <?= $scheduled ?>, <?= $completed ?>, <?= $cancelled ?>],
+                        backgroundColor: [
+                            'rgb(34, 197, 94)',
+                            'rgb(59, 130, 246)',
+                            'rgb(168, 85, 247)',
+                            'rgb(239, 68, 68)'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        //   legend: {
+                        //     display: false
+                        //   },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.formattedValue || '';
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((context.raw / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
 
+
+            fetch('backend/get_chart_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Extract labels (months) and data
+                    const labels = data.map(item => item.month);
+                    // const users = data.map(item => parseInt(item.user_count));
+                    const events = data.map(item => parseInt(item.event_count));
+                    // const posts = data.map(item => parseInt(item.post_count));
+
+                    // Update Chart.js
+                    new Chart(document.getElementById('eventTrafficChart'), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Monthly Events Creation',
+                                data: events,
+                                borderWidth: 1,
+                                fill: true,
+                                pointBackgroundColor: 'rgb(16, 185, 129)',
+                                borderColor: 'rgb(16, 185, 129)',
+                                backgroundColor: 'rgb(16 185 129 / .15)',
+                                tension: 0.2
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching chart data:', error));
 
 
 

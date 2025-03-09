@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 if ($_SESSION['admin_id']) {
-    echo "<script>alert('You are Already Logged In.'); window.location.href='admin.php';</script>";
+    echo "<script>alert('You are Already Logged In.'); window.location.href='admin_control_panel.php';</script>";
     exit;
 } else {
     //echo "<script>alert('$user_id');</script>";

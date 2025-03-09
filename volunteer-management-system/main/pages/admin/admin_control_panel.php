@@ -540,9 +540,6 @@ while ($row = $result->fetch_assoc()) {
                                 </div>
 
                                 <!-- User Management Section -->
-
-
-
                                 <div class="mt-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                                     <div class="px-6 py-4 border-b border-gray-200">
                                         <div class="flex items-center justify-between">
@@ -647,7 +644,7 @@ while ($row = $result->fetch_assoc()) {
                                                             </td>
                                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                                 <div class="flex items-center justify-center space-x-2 user_action">
-                                                                    <button data-action="IGNORE" onclick="window.location.href='../profile2.php?id=<?= base64_encode($id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
+                                                                    <button data-action="IGNORE" onclick="window.location.href='profile2.php?id=<?= base64_encode($id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
 
                                                                     <button data-action="<?= ($activation_status == "Active") ? "Suspend" : "unsuspend" ?>" data-userid="<?= $id ?>" class=" px-4 py-2 text-center rounded-lg w-1/2 hover:scale-105 transition-all duration-300 hover:ring-2 hover:ring-red-800 text-white <?= ($activation_status == "Active") ? "bg-red-600" : "bg-green-600" ?>"><?= ($activation_status == "Active") ? "Deactivate" : "Active" ?></button>
                                                                     <!-- <button data-action="unsuspend" data-userid="<?= $id ?>" class="bg-red-600 px-4 py-2 rounded-lg w-1/2 hover:text-red-900 text-white">Deactivate</button> -->
@@ -849,7 +846,7 @@ while ($row = $result->fetch_assoc()) {
                                                             </td>
                                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                                 <div class="flex space-x-2 action_list">
-                                                                    <button data-action="IGNORE" data-eventid="<?= $event_id ?>" onclick="window.location.href='../event_detail.php?id=<?= base64_encode($event_id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
+                                                                    <button data-action="IGNORE" data-eventid="<?= $event_id ?>" onclick="window.location.href='event_detail.php?id=<?= base64_encode($event_id) ?>'" class="bg-white w-1/2 rounded-xl px-4 py-2 hover:bg-gray-200 hover:ring-blue-400 hover:ring-2 text-gray-700 transition-all duration-300 hover:scale-105 border-2">View</button>
                                                                     <button data-action="<?= ($activation_status == "Deactive") ? 'Suspend' : 'unsuspend' ?>" data-eventid="<?= $event_id ?>" class=" px-4 py-2 text-center rounded-lg w-1/2 hover:scale-105 transition-all duration-300 hover:ring-2 hover:ring-red-800 text-white <?= $activation_style ?>"><?= $activation_status ?></button>
 
                                                                 </div>
@@ -1071,6 +1068,7 @@ while ($row = $result->fetch_assoc()) {
             $(document).on('click', '.action_list button', function() {
                 let action = $(this).data("action");
                 let event = $(this).data("eventid");
+                let button=$(this);
 
                 // alert(action);
                 // alert(event);
@@ -1084,8 +1082,18 @@ while ($row = $result->fetch_assoc()) {
                         },
                         success: function(response) {
                             if (response.status === 'success') {
-                                alert(response.message); // Show success message
-                                location.reload();
+                                // alert(response.message); // Show success message
+                                // location.reload();
+                                if (action == "Suspend") {
+                                    button.addClass('bg-green-600').removeClass('bg-red-600');
+                                    button.html("Active");
+                                    button.data("action", "unsuspend")
+                                } else {
+                                    button.removeClass('bg-green-600').addClass('bg-red-600');
+                                    button.html("Deactive");
+                                    button.data("action", "Suspend")
+                                }
+
                             } else {
                                 alert(response.message);
                             }
@@ -1102,6 +1110,7 @@ while ($row = $result->fetch_assoc()) {
             $(document).on('click', '.user_action button', function() {
                 let action = $(this).data("action");
                 let user = $(this).data("userid");
+                let button = $(this);
 
                 // alert(action);
                 // alert(user);
@@ -1118,7 +1127,18 @@ while ($row = $result->fetch_assoc()) {
                         success: function(response) {
                             if (response.status === 'success') {
                                 // alert(response.message); // Show success message
-                                location.reload();
+                                // location.reload();
+                                if (action == "Suspend") {
+                                    button.addClass('bg-green-600').removeClass('bg-red-600');
+                                    button.html("Active");
+                                    button.data("action", "unsuspend")
+                                } else {
+                                    button.removeClass('bg-green-600').addClass('bg-red-600');
+                                    button.html("Deactive");
+                                    button.data("action", "Suspend")
+                                }
+
+
                             } else {
                                 alert(response.message);
                             }
