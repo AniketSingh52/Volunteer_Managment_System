@@ -18,7 +18,7 @@
             //File Upload
             if (isset($_FILES['profile'])) {
                 // File information
-                print_r($_FILES['profile']);
+                // print_r($_FILES['profile']);
                 $file_tmp_path = $_FILES['profile']['tmp_name'];
                 $file_name = $_FILES['profile']['name'];
                 $file_size = $_FILES['profile']['size'];
@@ -41,13 +41,13 @@
                             if (move_uploaded_file($file_tmp_path, $file_destination)) {
                                 echo "file uploaded successfully";
                             } else {
-                                echo "file not uploaded";
+                                // echo "file not uploaded";
                             }
                         } else {
-                            echo "File size too large (max 10MB)";
+                            // echo "File size too large (max 10MB)";
                         }
                     } else {
-                        echo "there was an error uploading your image";
+                        // echo "there was an error uploading your image";
                     }
                 } else {
                     die("Invalid file type");
@@ -193,10 +193,10 @@
                 echo '<META HTTP-EQUIV="Refresh" Content="0.5; URL=../login_in.php">';
 
 
-                echo '<div class="alert alert-success alert-dismissible fade-show">
-                     <a href="../login_in.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                     <strong>Resigtration Sucessfull!</strong>An Verification Link is sent on you registered Email.
-                     </div>';
+                // echo '<div class="alert alert-success alert-dismissible fade-show">
+                //      <a href="../login_in.php" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                //      <strong>Resigtration Sucessfull!</strong>An Verification Link is sent on you registered Email.
+                //      </div>';
             }    // if any of he above 3 process fails.
             elseif (!empty(array_intersect($failed_values, $verify))) {
                 echo "

@@ -525,8 +525,9 @@ if ($result && $row = $result->fetch_assoc()) {
                             // alert(response.message); // Show success message
                             alert("Event Created Successfully");
                             //form.submit();
-                            form.reset(); // Reset the form
-                            //loadContent('dl');
+                            // form.reset(); // Reset the form
+                            location.reload();
+                            // loadContent('dl');
                         } else {
                             alert(response.message); // Show error message if any
                             // loadContent('dl');
