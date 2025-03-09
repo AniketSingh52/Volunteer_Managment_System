@@ -2,6 +2,11 @@
 
 <?php
 session_start();
+ob_clean(); // Cle // Return JSON response
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+ini_set('error_log', 'error_log.txt');
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
@@ -20,6 +25,70 @@ if ($result && $row = $result->fetch_assoc()) {
     $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
     //echo "<script>alert('$profile');</script>";  
 
+}
+
+
+
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $user_id2 = base64_decode($_GET['id']);
+
+    if ($user_id2 != $user_id) {
+        echo "<script>alert('You are not authorized.'); window.location.href='admin.php';</script>";
+    }
+
+    // echo "
+    // <script>
+    // alert('$event_id');
+    // </script>
+    // ";
+
+    // SQL query to GET EVENT DETAILS
+    $sql = "SELECT * FROM `user`
+            WHERE user_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id2);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+
+        if ($row = $result->fetch_assoc()) {
+
+            $user_name = $row['user_name'];
+            $email = $row['email'];
+            $contact = $row['contact'];
+            $gender = $row['gender'];
+            $occupation = $row['occupation'];
+            $name2 = $row['name'];
+            $address = $row['address'];
+            $user_image = $row['profile_picture'];
+            $poster_path = $user_image;
+            $user_type = $row['user_type'] == "V" ? "Volunteer" : "Organisation";
+            $user_name_style = ($row['user_type'] == 'V') ? "bg-green-100 hover:bg-green-800/90 text-green-800 hover:text-white  duration-300 transition-all" : "bg-sky-100 hover:bg-sky-800/90 font-medium hover:text-white  duration-300 transition-all text-sky-800";
+
+            $user_image = preg_replace('/^\.\.\//', '', $user_image);
+
+            //Convert Date to Human Readable Format
+            $dob_doe = date('Y-m-d', strtotime($row['DOB/DOE']));
+            $dor = date('Y-m-d', strtotime($row['registration_date']));
+
+
+            switch ($gender) {
+                case 'M':
+                    $gender_text = "MALE";
+                    break;
+                case 'F':
+                    $scheduled = "FEMALE";
+                    break;
+                case 'O':
+                    $completed = "OTHERS";
+                    break;
+            }
+        }
+    }
+} else {
+    echo "<script>alert('Select an User.'); window.location.href='admin.php';</script>";
 }
 
 ?>
@@ -127,7 +196,7 @@ if ($result && $row = $result->fetch_assoc()) {
         <!-- Contents -->
         <div class="p-4 dynamiccontents" id="dynamiccontents">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <form id="profile-edit-form" class="space-y-8">
+                <form id="yourFormID" method="POST" enctype="multipart/form-data" action="Edit_profile.php" class="space-y-8">
                     <!-- Cover & Profile Photo Section -->
                     <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
                         <!-- Cover Photo -->
@@ -137,14 +206,14 @@ if ($result && $row = $result->fetch_assoc()) {
                                 src="https://res.cloudinary.com/omaha-code/image/upload/ar_4:3,c_fill,dpr_1.0,e_art:quartz,g_auto,h_396,q_auto:best,t_Linkedin_official,w_1584/v1561576558/mountains-1412683_1280.png"
                                 alt="Cover Photo"
                                 class="w-full h-full object-cover">
-                            <label class="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white px-4 py-2 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
+                            <!-- <label class="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white px-4 py-2 rounded-lg cursor-pointer flex items-center space-x-2 transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 <span>Change Cover</span>
                                 <input type="file" id="cover-input" class="hidden" accept="image/*">
-                            </label>
+                            </label> -->
                         </div>
 
                         <!-- Profile Section -->
@@ -156,7 +225,7 @@ if ($result && $row = $result->fetch_assoc()) {
                                         <div class="relative group">
                                             <img
                                                 id="profile-preview"
-                                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150"
+                                                src="<?= $user_image ?>"
                                                 alt="Profile Picture"
                                                 class="h-32 w-32 rounded-full object-cover border-4 border-white shadow-lg">
                                             <label class="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg cursor-pointer transition-colors">
@@ -164,7 +233,8 @@ if ($result && $row = $result->fetch_assoc()) {
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                                <input type="file" id="profile-input" class="hidden" accept="image/*">
+                                                <input name="poster" type="file" id="profile-input" class="hidden" accept="image/*">
+                                                <input type="hidden" name="user_poster" value="<?= $poster_path ?>">
                                             </label>
                                         </div>
                                     </div>
@@ -178,41 +248,28 @@ if ($result && $row = $result->fetch_assoc()) {
                                     <input
                                         type="text"
                                         name="fullName"
-                                        value="Aniketh Singh"
+                                        value="<?= $name2 ?>"
                                         class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <input type="hidden" name="user_id" value="<?= $user_id2 ?>">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                                    <label class="block text-sm  font-medium text-gray-700 mb-2">Username</label>
                                     <input
+                                        disabled
                                         type="text"
                                         name="username"
-                                        value="@Ricardo_oRibeir"
-                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                        <span>Username Already Exists</span>
+                                        value="@<?= $user_name ?>"
+                                        class="w-full font-mono px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
                                 </div>
                                 <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Address/Location</label>
                                     <textarea
-                                        name="bio"
+                                        name="address"
                                         rows="3"
-                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">Software Engineer / Designer / Entrepreneur Visit my website to test a working Twitter Clone.</textarea>
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"><?= $address ?></textarea>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
-                                    <input
-                                        type="url"
-                                        name="website"
-                                        value="https://ricardoribeirodev.com/personal/"
-                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                                    <input
-                                        type="text"
-                                        name="location"
-                                        value="Mumbai, India"
-                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -222,39 +279,84 @@ if ($result && $row = $result->fetch_assoc()) {
                         <h2 class="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth / Date of Establishment</label>
                                 <input
                                     type="date"
                                     name="dob"
-                                    value="1995-01-15"
+                                    value="<?= $dob_doe ?>"
                                     class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             </div>
+
+
+
+                            <?php
+                            if ($user_type != "Volunteer") {
+                                $sql = "SELECT type_id FROM `organization_belongs_type` WHERE user_id=?";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->bind_param("i", $user_id2);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $row = $result->fetch_assoc();
+                                $type_id = $row['type_id'];
+
+                            ?>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization Type</label>
+                                    <select
+                                        name="organ_type"
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <?php
+
+                                        $sql2 = "SELECT * FROM organization_type";
+                                        $result3 = $conn->query($sql2);
+
+                                        if ($result3->num_rows > 0) {
+                                            while ($row = $result3->fetch_assoc()) { // Loop through all rows
+                                                echo "<option value='" . $row['type_id'] . "' " . (($type_id == $row['type_id']) ? "selected" : "") . ">" . $row['type_name'] . "</option>";
+                                            }
+                                        }
+
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                            <?php
+                            } else {
+
+                            ?>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                                    <input
+                                        disabled
+                                        type="input"
+                                        name="gender"
+                                        value="<?= $gender_text ?>"
+                                        class="w-full px-4 bg-gray-100 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            <?php
+                            }
+                            ?>
+
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-                                <select
-                                    name="gender"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="male" selected>Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                    <option value="prefer-not-to-say">Prefer not to say</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Occupation</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Date Of Joining</label>
                                 <input
-                                    type="text"
-                                    name="occupation"
-                                    value="Software Engineer"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    disabled
+                                    type="date"
+                                    name="doj"
+                                    value="<?= $dor ?>"
+                                    class="w-full px-4  bg-gray-100 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+                                <input type="hidden" name="type_user" value="<?= $user_type ?>">
                                 <select
+                                    disabled
                                     name="accountType"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="volunteer" selected>Volunteer</option>
-                                    <option value="organization">Organization</option>
+                                    class="w-full px-4 py-2  bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="volunteer" <?= (($user_type == "Volunteer") ? "selected" : "") ?>>Volunteer</option>
+                                    <option value="organization" <?= (($user_type != "Volunteer") ? "selected" : "") ?>>Organization</option>
                                 </select>
                             </div>
                         </div>
@@ -262,59 +364,93 @@ if ($result && $row = $result->fetch_assoc()) {
 
                     <!-- Contact Information -->
                     <div class="bg-white rounded-2xl shadow-sm p-8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Details</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                                 <input
+                                    disabled
                                     type="email"
                                     name="email"
-                                    value="john.doe@example.com"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    value="<?= $email ?>"
+                                    class="w-full bg-gray-100 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             </div>
-                            <div>
+
+                            <div class="">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                                 <input
                                     type="tel"
                                     name="phone"
-                                    placeholder="+1 (555) 000-0000"
+                                    value="<?= $contact ?>"
+                                    placeholder="+91 (555) 000-0000"
                                     class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    value="123 Volunteer Street, Community City, 12345"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
+
+
                         </div>
                     </div>
 
+
+
                     <!-- Skills & Interests -->
                     <div class="bg-white rounded-2xl shadow-sm p-8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Skills & Interests</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Preferences and Interests</h2>
                         <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
-                                <select
-                                    name="skills"
-                                    multiple
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="communication" selected>Communication</option>
-                                    <option value="leadership" selected>Leadership</option>
-                                    <option value="project-management" selected>Project Management</option>
-                                    <option value="first-aid" selected>First Aid</option>
-                                    <option value="teaching">Teaching</option>
-                                    <option value="fundraising">Fundraising</option>
-                                    <option value="event-planning">Event Planning</option>
-                                </select>
-                                <p class="mt-2 text-sm text-gray-500">Hold Ctrl (Cmd on Mac) to select multiple skills</p>
-                            </div>
+
+                            <?php
+                            if ($user_type == "Volunteer") {
+
+                                $selected_skills = []; // Replace with your query logic. For example:
+                                $query_selected = "SELECT skill_id FROM volunteer_skill WHERE user_id = ?";
+                                $stmt = $conn->prepare($query_selected);
+                                $stmt->bind_param("i", $user_id2);
+                                $stmt->execute();
+                                $result_selected = $stmt->get_result();
+                                while ($row = $result_selected->fetch_assoc()) {
+                                    $selected_skills[] = $row['skill_id'];
+                                }
+
+                            ?>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
+                                    <select
+                                        name="skill[]"
+                                        multiple
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <?php
+                                        $query = "SELECT * FROM skill";
+                                        $result = $conn->query($query);
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                // Check if the current cause_id is in the selected_causes array
+                                                $selected = in_array($row['skill_id'], $selected_skills) ? 'selected' : '';
+                                                echo '<option value="' . $row['skill_id'] . '" ' . $selected . '>' . $row['skill_name'] . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="">No Cause Available</option>';
+                                        }
+                                        ?>
+                                    </select>
+
+                                </div>
+
+
+                            <?php
+                            }
+                            $selected_causes = []; // Replace with your query logic. For example:
+                            $query_selected = "SELECT cause_id FROM user_workfor_causes WHERE user_id = ?";
+                            $stmt = $conn->prepare($query_selected);
+                            $stmt->bind_param("i", $user_id2);
+                            $stmt->execute();
+                            $result_selected = $stmt->get_result();
+                            while ($row = $result_selected->fetch_assoc()) {
+                                $selected_causes[] = $row['cause_id'];
+                            }
+                            ?>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Causes</label>
                                 <select
-                                    name="causes"
+                                    name="causes[]"
                                     multiple
                                     required
                                     multiselect-search="true"
@@ -322,15 +458,21 @@ if ($result && $row = $result->fetch_assoc()) {
                                     multiselect-max-items="5"
                                     multiselect-hide-x="false"
                                     class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="education" selected>Education</option>
-                                    <option value="environment" selected>Environment</option>
-                                    <option value="animal-welfare" selected>Animal Welfare</option>
-                                    <option value="healthcare">Healthcare</option>
-                                    <option value="poverty">Poverty Alleviation</option>
-                                    <option value="elderly-care">Elderly Care</option>
-                                    <option value="youth-development">Youth Development</option>
+                                    <?php
+                                    $query = "SELECT * FROM causes";
+                                    $result = $conn->query($query);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            // Check if the current cause_id is in the selected_causes array
+                                            $selected = in_array($row['cause_id'], $selected_causes) ? 'selected' : '';
+                                            echo '<option value="' . $row['cause_id'] . '" ' . $selected . '>' . $row['name'] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No Cause Available</option>';
+                                    }
+                                    ?>
                                 </select>
-                                <p class="mt-2 text-sm text-gray-500">Hold Ctrl (Cmd on Mac) to select multiple causes</p>
+
                             </div>
                         </div>
                     </div>
@@ -339,7 +481,7 @@ if ($result && $row = $result->fetch_assoc()) {
                     <div class="flex justify-end space-x-4">
                         <button
                             type="button"
-                            onclick="window.location.href='/profile'"
+                            onclick="window.location.href='profile2.php'"
                             class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
                             Cancel
                         </button>
@@ -355,6 +497,7 @@ if ($result && $row = $result->fetch_assoc()) {
             <script>
                 $(document).ready(function() {
                     // Profile Image Preview
+                    var poster_change = false;
                     $('#profile-input').change(function(e) {
                         if (e.target.files && e.target.files[0]) {
                             const reader = new FileReader();
@@ -363,6 +506,7 @@ if ($result && $row = $result->fetch_assoc()) {
                             }
                             reader.readAsDataURL(e.target.files[0]);
                         }
+                        poster_change = true;
                     });
 
                     // Cover Image Preview
@@ -377,11 +521,95 @@ if ($result && $row = $result->fetch_assoc()) {
                     });
 
                     // Form Submission
-                    $('#profile-edit-form').submit(function(e) {
-                        e.preventDefault();
-                        // Add your form submission logic here
-                        alert('Profile updated successfully!');
-                        window.location.href = '/profile';
+                    $('#yourFormID').submit(function(e) {
+
+                        const form = document.getElementById("yourFormID");
+                        e.preventDefault(); // Prevent default form submission
+
+                        //var formData = $(this).serialize(); // Serialize form data
+
+                        let formData = new FormData(form);
+
+                        // // Log form data to console
+                        // console.log("Form data:");
+                        // for (let [key, value] of formData.entries()) {
+                        //     console.log(`${key}: ${value}`);
+                        // }
+
+                        if (poster_change) {
+                            // Log form data to console
+                            console.log("Form data:");
+                            for (let [key, value] of formData.entries()) {
+                                console.log(`${key}: ${value}`);
+                            }
+
+                            //   Send AJAX request
+                            $.ajax({
+                                url: "Backend/edit_profile.php", // Update with your correct path to dl.php
+                                type: "POST",
+                                data: formData,
+                                cache: false,
+                                processData: false, // Prevent jQuery from processing data
+                                contentType: false, // Let browser set the correct content type
+                                dataType: 'json', // Expect a JSON response
+                                success: function(response) {
+                                    if (response.status === 'success') {
+                                        alert(response.message); // Show success message
+                                        //form.submit();
+                                        window.location.href = 'profile2.php';
+                                        //form.reset(); // Reset the form
+                                        //loadContent('dl');
+                                    } else {
+                                        alert(response.message); // Show error message if any
+                                        // loadContent('dl');
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log("AJAX Error: " + status + " " + error);
+                                    alert("AJAX Error: " + status + " " + error);
+                                }
+                            });
+
+                        } else {
+
+                            formData.delete("poster");
+                            // Log form data to console
+                            console.log("Form data:");
+                            for (let [key, value] of formData.entries()) {
+                                console.log(`${key}: ${value}`);
+                            }
+                            //   Send AJAX request
+                            $.ajax({
+                                url: "Backend/edit_profile.php", // Update with your correct path to dl.php
+                                type: "POST",
+                                data: formData,
+                                cache: false,
+                                processData: false, // Prevent jQuery from processing data
+                                contentType: false, // Let browser set the correct content type
+                                dataType: 'json', // Expect a JSON response
+                                success: function(response) {
+                                    if (response.status === 'success') {
+                                        alert(response.message); // Show success message
+                                        //form.submit();
+                                        // window.location.href = 'profile2.php';
+                                        history.back();
+                                        // form.reset(); // Reset the form
+                                        //loadContent('dl');
+                                    } else {
+                                        alert(response.message); // Show error message if any
+                                        // loadContent('dl');
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log("AJAX Error: " + status + " " + error);
+                                    console.log("Server Response: " + xhr.responseText); // Logs the actual server response
+                                }
+                            });
+
+                        }
+
+
+
                     });
                 });
             </script>

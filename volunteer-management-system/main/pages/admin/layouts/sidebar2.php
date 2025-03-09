@@ -5,7 +5,7 @@
     $admin_id = $_SESSION['admin_id'];
 
     if (!$admin_id) {
-        echo "<script>alert('User not logged in.'); window.location.href='../login_in.php';</script>";
+        echo "<script>alert('User not logged in.'); window.location.href='login_in2.php';</script>";
         exit;
     } else {
         //echo "<script>alert('$user_id');</script>";
@@ -21,6 +21,12 @@
         $profile = preg_replace('/^\.\.\//', '', $profile); // Remove "../" from the start
         //echo "<script>alert('$profile');</script>";  
 
+        if($row['status']!="active"){
+            echo "<script>alert('You have Been suspended.'); window.location.href='login_in2.php';</script>";
+            session_unset();  // Unset all session variables
+            session_destroy(); // Destroy the session itself
+            echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=login_in2.php">';
+        }
     }
 
     ?>
@@ -125,27 +131,31 @@
       </ul>
       <ul class=" mt-4">
 
+          <?php
+            if ($row['role'] == "super") {
 
-          <!-- PERSONAL SECTION SIDEBAR -->
-          <span class="text-gray-400 font-bold">Admin Management</span>
-          <li class="mb-1 mt-1 group">
-              <a
-                  href="#"
-                  class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class='bx bx-plus-circle text-gray-400 mr-3 text-xl'></i>
-                  <span class="  text-sm">Add Admin</span>
-              </a>
-          </li>
-          <li class="mb-1 mt-1 group">
-              <a
-                  href="#"
-                  class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class='bx bxs-cog text-gray-400 mr-3 text-xl'></i>
 
-                  <span class="text-sm">Edit Roles</span>
-              </a>
-          </li>
-          <li class="mb-1 group">
+            ?>
+              <!-- PERSONAL SECTION SIDEBAR -->
+              <span class="text-gray-400 font-bold">Admin Management</span>
+              <li class="mb-1 mt-1 group">
+                  <a
+                      href="add_admin.php"
+                      class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                      <i class='bx bx-plus-circle text-gray-400 mr-3 text-xl'></i>
+                      <span class="  text-sm">Add Admin</span>
+                  </a>
+              </li>
+              <li class="mb-1 mt-1 group">
+                  <a
+                      href="manage_admin.php"
+                      class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                      <i class='bx bxs-cog text-gray-400 mr-3 text-xl'></i>
+
+                      <span class="text-sm">Manage Admin</span>
+                  </a>
+              </li>
+              <!-- <li class="mb-1 group">
               <a
                   href="../pages/manage_post.php"
                   class="flex font-semibold items-center py-2 px-4 text-white hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
@@ -153,7 +163,10 @@
                   <span class="text-sm ">Manage Admin</span>
 
               </a>
-          </li>
+          </li> -->
+          <?php
+            }
+            ?>
       </ul>
   </div>
   <div

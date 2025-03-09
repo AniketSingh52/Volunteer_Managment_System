@@ -1,1 +1,1 @@
-[09-Mar-2025 10:45:27 Europe/Berlin] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\event_detail.php on line 598
+[09-Mar-2025 15:16:09 Europe/Berlin] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\event_detail.php on line 598

@@ -71,7 +71,7 @@
                          class="p-1 bg-white rounded-full focus:outline-none focus:ring">
                          <img
                              class="w-8 h-8 rounded-full"
-                             src="../<?php echo $profile ?>"
+                             src="<?php echo $profile;?>"
                              alt="" />
                          <div
                              class="top-0 left-7 absolute w-3 h-3 bg-lime-400 border-2 border-white rounded-full animate-ping"></div>
@@ -88,11 +88,7 @@
              </button>
              <ul
                  class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[240px]">
-                 <!-- <li>
-                     <a
-                         href="../pages/profile2.php?id=<?= base64_encode($admin_id) ?>"
-                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-user pr-2"></i> Profile</a>
-                 </li> -->
+               
                  <li>
                      <a
                          href="#"

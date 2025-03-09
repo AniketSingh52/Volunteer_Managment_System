@@ -319,7 +319,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
                             ?>
                                 <div class="flex flex-col text-right">
-                                    <button onclick="window.location.href='Edit_profile.php?id='<?= base64_encode($user_id2) ?>" class="flex justify-center  max-h-max whitespace-nowrap focus:outline-none  focus:ring  rounded max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 items-center hover:shadow-lg font-bold py-2 px-4  mr-0 ml-auto">
+                                    <button onclick="window.location.href='Edit_profile.php?id=<?= base64_encode($user_id2) ?>'" class="flex justify-center  max-h-max whitespace-nowrap focus:outline-none  focus:ring  rounded max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 items-center hover:shadow-lg font-bold py-2 px-4  mr-0 ml-auto">
                                         Edit Profile
                                     </button>
                                 </div>

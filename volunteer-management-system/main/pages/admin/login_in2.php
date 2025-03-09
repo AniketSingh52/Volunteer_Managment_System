@@ -42,14 +42,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($password === $user['password']) {
                 // Set session variables
                 $_SESSION['admin_id'] = $user['admin_id'];
-                echo "
+
+                if ($user['status'] != "active") {
+                    echo "<script>alert('You have Been suspended.'); window.location.href='login_in2.php';</script>";
+                    session_unset();  // Unset all session variables
+                    session_destroy(); // Destroy the session itself
+                    echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=login_in2.php">';
+                }else{
+                    echo "
                 <script>
                 alert('success login');
                 </script>";
 
-                //header("refresh:0.5; url=../pages/changepass.php");
-                echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin_control_panel.php">';
+                    //header("refresh:0.5; url=../pages/changepass.php");
+                    echo '<META HTTP-EQUIV="Refresh" Content="0.8; URL=admin_control_panel.php">';
+                }
 
+               
 
                 // Redirect to dashboard or home page
                 // header("Location: dashboard.php");

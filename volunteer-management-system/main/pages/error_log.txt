@@ -1,0 +1,1 @@
+[09-Mar-2025 14:25:36 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\gallery.php on line 10

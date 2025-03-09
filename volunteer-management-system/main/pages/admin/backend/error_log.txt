@@ -1,0 +1,15 @@
+[09-Mar-2025 19:32:22 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INTO administration SET status='deactive' WHERE admin_id='2'' at line 1 in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php:24
+Stack trace:
+#0 C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php(24): mysqli->query('UPDATE INTO adm...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php on line 24
+[09-Mar-2025 19:34:24 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INTO administration SET status='deactive' WHERE admin_id='2'' at line 1 in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php:24
+Stack trace:
+#0 C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php(24): mysqli->query('UPDATE INTO adm...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php on line 24
+[09-Mar-2025 19:35:29 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INTO administration SET status='deactive' WHERE admin_id='2'' at line 1 in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php:24
+Stack trace:
+#0 C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php(24): mysqli->query('UPDATE INTO adm...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\backend\manage_admin.php on line 24

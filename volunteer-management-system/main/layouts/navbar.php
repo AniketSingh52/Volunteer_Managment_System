@@ -37,7 +37,7 @@
                  </form>
              </div>
          </li> -->
-         <li class="dropdown">
+         <!-- <li class="dropdown">
              <button
                  type="button"
                  class="dropdown-toggle text-gray-400 mr-4 w-8 h-8 rounded flex items-center justify-center hover:text-gray-600">
@@ -263,7 +263,7 @@
                      </ul>
                  </div>
              </div>
-         </li>
+         </li> -->
          <button id="fullscreen-button">
              <svg
                  xmlns="http://www.w3.org/2000/svg"

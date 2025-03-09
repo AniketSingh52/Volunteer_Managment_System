@@ -23,7 +23,29 @@ if ($result->num_rows > 0) {
 } else {
     $availabe = 0;
 }
-$applications = $result->fetch_all(MYSQLI_ASSOC);
+
+    $applications = $result->fetch_all(MYSQLI_ASSOC);
+
+    $sql = "SELECT 
+            SUM(CASE WHEN latest_action = 'Suspend' THEN 1 ELSE 0 END) AS suspended_users,
+            SUM(CASE WHEN latest_action = 'unsuspend' OR latest_action IS NULL THEN 1 ELSE 0 END) AS unsuspended_users
+        FROM (
+            SELECT 
+                u.user_id,
+                (SELECT action 
+                 FROM admin_manage_user amu 
+                 WHERE amu.user_id = u.user_id 
+                 ORDER BY amu.date DESC 
+                 LIMIT 1) AS latest_action
+            FROM user u
+        ) AS user_status";
+
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $suspended = $row['suspended_users']; //DEACTIVE
+    $unsuspended = $row['unsuspended_users']; //ACTIVE 
+
+ 
 ?>
 
 
@@ -147,7 +169,7 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
 
                 <!-- Charts Section -->
-                <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-1 mb-10">
+                <div class="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-2 mb-10">
                     <!--User traffic Chart -->
                     <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between mb-6">
@@ -164,14 +186,34 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
                             </div>
                         </div>
-                        <div class="relative h-full mx-auto">
+                        <div class="relative h-64 ">
                             <canvas class=" min-w-full" id="userTraffic"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- User Status Chart -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="text-lg font-semibold text-gray-900">User Status</h2>
+                            <div class="flex items-center space-x-2">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Active</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                                    <span class="text-xs text-gray-600">Inactive</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative h-64">
+                            <canvas id="userStatusChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                 <!-- User List -->
-                <div class="space-y-6">
+                <div class="space-y-6 mb-6">
                     <!-- User Card -->
 
 
@@ -631,6 +673,44 @@ $applications = $result->fetch_all(MYSQLI_ASSOC);
 
             });
 
+
+             const userStatusCtx = document.getElementById('userStatusChart').getContext('2d');
+            const userStatusChart = new Chart(userStatusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Active', 'Deactive'],
+                    datasets: [{
+                        data: [<?= $unsuspended ?>, <?= $suspended ?>],
+                        backgroundColor: [
+                            'rgb(34, 197, 74)',
+                            'rgb(239, 68, 78)'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        //   legend: {
+                        //     display: false
+                        //   },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.formattedValue || '';
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((context.raw / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
 
             fetch('backend/get_user_traffic.php')
                 .then(response => response.json())
