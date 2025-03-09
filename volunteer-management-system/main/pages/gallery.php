@@ -2,6 +2,11 @@
 
 <?php
 session_start();
+    ob_clean(); // Cle // Return JSON response
+    error_reporting(E_ALL);
+    ini_set('log_errors', 1);
+    ini_set('display_errors', 0);
+    ini_set('error_log', 'error_log.txt');
 $user_id = $_SESSION['user_id'];
 
 if (!$user_id) {
@@ -211,6 +216,21 @@ $result2 = $conn->query($sql);
                         $comment_style = ($row['user_type'] == 'V') ? "bg-indigo-100 text-indigo-800" : "bg-green-100 font-medium text-green-800";
 
 
+                        $sql = "SELECT * FROM `admin_manage_post` WHERE picture_id=? ORDER by date Desc limit 1";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $picture_id); // "i" for integer
+                        $stmt->execute();
+                        $result3 = $stmt->get_result();
+                        if ($result3->num_rows > 0) {
+                            $row3 = $result3->fetch_assoc();
+                            // echo $row['action'];
+                            if($row3['action'] == "Suspend"){
+                                continue;
+                            }
+                        }
+
+
+
                             $creation_date = new DateTime($picture_date);
                             $today = new DateTime();
                             $diff = $today->diff($creation_date);
@@ -275,6 +295,10 @@ $result2 = $conn->query($sql);
                     <?php
 
                         }
+                    }else{
+                        echo"
+                        <h1 class=' text-center mt-10 text-xl'>No Post Available</h1>
+                        ";
                     }
                     ?>
                 </div>
