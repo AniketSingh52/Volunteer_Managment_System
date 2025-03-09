@@ -323,8 +323,8 @@
                  </li>
                  <li>
                      <a
-                         href="#"
-                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-cog pr-2"></i>Settings</a>
+                         href="../pages/forgot.php"
+                         class="flex items-center text-sm py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50"><i class="bx bx-cog pr-2"></i>Change Password</a>
                  </li>
                  <li>
                      <a

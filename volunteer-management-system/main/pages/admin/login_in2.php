@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded transition-all">
                     <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
                 </div>
-                <a href="#" class="text-sm text-purple-600 hover:text-purple-500">Forgot password?</a>
+                <a href="forgot.php" class="text-sm text-purple-600 hover:text-purple-500">Forgot password?</a>
             </div>
 
             <!-- Submit Button -->

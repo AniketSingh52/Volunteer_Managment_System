@@ -522,7 +522,8 @@ if ($result && $row = $result->fetch_assoc()) {
                     dataType: 'json', // Expect a JSON response
                     success: function(response) {
                         if (response.status === 'success') {
-                            alert(response.message); // Show success message
+                            // alert(response.message); // Show success message
+                            alert("Event Created Successfully");
                             //form.submit();
                             form.reset(); // Reset the form
                             //loadContent('dl');

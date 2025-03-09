@@ -799,7 +799,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         dataType: 'json', // Expect a JSON response
                         success: function(response) {
                             if (response.status === 'success') {
-                                alert(response.message); // Show success message
+                                // alert(response.message); // Show success message
+                                alert("Event Edited Successfully");
                                 //form.submit();
                                 window.location.href = 'my_events.php';
                                 //form.reset(); // Reset the form
@@ -834,10 +835,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         dataType: 'json', // Expect a JSON response
                         success: function(response) {
                             if (response.status === 'success') {
-                                alert(response.message); // Show success message
+                                //alert(response.message); // Show success message
+                                alert("Event Edited Successfully");
                                 //form.submit();
                                 window.location.href = 'my_events.php';
-                               // form.reset(); // Reset the form
+                                // form.reset(); // Reset the form
                                 //loadContent('dl');
                             } else {
                                 alert(response.message); // Show error message if any

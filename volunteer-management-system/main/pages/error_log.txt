@@ -1,2 +1,37 @@
 [09-Mar-2025 14:25:36 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\gallery.php on line 10
 [09-Mar-2025 15:16:57 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 10
+[09-Mar-2025 16:52:36 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 10
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 145
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 165
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 302
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 312
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 314
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 594
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:24:30 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1397
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 145
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 165
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 302
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 312
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 314
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 594
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:24:51 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1397
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 145
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\sidebar.php on line 165
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 302
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 312
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\layouts\navbar.php on line 314
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 522
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $type in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 594
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $profile in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $name in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1392
+[09-Mar-2025 17:25:05 Europe/Berlin] PHP Warning:  Undefined variable $name_u in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 1397
+[09-Mar-2025 17:26:03 Europe/Berlin] PHP Warning:  Undefined array key "user_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin.php on line 10

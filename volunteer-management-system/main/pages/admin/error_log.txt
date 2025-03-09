@@ -1,1 +1,4 @@
 [09-Mar-2025 15:16:09 Europe/Berlin] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\event_detail.php on line 598
+[09-Mar-2025 16:53:27 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\user_management.php on line 10
+[09-Mar-2025 17:07:04 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10
+[09-Mar-2025 17:30:48 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10

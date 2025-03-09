@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VolunteerHub - Empower Your Volunteer Community</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="../assets/Screenshot 2025-02-05 215045.svg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -99,9 +101,9 @@
             <div class="flex justify-between items-center">
                 <a href="#" class="text-3xl font-bold text-blue-500">VolunteerHub</a>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#features" class="text-gray-600 text-lg hover:text-primary">Features</a>
+                    <!-- <a href="#features" class="text-gray-600 text-lg hover:text-primary">Features</a>
                     <a href="#about" class="text-gray-600 text-lg hover:text-primary">About</a>
-                    <a href="#contact-us" class="text-gray-600 text-lg hover:text-primary">Contact</a>
+                    <a href="#contact-us" class="text-gray-600 text-lg hover:text-primary">Contact</a> -->
                 </div>
                 <div class="hidden md:flex space-x-2">
                     <a href="login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Log in</a>
@@ -214,7 +216,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-3xl font-extrabold text-gray-800">70,680 +</div>
+                        <div class="text-3xl font-extrabold text-gray-800">5+</div>
                         <div class="text-gray-500">Volunteers</div>
                     </div>
                     <!-- Documents Count -->
@@ -230,7 +232,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-3xl font-extrabold text-gray-800">651,589 +</div>
+                        <div class="text-3xl font-extrabold text-gray-800">15+</div>
                         <div class="text-gray-500">Events and Camps</div>
                     </div>
                     <!-- Languages Supported -->
@@ -261,7 +263,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-3xl font-extrabold text-gray-800">100 +</div>
+                        <div class="text-3xl font-extrabold text-gray-800">6 +</div>
                         <div class="text-gray-500">Trusted organizations</div>
                     </div>
                 </div>

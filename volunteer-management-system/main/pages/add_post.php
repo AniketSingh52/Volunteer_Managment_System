@@ -364,7 +364,8 @@ if ($result && $row = $result->fetch_assoc()) {
                     dataType: 'json', // Expect a JSON response
                     success: function(response) {
                         if (response.status === 'success') {
-                            alert(response.message); // Show success message
+                            // alert(response.message); // Show success message
+                            alert("Post Created Successfully");
                             //form.submit();
                             $('#preview-image').attr('src', "");
                             $('#preview-image').addClass('hidden');

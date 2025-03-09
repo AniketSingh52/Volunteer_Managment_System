@@ -37,6 +37,7 @@ if ($result && $row = $result->fetch_assoc()) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link type="image/png" sizes="16x16" rel="icon" href="../assets/Screenshot 2025-02-05 215045.svg">
 
   <link rel="preconnect" href="https://fonts.bunny.net" />
   <!-- For Latest Event Images can be deleted coursel-->
@@ -60,7 +61,7 @@ if ($result && $row = $result->fetch_assoc()) {
     defer
     src="https://unpkg.com/alpinejs@3.1.1/dist/cdn.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <title>Volunteer Management</title>
+  <title>VolunteerHub</title>
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
@@ -1423,52 +1424,52 @@ if ($result && $row = $result->fetch_assoc()) {
 
       //event apply
       $(document).on('click', '.apply_button', function(e) {
-                let eventID = $(this).data("event");
-                let userId = <?= $user_id; ?>;
-                let volunteer_need = $(this).data("volunteer_needed");
-                let button = $(this);
-                e.preventDefault();
+        let eventID = $(this).data("event");
+        let userId = <?= $user_id; ?>;
+        let volunteer_need = $(this).data("volunteer_needed");
+        let button = $(this);
+        e.preventDefault();
 
-                // alert(userId);
-                // alert(eventID);
-                // alert(volunteer_need);
+        // alert(userId);
+        // alert(eventID);
+        // alert(volunteer_need);
 
-                if (volunteer_need > 0) {
+        if (volunteer_need > 0) {
 
-                    $.ajax({
-                        url: "Backend/Event_apply.php", // Backend PHP script
-                        method: "POST",
-                        data: {
-                            user_id: userId,
-                            event_id: eventID
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                // Show success message
-                                //location.reload();
-                                // Modify button appearance and disable it
-                                button.attr('disabled', true);
-                                button.html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
-                                button.addClass('bg-emerald-500').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
-                                alert(response.message);
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log("AJAX Error: " + status + " " + error);
-                            alert("AJAX Error: " + status + " " + error);
-                        }
-                    });
+          $.ajax({
+            url: "Backend/Event_apply.php", // Backend PHP script
+            method: "POST",
+            data: {
+              user_id: userId,
+              event_id: eventID
+            },
+            success: function(response) {
+              if (response.status === 'success') {
+                // Show success message
+                //location.reload();
+                // Modify button appearance and disable it
+                button.attr('disabled', true);
+                button.html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+                button.addClass('bg-emerald-500').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
+                alert(response.message);
+              } else {
+                alert(response.message);
+              }
+            },
+            error: function(xhr, status, error) {
+              console.log("AJAX Error: " + status + " " + error);
+              alert("AJAX Error: " + status + " " + error);
+            }
+          });
 
-                } else {
-                    alert("Required Volunteer Count Reached!!");
-                }
-                // $(this).attr('disabled', true)
-                // $(this).html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
-                // $(this).addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
+        } else {
+          alert("Required Volunteer Count Reached!!");
+        }
+        // $(this).attr('disabled', true)
+        // $(this).html('<i class="bx bxs-bookmark-minus mr-4"></i>Applied');
+        // $(this).addClass('bg-emerald-600').removeClass('hover:bg-green-700 hover:scale-105 duration-300 transition-all bg-green-600');
 
-            });
+      });
 
 
 

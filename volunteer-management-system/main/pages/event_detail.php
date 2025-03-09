@@ -720,7 +720,7 @@ GROUP BY event_id;
                                             },
                                             success: function(response) {
 
-                                                alert("Notice added successfully!");
+                                                // alert("Notice added successfully!");
                                                 location.reload();
 
                                             },
