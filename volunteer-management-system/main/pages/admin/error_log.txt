@@ -7,3 +7,5 @@
 [09-Mar-2025 19:38:48 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10
 [09-Mar-2025 20:06:33 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10
 [09-Mar-2025 20:07:03 Europe/Berlin] PHP Warning:  Undefined variable $accepted in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\user_management.php on line 367
+[09-Mar-2025 20:13:38 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10
+[09-Mar-2025 20:42:33 Europe/Berlin] PHP Warning:  Undefined array key "admin_id" in C:\xampp\htdocs\Volunteer_Managment_System\volunteer-management-system\main\pages\admin\admin_control_panel.php on line 10
