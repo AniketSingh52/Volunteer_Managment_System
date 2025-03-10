@@ -3,7 +3,7 @@
      class="bg-white border-t border-gray-200 w-full md:w-[calc(100%-288px)] md:ml-72 transition-all footer">
      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
          <!-- Top Section -->
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
              <!-- Get in Touch -->
              <div>
                  <h3 class="text-2xl font-bold text-gray-900 mb-4">
@@ -65,6 +65,20 @@
                          </h4>
                          <p class="text-gray-600 mb-1">VolunteerManagement.com</p>
                          <p class="text-gray-600">walfra52777@gmail.com</p>
+                     </div>
+                 </div>
+             </div>
+             <div>
+                 <div class="flex items-start space-x-4">
+                     <div class="flex-shrink-0">
+                         <i class='bx bxs-door-open text-2xl'></i>
+                     </div>
+                     <div>
+                         <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                             User Manual
+                         </h4>
+                         <p class="text-gray-600 mb-1">Download te user Manual</p>
+                         <a href="User Documentation For VoluntererHub.pdf" class=" hover:underline hover:text-purple-700" download="User Manual">Download<i class='bx bx-down-arrow-alt'></i></a>
                      </div>
                  </div>
              </div>
