@@ -91,10 +91,20 @@ The objective of this system is to:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/volunteer-management-system.git
-
+   git clone https://github.com/AniketSingh52/Volunteer_Managment_System.git
 2. Import the MySQL database from the /database folder.
 3. Update your connect.php file with your database credentials.
 4. Deploy using a local server (XAMPP/LAMP) or your hosting provider.
 
+---
+## 📌 Future Enhancements:
 
+- **📱 Develop a mobile app version.**
+- **🌐 Add multi-language support.**
+- **🔔 Push notifications for event updates.**
+- **🤖 AI-based event recommendations.**
+
+
+---
+## 📄 License
+ - **This project is for academic and learning purposes. You are free to use, modify, or build upon it.**
