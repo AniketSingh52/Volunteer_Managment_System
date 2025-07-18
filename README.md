@@ -71,6 +71,8 @@ The objective of this system is to:
  ```
 ---
 
+<!-- Commenting out -->
+
 ## 🖼️ Feature Screenshots
 
 > Added screenshots in the `Preview images` folder.
