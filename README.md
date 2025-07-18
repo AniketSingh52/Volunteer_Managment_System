@@ -110,10 +110,10 @@ The objective of this system is to:
 - **💬 Chatting Page**  
   ![Chat Feature](Preview%20Images/Chatting_page.png)
 
-  - **🗓️ Event Participation Pages**  
+- **🗓️ Event Participation Pages**  
   ![Chat Feature](Preview%20Images/event_participation_page.png)
-
- - **🗓️ Manage Events Pages**  
+  
+- **🗓️ Manage Events Pages**  
   ![Chat Feature](Preview%20Images/manage_events.png)
 
 
