@@ -77,53 +77,56 @@ The objective of this system is to:
 
 > Added screenshots in the `Preview images` folder.
 
-- **🧾 Landing Page**
-  
-  ![Registration](Preview%20Images/landing_page.png)
+| 🧾 Landing Page |
+|--------------------|
+| ![Landing Page](Preview%20Images/landing_page.png) |
 
-  - **🔒Login Page**
-  
-  ![Registration](Preview%20Images/login_page.png)
+| 🔒 Login Page |
+|--------------------|
+| ![Login Page](Preview%20Images/login_page.png) |
 
-   - **🔒Registration Page**
-  
-  ![Registration](Preview%20Images/registration_page.png)
+| 🔒 Registration Page |
+|--------------------|
+| ![Registration Page](Preview%20Images/registration_page.png) |
 
- - **🏠 Home Page**
-  
-  ![Registration](Preview%20Images/home_page.png)
-  ![Registration](Preview%20Images/home_page2.png)
-  ![Registration](Preview%20Images/home_page3.png)
+| 🏠 Home Page |
+|--------------------|
+| ![Home Page 1](Preview%20Images/home_page.png) |
+| ![Home Page 2](Preview%20Images/home_page2.png) |
+| ![Home Page 3](Preview%20Images/home_page3.png) |
 
-   - **🖼️ Post Gallery**
+| 🖼️ Post Gallery |
+|--------------------|
+| ![Post Gallery](Preview%20Images/image_gallery.png) |
+| ![Post Image](Preview%20Images/post_image.png) |
 
-  ![Registration](Preview%20Images/image_gallery.png)
-  
-  ![Registration](Preview%20Images/post_image.png)
+| 🗓️ Event Search Page |
+|--------------------|
+| ![Event Search](Preview%20Images/event_search_page_2.png) |
 
-  - **🗓️ Event Search Page**
+| 🗓️ Event Detail Page |
+|--------------------|
+| ![Event Details](Preview%20Images/event_details_page.png) |
 
-  ![Registration](Preview%20Images/event_search_page_2.png)
+| 💬 Chatting Page |
+|--------------------|
+| ![Chat Page](Preview%20Images/Chatting_page.png) |
 
- - **🗓️ Event Detail Page**
+| 🗓️ Event Participation Pages |
+|--------------------|
+| ![Participation Page](Preview%20Images/event_participation_page.png) |
 
-  ![Registration](Preview%20Images/event_details_page.png)
-  
-- **💬 Chatting Page**  
-  ![Chat Feature](Preview%20Images/Chatting_page.png)
+| 🗓️ Manage Events Pages |
+|--------------------|
+| ![Manage Events](Preview%20Images/manage_events.png) |
 
-- **🗓️ Event Participation Pages**  
-  ![Chat Feature](Preview%20Images/event_participation_page.png)
-  
-- **🗓️ Manage Events Pages**  
-  ![Chat Feature](Preview%20Images/manage_events.png)
+| 👤 User Detail Page |
+|--------------------|
+| ![User Detail](Preview%20Images/Profile_page.png) |
 
+| [🔗 And Many More... To View Login](https://volunteermanagement.42web.io/main/pages/login_in.php) |
+|--------------------|
 
-- **👤 User Detail Page**  
-  ![Admin](Preview%20Images/Profile_page.png)
-
-
-[🔗 ANd Many More... To View Login](https://volunteermanagement.42web.io/main/pages/login_in.php)
 ---
 
 ## 🚀 Getting Started
