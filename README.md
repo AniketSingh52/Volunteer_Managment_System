@@ -59,43 +59,69 @@ The objective of this system is to:
 ## 📺 Live Demo
 
 [🔗 View Live Portfolio](https://volunteermanagement.42web.io/main/pages/login_in.php)
-
+---
 ---
 ## 🙋‍♂️Demo Login Credentials:  
-**Volunteer Login**
-   - **Username**: walfra5244@gmail.com
-   - **Password**: aniket123
 
+**👤 Volunteer Login:**
+
+ ```bash
+   Username: walfra5244@gmail.com
+   Password: aniket123
+ ```
 ---
 
 ## 🖼️ Feature Screenshots
 
-> Added screenshots in the `Preview_images` folder.
+> Added screenshots in the `Preview images` folder.
 
-- **🧾 Registration/Login Page**  
-  ![Registration](assets/images/registration.png)
+- **🧾 Landing Page**
+  
+  ![Registration](Preview%20Images/landing_page.png)
 
-- **🗓️ Event Creation**  
-  ![Create Event](assets/images/create_event.png)
+  - **🔒Login Page**
+  
+  ![Registration](Preview%20Images/login_page.png)
 
-- **📍 Event Listing/Search**  
-  ![Search Event](assets/images/search_event.png)
+   - **🔒Registration Page**
+  
+  ![Registration](Preview%20Images/registration_page.png)
 
-- **💬 Chat System**  
-  ![Chat Feature](assets/images/chat.png)
+ - **🏠 Home Page**
+  
+  ![Registration](Preview%20Images/home_page.png)
+  ![Registration](Preview%20Images/home_page2.png)
+  ![Registration](Preview%20Images/home_page3.png)
 
-- **📸 Post Pictures**  
-  ![Posts](assets/images/post_pictures.png)
+   - **🖼️ Post Gallery**
 
-- **💬 Comment System**  
-  ![Comments](assets/images/comments.png)
+  ![Registration](Preview%20Images/image_gallery.png)
+  
+  ![Registration](Preview%20Images/post_image.png)
 
-- **⭐ Event Review and Rating**  
-  ![Review](assets/images/review.png)
+  - **🗓️ Event Search Page**
 
-- **🛡️ Admin Panel**  
-  ![Admin](assets/images/admin_panel.png)
+  ![Registration](Preview%20Images/event_search_page_2.png)
 
+ - **🗓️ Event Detail Page**
+
+  ![Registration](Preview%20Images/event_details_page.png)
+  
+- **💬 Chatting Page**  
+  ![Chat Feature](Preview%20Images/Chatting_page.png)
+
+  - **🗓️ Event Participation Pages**  
+  ![Chat Feature](Preview%20Images/event_participation_page.png)
+
+ - **🗓️ Manage Events Pages**  
+  ![Chat Feature](Preview%20Images/manage_events.png)
+
+
+- **👤 User Detail Page**  
+  ![Admin](Preview%20Images/Profile_page.png)
+
+
+[🔗 ANd Many More... To View Login](https://volunteermanagement.42web.io/main/pages/login_in.php)
 ---
 
 ## 🚀 Getting Started
