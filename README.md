@@ -70,7 +70,7 @@ The objective of this system is to:
 
 ## 🖼️ Feature Screenshots
 
-> Add screenshots in the `assets/images` folder and link them here after uploading.
+> Added screenshots in the `Preview_images` folder.
 
 - **🧾 Registration/Login Page**  
   ![Registration](assets/images/registration.png)
