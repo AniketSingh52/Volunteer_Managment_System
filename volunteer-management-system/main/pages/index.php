@@ -7,6 +7,19 @@
     <title>VolunteerHub - Empower Your Volunteer Community</title>
     <link type="image/png" sizes="16x16" rel="icon" href="../assets/Screenshot 2025-02-05 215045.svg">
 
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -93,21 +106,77 @@
             }
         }
     </style>
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-hero {
+            background: linear-gradient(135deg, hsl(142, 76%, 36%), hsl(204, 94%, 45%));
+        }
+
+        .gradient-impact {
+            background: linear-gradient(45deg, hsl(162, 89%, 35%), hsl(142, 76%, 50%));
+        }
+
+        .gradient-warm {
+            background: linear-gradient(135deg, hsl(47, 96%, 53%), hsl(47, 96%, 53%));
+        }
+
+        .shadow-soft {
+            box-shadow: 0 4px 20px hsl(142, 76%, 36%, 0.1);
+        }
+
+        .shadow-hero {
+            box-shadow: 0 20px 40px hsl(142, 76%, 36%, 0.2);
+        }
+
+        .shadow-card {
+            box-shadow: 0 8px 24px hsl(142, 76%, 36%, 0.08);
+        }
+
+        .gallery-item {
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .sticky-header {
+            backdrop-filter: blur(10px);
+        }
+    </style>
 </head>
 
 <body class="font-sans">
-    <header class="bg-white shadow-sm">
+    <header class=" shadow-sm sticky top-0 z-50 bg-white/90 border-b border-gray-200">
         <nav class="container mx-auto py-4 px-10">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-3xl font-bold text-blue-500">VolunteerHub</a>
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 w-full h-full object-cover rounded-lg" alt="Profile Image">
+                    </div>
+                    <span class="text-3xl font-bold text-blue-500">VolunteerHub</span>
+                </div>
                 <div class="hidden md:flex space-x-6">
                     <!-- <a href="#features" class="text-gray-600 text-lg hover:text-primary">Features</a>
                     <a href="#about" class="text-gray-600 text-lg hover:text-primary">About</a>
                     <a href="#contact-us" class="text-gray-600 text-lg hover:text-primary">Contact</a> -->
                 </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-primary transition-colors font-medium">Home</a>
+                    <a href="#features" class="text-gray-600 hover:text-primary transition-colors font-medium">Features</a>
+                    <a href="#work" class="text-gray-600 hover:text-primary transition-colors font-medium">About</a>
+                    <a href="#gallery" class="text-gray-600 hover:text-primary transition-colors font-medium">Gallery</a>
+                    <a href="#reviews" class="text-gray-600 hover:text-primary transition-colors font-medium">Reviews</a>
+                </div>
                 <div class="hidden md:flex space-x-2">
-                    <a href="login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Log in</a>
-                    <a href="signup.php" class="px-4 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition duration-300">Sign up</a>
+                    <a href="login_in.php" class="px-4 py-2 border border-primary text-primary font-medium  hover:bg-primary hover:text-white transition duration-300 rounded-lg">Sign in</a>
+                    <a href="signup.php" class="px-4 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition duration-300">Join Now</a>
                 </div>
                 <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -117,12 +186,14 @@
             </div>
         </nav>
         <div id="mobile-menu" class="md:hidden hidden bg-white px-4 pt-2 pb-4 shadow-sm">
-            <a href="#features" class="block py-2 text-gray-600 hover:text-primary">Features</a>
-            <a href="#about" class="block py-2 text-gray-600 hover:text-primary">About</a>
-            <a href="#contact" class="block py-2 text-gray-600 hover:text-primary">Contact</a>
+            <a href="#home" class="block py-2 text-center font-medium text-gray-600 hover:text-primary">Home</a>
+            <a href="#features" class="block py-2 text-center font-medium text-gray-600 hover:text-primary">Features</a>
+            <a href="#work" class="block py-2 text-center font-medium text-gray-600 hover:text-primary">About</a>
+            <a href="#gallery" class="block py-2 text-center font-medium text-gray-600 hover:text-primary">Gallery</a>
+            <a href="#reviews" class="block py-2 text-center font-medium text-gray-600 hover:text-primary">Reviews</a>
             <div class="mt-4 space-y-2">
-                <a href="login_in.php" class="block w-full px-4 py-2 text-center border border-primary text-primary rounded hover:bg-primary hover:text-white transition duration-300">Log in</a>
-                <a href="signup.php" class="block w-full px-4 py-2 text-center bg-primary text-white rounded hover:bg-primary-dark transition duration-300">Sign up</a>
+                <a href="login_in.php" class="block w-full px-4 py-2 text-center border border-primary font-bold rounded-lg text-primary hover:bg-primary hover:text-white transition duration-300 hover:scale-105">Sign in</a>
+                <a href="signup.php" class="block w-full px-4 py-2 text-center bg-primary text-white font-bold rounded-lg hover:bg-primary-dark transition duration-300 hover:scale-105">Join Now</a>
             </div>
         </div>
     </header>
@@ -131,7 +202,7 @@
 
         <main class="mx-auto">
             <!-- Hero Section -->
-            <section class="relative bg-gradient-to-br from-blue-900 to-indigo-800 h-[90vh] text-white overflow-hidden">
+            <section id="home" class="relative bg-gradient-to-br from-blue-900 to-indigo-800 h-[90vh] text-white overflow-hidden">
                 <div class="absolute inset-0 bg-black opacity-50"></div>
                 <div class="absolute inset-0 bg-cover bg-center bg-[url('https://insiderguides.com.au/wp-content/uploads/2016/05/volunteering-scaled.jpg')]   before:content-['']
             before:absolute
@@ -148,12 +219,18 @@
                         <!-- Left Side: Company Info -->
                         <div class="w-full md:w-1/2 mb-12 md:mb-0">
                             <h1 class="text-5xl md:text-6xl font-bold mb-6 ">
-                                Empower Your Volunteer Community
+                                Unite for<span class=" text-yellow-400 font-bold"> Change</span>
                             </h1>
                             <p class="text-2xl mb-8 text-gray-200 font-normal"><span class=" text-3xl text-emerald-500 font-bold">Connect,</span><span class="  text-yellow-500 text-3xl font-bold"> Contribute,</span><span class=" text-rose-600 font-bold text-3xl">Create Change,</span> Join us to simplify volunteering and maximize your impact!</p>
+                            <!-- <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                                <a href="login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a> -->
+                            <!-- <a href="#" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Learn More</a> -->
+                            <!-- </div> -->
                             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                <a href="login_in.php" class="bg-white text-blue-900 font-semibold px-8 py-3 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300 text-center">Get Started</a>
-                                <!-- <a href="#" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-blue-900 transition duration-300 text-center">Learn More</a> -->
+                                <a href="signup.php" class="bg-white px-8 py-4 text-blue-900 font-semibold rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">Start Volunteering</a>
+                                <a href="signup.php" class="px-8 py-4 border-2 border-white text-white font-semibold  hover:bg-white hover:text-primary transition-colors rounded-full">
+                                    Register Organization
+                                </a>
                             </div>
                         </div>
 
@@ -198,13 +275,13 @@
         </main>
 
         <!--Our Impacts-->
-        <div class="text-gray-900 pt-5 pb-24 px-6 w-full mt-10 bg-gray-50">
+        <!-- <div class="text-gray-900 pt-5 pb-24 px-6 w-full mt-10 bg-gray-50">
             <div class="max-w-7xl mx-auto text-center">
                 <h2 class="text-5xl font-bold mb-6 text-gray-800">Our Impact </h2>
                 <p class="text-lg text-gray-600 mb-16">Join thousands who trust our platform </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                    <!-- User Count -->
-                    <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12"> -->
+        <!-- User Count -->
+        <!-- <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200">
                         <div
                             class="mb-6 flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-r from-purple-500 to-pink-400 p-1">
                             <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -218,9 +295,9 @@
                         </div>
                         <div class="text-3xl font-extrabold text-gray-800">5+</div>
                         <div class="text-gray-500">Volunteers</div>
-                    </div>
-                    <!-- Documents Count -->
-                    <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200">
+                    </div> -->
+        <!-- Documents Count -->
+        <!-- <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200">
                         <div
                             class="mb-6 flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-r from-purple-500 to-pink-400 p-1">
                             <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -234,9 +311,9 @@
                         </div>
                         <div class="text-3xl font-extrabold text-gray-800">15+</div>
                         <div class="text-gray-500">Events and Camps</div>
-                    </div>
-                    <!-- Languages Supported -->
-                    <!-- <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    </div> -->
+        <!-- Languages Supported -->
+        <!-- <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                         <div
                             class="mb-6 flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-r from-purple-500 to-pink-400 p-1">
                             <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -251,7 +328,7 @@
                         <div class="text-3xl font-extrabold text-gray-800">100 +</div>
                         <div class="text-gray-500">Trusted organizations</div>
                     </div> -->
-                    <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200s">
+        <!-- <div class="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 hover:shadow-purple-500 border-2 transition-all delay-200s">
                         <div
                             class="mb-6 flex items-center justify-center w-28 h-28 rounded-full bg-gradient-to-r from-purple-500 to-pink-400 p-1">
                             <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -269,8 +346,90 @@
                 </div>
             </div>
         </div>
+ -->
+
+        <div class="text-gray-900 pt-12 pb-5 px-6 w-full  bg-gray-50">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-5xl font-bold mb-6 text-gray-800">Our Impact </h2>
+                <p class="text-lg text-gray-600 mb-16">Join thousands who trust our platform </p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <section class="text-gray-900 pt-5 pb-24 px-6 w-full bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 border-2 rounded-2xl shadow-card">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-2 counter" data-target="50">0</div>
+                        <p class="text-gray-600 font-semibold font-sans">Active Volunteers</p>
+                    </div>
+                    <div class="bg-white p-8 border-2 rounded-2xl shadow-card">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-building text-blue-600 text-2xl"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-cyan-600 mb-2 counter" data-target="50">0</div>
+                        <p class="text-gray-600 font-semibold font-sans">Partner Organizations</p>
+                    </div>
+                    <div class="bg-white p-8 border-2 rounded-2xl shadow-card">
+                        <div class="w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-check text-violet-600 text-2xl"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-violet-600 mb-2 counter" data-target="100">0</div>
+                        <p class="text-gray-600 font-semibold font-sans">Ongoing Events</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Platform Features</h2>
+                    <p class="text-lg text-gray-600">
+                        Everything you need to organize, participate, and make a lasting impact in your community.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center p-6 rounded-2xl hover:shadow-card transition-shadow">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-comments text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-sans">One-to-One Chat</h3>
+                        <p class="text-gray-600 font-sans">Connect directly with organizations and volunteers through our secure messaging system.</p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl hover:shadow-card transition-shadow">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-alt text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-sans">Event Management</h3>
+                        <p class="text-gray-600 font-sans">Create, manage, and track social welfare events with comprehensive tools.</p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl hover:shadow-card transition-shadow">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-share-alt text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-sans">Social Media Integration</h3>
+                        <p class="text-gray-600 font-sans">Share your impact stories and connect with the community through integrated social features.</p>
+                    </div>
+
+                    <div class="text-center p-6 rounded-2xl hover:shadow-card transition-shadow">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-sans">Smart Matching</h3>
+                        <p class="text-gray-600 font-sans">AI-powered system matches volunteers with events based on skills and interests.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
         <!-- MOTTO SECTION -->
@@ -302,163 +461,213 @@
         </section>
 
 
-        <!--Achievements-->
-        <div class="bg-white py-10">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl lg:text-center">
-
-                    <p class="mt-2 text-pretty text-4xl font-extrabold text-gray-900 sm:text-5xl lg:text-balance">Objectives</p>
-                    <p class="mt-6 text-lg/8 text-gray-600">We Target to Achieve the following for the betterment of the society.</p>
+        <!-- How It Works -->
+        <section id="work" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-4">How It Works</h2>
+                    <p class="text-lg text-gray-600">Simple steps to start making a difference</p>
                 </div>
-                <div class="mx-auto mt-4 min-w-full">
-                    <dl class="grid min-w-full grid-cols-1 lg:max-w-none lg:grid-cols-2 gap-3">
-                        <div class="relative">
-                            <div class=" mx-auto flex items-center justify-center">
-                                <div class="relative overflow-hidden rounded-2xl">
-                                    <!-- Background image with gradient overlay -->
-                                    <div class="absolute inset-0">
-                                        <img
-                                            src="png-clipart-volunteering-community-symbol-sign-gospel-miscellaneous-text.png?height=600&width=1200"
-                                            alt="Background"
-                                            class="w-full h-full object-cover" />
-                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-purple-600/90"></div>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="relative px-8 py-16 md:px-16 md:py-20">
-                                        <!-- Logo -->
-                                        <div class="flex items-center mb-8 ">
-                                            <span class="text-white font-bold text-2xl">Facilitate Opportunity Discovery</span>
-                                        </div>
-
-                                        <!-- Quote -->
-                                        <blockquote class="mt-6">
-                                            <p class="text-xl font-medium text-white leading-relaxed md:leading-relaxed mb-8">
-                                                "Allow volunteers to explore and apply for opportunities matching their interests and location."
-                                            </p>
-                                            <!-- <footer class="mt-4">
-                            <p class="text-white text-lg font-semibold">Judith Black</p>
-                            <p class="text-purple-200">CEO of Workcation</p>
-                        </footer> -->
-                                        </blockquote>
-                                    </div>
-                                </div>
+                <div class="relative mt-12 lg:mt-20 ">
+                    <div class="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
+                        <img alt="" loading="lazy" width="1000" height="500" decoding="async" data-nimg="1" class="w-full" style="color:transparent" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg">
+                    </div>
+                    <div class="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
+                        <div>
+                            <div class="flex items-center justify-center w-16 h-16 mx-auto bg-green-500 border-2 border-gray-200 rounded-full shadow">
+                                <span class="text-xl font-semibold text-white">1</span>
                             </div>
+                            <h3 class="mt-6 text-xl font-bold leading-tight md:mt-10">Sign Up</h3>
+                            <p class="mt-4 text-base text-gray-700 md:text-lg">
+                                Create your profile as a volunteer or organization and tell us about your interests and goals.
+                            </p>
                         </div>
-
-                        <div class="relative ">
-                            <div class=" mx-auto flex items-center justify-center">
-                                <div class="relative overflow-hidden rounded-2xl">
-                                    <!-- Background image with gradient overlay -->
-                                    <div class="absolute inset-0">
-                                        <img
-                                            src="png-clipart-volunteering-community-symbol-sign-gospel-miscellaneous-text.png?height=600&width=1200"
-                                            alt="Background"
-                                            class="w-full h-full object-cover" />
-                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-purple-600/90"></div>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="relative px-8 py-16 md:px-16 md:py-20">
-                                        <!-- Logo -->
-                                        <div class="flex items-center mb-8 ">
-                                            <span class="text-white font-bold text-2xl">Streamline Event Management</span>
-                                        </div>
-
-                                        <!-- Quote -->
-                                        <blockquote class="mt-6">
-                                            <p class="text-xl font-medium text-white leading-relaxed md:leading-relaxed mb-8">
-                                                " Assist organizations in managing volunteer participation for events and <br> initiatives. "
-                                            </p>
-                                            <!-- <footer class="mt-4">
-                            <p class="text-white text-lg font-semibold">Judith Black</p>
-                            <p class="text-purple-200">CEO of Workcation</p>
-                        </footer> -->
-                                        </blockquote>
-                                    </div>
-                                </div>
+                        <div>
+                            <div class="flex items-center justify-center w-16 h-16 mx-auto bg-cyan-500 border-2 border-gray-200 rounded-full shadow">
+                                <span class="text-xl font-semibold text-white">2</span>
                             </div>
+                            <h3 class="mt-6 text-xl font-bold text-black leading-tight md:mt-10">Get Matched</h3>
+                            <p class="mt-4 text-base text-gray-700 md:text-lg">
+                                Our smart algorithm connects you with relevant opportunities based on your preferences.
+                            </p>
                         </div>
-
-                        <div class="relative">
-                            <div class=" mx-auto flex items-center justify-center">
-                                <div class="relative overflow-hidden rounded-2xl">
-                                    <!-- Background image with gradient overlay -->
-                                    <div class="absolute inset-0">
-                                        <img
-                                            src="png-clipart-volunteering-community-symbol-sign-gospel-miscellaneous-text.png?height=600&width=1200"
-                                            alt="Background"
-                                            class="w-full h-full object-cover" />
-                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-purple-600/90"></div>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="relative px-8 py-16 md:px-16 md:py-20">
-                                        <!-- Logo -->
-                                        <div class="flex items-center mb-8 ">
-                                            <span class="text-white font-bold text-2xl">Encourage Social Impact</span>
-                                        </div>
-
-                                        <!-- Quote -->
-                                        <blockquote class="mt-6">
-                                            <p class="text-xl font-medium text-white leading-relaxed md:leading-relaxed mb-8">
-                                                " Promote engagement in community welfare programs through better visibility and accessibility. "
-                                            </p>
-                                            <!-- <footer class="mt-4">
-                            <p class="text-white text-lg font-semibold">Judith Black</p>
-                            <p class="text-purple-200">CEO of Workcation</p>
-                        </footer> -->
-                                        </blockquote>
-                                    </div>
-                                </div>
+                        <div>
+                            <div class="flex items-center justify-center w-16 h-16 mx-auto bg-indigo-500 border-2 border-gray-200 rounded-full shadow">
+                                <span class="text-xl font-semibold text-white">3</span>
                             </div>
+                            <h3 class="mt-6 text-xl font-bold leading-tight md:mt-10 text-black">Make Impact</h3>
+                            <p class="mt-4 text-base text-gray-700 md:text-lg">
+                                Participate in events, track your contributions, and see the positive change you're creating.
+                            </p>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="relative">
-                            <div class=" mx-auto flex items-center justify-center ">
-                                <div class="relative overflow-hidden rounded-2xl">
-                                    <!-- Background image with gradient overlay -->
-                                    <div class="absolute inset-0">
-                                        <img
-                                            src="png-clipart-volunteering-community-symbol-sign-gospel-miscellaneous-text.png?height=600&width=1200"
-                                            alt="Background"
-                                            class="w-full h-full object-cover" />
-                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-purple-600/90"></div>
-                                    </div>
+            </div>
+        </section>
 
-                                    <!-- Content -->
-                                    <div class="relative px-8 py-16 md:px-16 md:py-20">
-                                        <!-- Logo -->
-                                        <div class="flex items-center mb-8 ">
-                                            <span class="text-white font-bold text-2xl">Simplify Volunteer Participation</span>
-                                        </div>
+        <!-- Quote Section -->
+        <section class="py-20 gradient-impact text-white">
+            <div class="container mx-auto px-4 text-center">
+                <blockquote class="text-3xl md:text-4xl font-medium italic mb-8 max-w-4xl mx-auto">
+                    "The best way to find yourself is to lose yourself in the service of others."
+                </blockquote>
+                <cite class="text-xl opacity-90 font-bold">- Mahatma Gandhi</cite>
+            </div>
+        </section>
 
-                                        <!-- Quote -->
-                                        <blockquote class="mt-6">
-                                            <p class="text-xl font-medium text-white leading-relaxed md:leading-relaxed mb-8">
-                                                " Create an easy-to-use platform for volunteers to sign up and participate in social causes for which they care about. "
-                                            </p>
-                                            <!-- <footer class="mt-4">
-                            <p class="text-white text-lg font-semibold">Judith Black</p>
-                            <p class="text-purple-200">CEO of Workcation</p>
-                        </footer> -->
-                                        </blockquote>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Our Impact Gallery</h2>
+                    <p class="text-lg text-gray-600">Explore the difference our volunteers make across communities</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Gallery Items -->
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Beach cleanup drive" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
                         </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Beach Cleanup Drive</p>
+                    </div>
 
-                    </dl>
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://plus.unsplash.com/premium_photo-1722054522000-fa09766a6529?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Animal rescue mission" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Animal Rescue Mission</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="Educational campaign" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Educational Campaign</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://plus.unsplash.com/premium_photo-1663090966558-e62333420712?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y29tbXVuaXR5JTIwZ2FyZGVufGVufDB8fDB8fHww" alt="Community garden" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Community Garden</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://plus.unsplash.com/premium_photo-1663040178972-ee1d45d33899?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9vZCUyMGRpc3RyaWJ1dGlvbnxlbnwwfHwwfHx8MA%3D%3D" alt="Food distribution" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Food Distribution</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1625758476104-f2ed6c81248f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tree planting" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Tree Planting</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1573497491208-6b1acb260507" alt="Youth mentorship" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Youth Mentorship</p>
+                    </div>
+
+                    <div class="gallery-item cursor-pointer group">
+                        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1542622475-904e18612fa1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2VuaW9yJTIwY2FyZXxlbnwwfHwwfHx8MA%3D%3D" alt="Senior care" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-center mt-3 text-gray-700 font-medium">Senior Care</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
 
+        <!-- Reviews Section -->
+        <section id="reviews" class="py-20 bg-gray-100/80">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-800 mb-4">What Our Community Says</h2>
+                    <p class="text-lg text-gray-600">Hear from volunteers and organizations making a difference</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+                    <!-- Testimonial Card -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transition transform hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-center mb-4 text-yellow-500 text-xl space-x-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"VolunteerHub has transformed how we organize our community events. The platform makes it so easy to connect with passionate volunteers."</p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1585871746932-e133d3fedf4d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGdyZWVuJTIwZWFydGh8ZW58MHx8MHx8fDA%3D" alt="Sarah Johnson" class="w-12 h-12 rounded-full ring-2 ring-yellow-500 mr-4">
+                            <div>
+                                <p class="font-semibold text-gray-800">Sarah Johnson</p>
+                                <p class="text-sm text-gray-500">Green Earth Foundation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial Card -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transition transform hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-center mb-4 text-yellow-500 text-xl space-x-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"I've found my passion for volunteering through this platform. The personalized matching helped me discover causes I truly care about."</p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt="Mike Chen" class="w-12 h-12 rounded-full ring-2 ring-yellow-500 mr-4">
+                            <div>
+                                <p class="font-semibold text-gray-800">Mike Chen</p>
+                                <p class="text-sm text-gray-500">Volunteer</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial Card -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transition transform hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-center mb-4 text-yellow-500 text-xl space-x-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 mb-6 italic">"The impact tracking feature helps us show our donors exactly how their contributions are making a difference in the community."</p>
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face" alt="Emily Rodriguez" class="w-12 h-12 rounded-full ring-2 ring-yellow-500 mr-4">
+                            <div>
+                                <p class="font-semibold text-gray-800">Emily Rodriguez</p>
+                                <p class="text-sm text-gray-500">Hope for All NGO</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CTA Section -->
+        <section class="py-20 gradient-hero text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
+                <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+                    Join thousands of volunteers and organizations already creating positive change in their communities.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="signup.php" class="px-8 py-4 text-center bg-white text-primary font-semibold rounded-lg hover:bg-white/90 transition-colors">
+                        Start as Volunteer
+                    </a>
+                    <a href="signup.php" class="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary transition-colors">
+                        Register Organization
+                    </a>
+                </div>
+            </div>
+        </section>
 
 
         <!--Works-->
 
-        <section id="works" class="relative bg-gray-900 py-10 sm:py-16 lg:py-24">
+        <!-- <section id="works" class="relative bg-gray-900 py-10 sm:py-16 lg:py-24">
             <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="max-w-2xl mx-auto text-center">
                     <h2 class="text-4xl text-white font-extrabold mx-auto md:text-6xl lg:text-5xl">How to get started?</h2>
@@ -506,7 +715,7 @@
             <div class="absolute inset-0 m-auto max-w-xs h-[357px] blur-[118px] sm:max-w-md md:max-w-lg"
                 style="background:radial-gradient(1.89deg, rgba(34, 78, 95, 0.4) -1000%, rgba(191, 227, 205, 0.26) 1500.74%, rgba(34, 140, 165, 0.41) 56.49%, rgba(28, 47, 99, 0.11) 1150.91%)">
             </div>
-        </section>
+        </section> -->
 
         <!--Contact Us-->
 
@@ -653,7 +862,7 @@
 
 
 
-
+    <!-- 
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -671,7 +880,179 @@
                 © <span id="current-year"></span> VolunteerHub. All rights reserved.
             </div>
         </div>
+    </footer> -->
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-6">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <img src="../assets/Screenshot 2025-02-05 215045.svg" class="profile-image2 w-full h-full object-cover" alt="Profile Image">
+                        </div>
+                        <span class="text-xl font-bold">VolunteerHub</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Connecting hearts, changing lives, building communities together.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">For Organizations</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Register Organization</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Event Management</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Volunteer Matching</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Impact Analytics</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">For Volunteers</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Find Events</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Join Community</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Track Impact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Share Stories</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">&copy; <span id="current-year">2024</span> VolunteerHub. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
     </footer>
+
+    <!-- JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Counter Animation
+            function animateCounter(element) {
+                const target = parseInt(element.data('target'));
+                const increment = target / 100;
+                let current = 0;
+
+                const timer = setInterval(function() {
+                    current += increment;
+                    element.text(Math.floor(current).toLocaleString() + "+");
+
+                    if (current >= target) {
+                        element.text(target.toLocaleString() + "+");
+                        clearInterval(timer);
+                    }
+                }, 20);
+            }
+
+            // Trigger counter animation when in viewport
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const counter = $(entry.target);
+                        if (!counter.hasClass('animated')) {
+                            counter.addClass('animated');
+                            animateCounter(counter);
+                        }
+                    }
+                });
+            });
+
+            $('.counter').each(function() {
+                observer.observe(this);
+            });
+
+            // Smooth scrolling for navigation links
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 80
+                    }, 800);
+                }
+            });
+
+            // // Gallery lightbox effect
+            $('.gallery-item').on('click', function() {
+                const img = $(this).find('img');
+                const src = img.attr('src');
+                const alt = img.attr('alt');
+
+                //     // Create lightbox
+                const lightbox = $(`
+                    <div class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4" id="lightbox">
+                        <div class="relative max-w-4xl max-h-full">
+                            <img src="${src}" alt="${alt}" class="max-w-full max-h-full object-contain rounded-lg">
+                            <button class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300" id="close-lightbox">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <p class="text-white text-center mt-4 text-lg">${alt}</p>
+                        </div>
+                    </div>
+                `);
+
+                $('body').append(lightbox);
+                lightbox.fadeIn(300);
+            });
+
+            // $(document).on('click', '#close-lightbox, #lightbox', function(e) {
+            //     if ($(e.target).is('#close-lightbox') || $(e.target).is('#lightbox')) {
+            //         $('#lightbox').fadeOut(300, function() {
+            //             $(this).remove();
+            //         });
+            //     }
+            // });
+            $(document).on('click', function(e) {
+                const target = $(e.target);
+
+                if (
+                    target.is('#lightbox') ||
+                    target.closest('#close-lightbox').length
+                ) {
+                    $('#lightbox').fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+
+
+
+            // Add scroll effect to header
+            $(window).on('scroll', function() {
+                const scrolled = $(this).scrollTop();
+                const header = $('header');
+
+                if (scrolled > 100) {
+                    header.addClass('shadow-lg');
+                } else {
+                    header.removeClass('shadow-lg');
+                }
+            });
+        });
+    </script>
 
     <script>
         // Mobile menu toggle
